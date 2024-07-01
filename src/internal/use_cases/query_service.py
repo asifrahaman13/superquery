@@ -1,5 +1,3 @@
-
-
 from src.internal.interfaces.services.query_interface import QueryInterface
 
 

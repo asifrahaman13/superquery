@@ -1,7 +1,7 @@
 from src.infastructure.repositories.mongodb_query_repository import (
     MongodbQueryRepository,
 )
-from src.infastructure.repositories.query_repository import MySqlQueryRepository
+from src.infastructure.repositories.mysql_query_repository import MySqlQueryRepository
 from src.internal.use_cases.query_service import QueryService
 from src.internal.use_cases.data_service import DataService
 from src.ConnectionManager.ConnectionManager import ConnectionManager

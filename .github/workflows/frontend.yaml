@@ -1,0 +1,43 @@
+name: Frontend CI/CD
+on:
+  workflow_dispatch:
+
+  push:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      ORG_PROJECT: octo
+      DEPLOY_ENV: dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo 'export BUN_INSTALL="$HOME/.bun"' >> $GITHUB_ENV
+          echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> $GITHUB_ENV
+      - name: Setup Bun environment variables
+        run: |
+          echo "BUN_INSTALL=$HOME/.bun" >> $GITHUB_ENV
+          echo "PATH=$HOME/.bun/bin:$PATH" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: | 
+          cd frontend
+          bun install
+
+      - name: Lint the codebase
+        run: 
+          cd frontend
+          bun lint
+
+      - name: Build
+        run: |
+          cd frontend
+          bun run build

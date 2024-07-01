@@ -1,0 +1,34 @@
+# config.yaml
+
+# Application settings
+app:
+  title: "Dreamer dolphin"
+  version: "1.0.0"
+  description: "This is the backend server of dreamer dolphin."
+
+# Server settings
+server:
+  host: "0.0.0.0"
+  port: 8000
+
+# Database settings
+database:
+  # url: "mongodb://localhost:27017"
+  pool_size: 10
+
+# Security settings
+security:
+  algorithm: "HS256"
+  access_token_expire_minutes: 30000
+
+redis:
+  url: "redis://127.0.0.1:6379"
+
+vector_db:
+  embedding_model: "text-embedding-3-small"
+
+email_service:
+  host: "smtp.gmail.com"
+  port: 587
+  username: "asifr@iitbhilai.ac.in"
+

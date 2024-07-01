@@ -1,0 +1,23 @@
+repos:
+-   repo: local
+    hooks:
+      - id: formatting
+        name: format-code
+        entry: bash -c 'black src/'
+        language: system
+        types: [python]
+        always_run: true
+
+      - id: check-tests
+        name: check-tests
+        entry: bash -c 'bash run_test.sh'
+        language: system
+        types: [python]
+        always_run: true
+
+      - id: requirements-txt
+        name: requirements-txt
+        entry: bash -c 'source .venv/bin/activate && pip freeze > requirements.txt'
+        language: system
+        types: [python]
+        always_run: true

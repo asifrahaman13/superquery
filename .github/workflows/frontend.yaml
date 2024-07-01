@@ -33,7 +33,7 @@ jobs:
           bun install
 
       - name: Lint the codebase
-        run: 
+        run: |
           cd frontend
           bun lint
 

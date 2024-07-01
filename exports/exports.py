@@ -1,32 +1,32 @@
+
+from src.internal.use_cases.data_service import DataService
 from src.ConnectionManager.ConnectionManager import ConnectionManager
 from src.infastructure.repositories.database_repository import (
     DatabaseRepository,
 )
-from src.infastructure.repositories.auth_repository import AuthRepository
-from src.internal.use_cases.auth_service import AuthService
-from src.internal.use_cases.database_service import DatabaseService
+from pymongo import MongoClient
+from typing import Any, Dict
+import logging
+from config.config import MONGO_DB_URI
 
 
-"""
-The connection manager is a class that manages the connections to the websocket.
-This is used by multiple services and endpoints.
-"""
-manager = ConnectionManager()
+class DIContainer:
+    def __init__(self):
+        self.__instances={}
+
+    def get_mysql_query_repository(self):
+        if "mysql_query_repository" not in self.__instances:
+            self.__instances["mysql_query_repository"]=DatabaseRepository(MongoClient(MONGO_DB_URI), "octo")
+        return self.__instances["mysql_query_repository"]
+
+    def get_mysql_query_service(self):
+        if "mysql_query_repository" not in self.__instances:
+            
+            self.__instances["mysql_query_repository"]=DataService(self.get_mysql_query_repository())
+        return self.__instances["mysql_query_repository"]
 
 
-"""
-The database repository is a class that manages the connection to the database.
-Multiple services use this repository to interact with the database.
-"""
-database_repository = DatabaseRepository()
-database_service = DatabaseService(database_repository)
-database_interface = DatabaseService(database_service)
+container = DIContainer()
 
-""" 
-Authentication module helps to authenticate the user and generate access tokens.
-"""
-auth_repository = AuthRepository()
-auth_service = AuthService(auth_repository)
-auth_interface = AuthService(auth_service)
-
-
+def get_database_service():
+    return container.get_mysql_query_service()

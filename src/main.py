@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 import asyncio
 import schedule
-from src.infastructure.middleware.logging_middleware import PrefixMiddleware
+# from src.infastructure.middleware.logging_middleware import PrefixMiddleware
 from math import ceil
 import redis.asyncio as redis
 import uvicorn
@@ -75,13 +75,13 @@ app.add_middleware(
 app.include_router(
     auth_router,
     prefix="/auth",
-    tags=["Auth router"],
-    dependencies=[
-        Depends(RateLimiter(times=10, seconds=10, identifier=client_identifier))
-    ],
+    # tags=["Auth router"],
+    # dependencies=[
+    #     Depends(RateLimiter(times=10, seconds=10, identifier=client_identifier))
+    # ],
 )
 # Include the middleware
-app.add_middleware(PrefixMiddleware)
+# app.add_middleware(PrefixMiddleware)
 
 
 # Define the jobs

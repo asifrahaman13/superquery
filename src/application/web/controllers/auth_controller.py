@@ -1,42 +1,19 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends
+from src.internal.use_cases.data_service import DataService
 from src.internal.entities.auth import Token
-from exports.exports import auth_interface, database_interface
+from exports.exports import get_database_service
 
 auth_router = APIRouter()
 
 
-@auth_router.post("/google")
-async def google_sign_in(
-    token: Token,
-):
-    id_info = auth_interface.verify_google_access_token(token.token)
-    if not id_info:
-        raise HTTPException(status_code=401, detail="Invalid token")
-
-
-    user = database_interface.find_one("googleId", id_info["sub"], "users")
-
-    if not user:
-        user = {
-            "googleId": id_info["sub"],
-            "email": id_info["email"],
-            "name": id_info.get("name", ""),
-        }
-        database_interface.insert_one(user, "users")
-
-    access_token = auth_interface.create_access_token(
-        data={"sub": id_info["email"], "name": id_info["name"]}
-    )
-
-    return {"token": access_token, "user": id_info}
-
-
-@auth_router.post("/decode_token", response_model=dict)
+@auth_router.post("/mysql-query", response_model=dict)
 async def decode_token(
     token: Token,
+    data_service: DataService = Depends(get_database_service),
 ):
     try:
-        id_info = auth_interface.decode_access_token(token.token)
+        id_info = data_service.query_sql(token.token)
+        print(id_info)
         return id_info
     except Exception as e:
         return {"error": "Invalid token"}

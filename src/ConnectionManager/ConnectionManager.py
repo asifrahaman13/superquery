@@ -23,7 +23,6 @@ class ConnectionManager:
         connection_id: str,
         connection_type: str = "active_connections",
     ):
-        # Generate a unique connection ID
 
         # Store the connection ID in Redis
         self.redis_client.sadd(connection_type, connection_id)

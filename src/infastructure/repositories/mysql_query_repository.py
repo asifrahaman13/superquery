@@ -14,11 +14,8 @@ class MySqlQueryRepository:
     def __init__(self) -> None:
         pass
 
-    def query_database(self, user_query):
-
-        db = SQLDatabase.from_uri(
-            ""
-        )
+    def query_database(self, user_query: str, connection_string: str):
+        db = SQLDatabase.from_uri(connection_string)
         llm = ChatOpenAI(model="gpt-4", temperature=0)
 
         execute_query = QuerySQLDataBaseTool(db=db)
@@ -46,5 +43,7 @@ class MySqlQueryRepository:
         )
 
         response = chain.invoke({"question": user_query})
+
+        print(response)
 
         return {"message": response}

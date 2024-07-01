@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class QueryResponse(BaseModel):
+class Query(BaseModel):
     query: str

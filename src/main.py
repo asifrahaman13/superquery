@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 import asyncio
 import schedule
+
 # from src.infastructure.middleware.logging_middleware import PrefixMiddleware
 from math import ceil
 import redis.asyncio as redis
@@ -16,7 +17,7 @@ from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 import os
 from config.config import REDIS_URL
-from src.application.web.controllers.query_controller import query_controller 
+from src.application.web.controllers.query_controller import query_controller
 
 
 # Configure logging

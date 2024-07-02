@@ -1,4 +1,5 @@
-"use client"
+"use client";
+import { auth_interface } from "@/app/exports/exports";
 import Link from "next/dist/client/link";
 import React from "react";
 
@@ -9,14 +10,17 @@ const Page = () => {
     password: "",
   });
 
-   async function handleSubmit() {
+  async function handleSubmit() {
     try {
-      console.log("ok")
+       const login_response = await auth_interface.signup(username.email, username.username, username.password);
+
+      if (login_response?.code === 200) {
+        console.log(login_response.data);
+      }
     } catch (error) {
       console.log(error);
     }
   }
-
 
   function handleChange(event: any) {
     setUsername({
@@ -52,7 +56,7 @@ const Page = () => {
                     id="username"
                     value={username.username}
                     className="bg-gray-50 border text-Pri-Dark border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
+                    placeholder="username"
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -115,7 +119,8 @@ const Page = () => {
                   <div className="ml-3 text-sm ">
                     <label className="font-light flex gap-2">
                       Already have an account?
-                      <Link href="/auth/signin"
+                      <Link
+                        href="/auth/signin"
                         className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                       >
                         Sign in
@@ -149,6 +154,5 @@ const Page = () => {
     </>
   );
 };
-
 
 export default Page;

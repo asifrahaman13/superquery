@@ -1,4 +1,5 @@
-"use client"
+"use client";
+import { auth_interface } from "@/app/exports/exports";
 import Link from "next/dist/client/link";
 import React from "react";
 
@@ -9,14 +10,17 @@ const Page = () => {
     password: "",
   });
 
-   async function handleSubmit() {
+  async function handleSubmit() {
     try {
-      console.log("ok")
+     const loginResponse=await auth_interface.login( username.username, username.password);
+      if (loginResponse?.code === 200) {
+        console.log(loginResponse.data);
+        localStorage.setItem("accessToken", loginResponse.data.access_token);
+      }
     } catch (error) {
       console.log(error);
     }
   }
-
 
   function handleChange(event: any) {
     setUsername({
@@ -39,7 +43,7 @@ const Page = () => {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  ">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight ">
-              Login to your account
+                Login to your account
               </h1>
               <div className="space-y-4 md:space-y-6">
                 <div>
@@ -52,23 +56,7 @@ const Page = () => {
                     id="username"
                     value={username.username}
                     className="bg-gray-50 border text-Pri-Dark border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
-                    onChange={(e) => {
-                      handleChange(e);
-                    }}
-                  />
-                </div>
-                <div>
-                  <label className="block mb-2 text-sm font-medium ">
-                    Your email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={username.email}
-                    className="bg-gray-50 border text-Pri-Dark border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
+                    placeholder="username"
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -150,6 +138,5 @@ const Page = () => {
     </>
   );
 };
-
 
 export default Page;

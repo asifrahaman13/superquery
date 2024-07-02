@@ -66,7 +66,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
             >
               <form className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
                 <div className="h-0 flex-1 overflow-y-auto">
-                  <div className="bg-orange-400 px-4 py-6 sm:px-6">
+                  <div className="bg-indigo-400 px-4 py-6 sm:px-6">
                     <div className="flex items-center justify-between">
                       <DialogTitle className="text-base font-semibold leading-6 text-white">
                         {dbType}
@@ -74,7 +74,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                       <div className="ml-3 flex h-7 items-center">
                         <button
                           type="button"
-                          className="relative rounded-md bg-orange-400 text-orange-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                          className="relative rounded-md bg-indigo-400 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
                           onClick={() => setOpen(false)}
                         >
                           <span className="absolute -inset-2.5" />
@@ -163,7 +163,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                               ))}
                               <button
                                 type="button"
-                                className="relative inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                                className="relative inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                               >
                                 <span className="absolute -inset-2" />
                                 <span className="sr-only">Add team member</span>
@@ -187,7 +187,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                                   name="privacy"
                                   aria-describedby="privacy-public-description"
                                   type="radio"
-                                  className="h-4 w-4 border-gray-300 text-orange-400 focus:ring-orange-400"
+                                  className="h-4 w-4 border-gray-300 text-indigo-400 focus:ring-indigo-400"
                                   defaultChecked
                                 />
                               </div>
@@ -214,7 +214,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                                     name="privacy"
                                     aria-describedby="privacy-private-to-project-description"
                                     type="radio"
-                                    className="h-4 w-4 border-gray-300 text-orange-400 focus:ring-orange-400"
+                                    className="h-4 w-4 border-gray-300 text-indigo-400 focus:ring-indigo-400"
                                   />
                                 </div>
                                 <div className="pl-7 text-sm leading-6">
@@ -242,7 +242,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                                     name="privacy"
                                     aria-describedby="privacy-private-to-project-description"
                                     type="radio"
-                                    className="h-4 w-4 border-gray-300 text-orange-400 focus:ring-orange-400"
+                                    className="h-4 w-4 border-gray-300 text-indigo-400 focus:ring-indigo-400"
                                   />
                                 </div>
                                 <div className="pl-7 text-sm leading-6">
@@ -270,10 +270,10 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                         <div className="flex text-sm">
                           <a
                             href="#"
-                            className="group inline-flex items-center font-medium text-orange-400 hover:text-orange-900"
+                            className="group inline-flex items-center font-medium text-indigo-400 hover:text-indigo-900"
                           >
                             <LinkIcon
-                              className="h-5 w-5 text-orange-500 group-hover:text-orange-900"
+                              className="h-5 w-5 text-indigo-500 group-hover:text-indigo-900"
                               aria-hidden="true"
                             />
                             <span className="ml-2">Copy link</span>
@@ -307,7 +307,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                   </button>
                   <button
                     type="submit"
-                    className="ml-4 inline-flex justify-center rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
+                    className="ml-4 inline-flex justify-center rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                   >
                     Save
                   </button>

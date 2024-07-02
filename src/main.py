@@ -86,9 +86,6 @@ app.include_router(
     query_controller,
     prefix="/query",
     tags=["Query router"],
-    dependencies=[
-        Depends(RateLimiter(times=10, seconds=10, identifier=client_identifier))
-    ],
 )
 # Include the middleware
 # app.add_middleware(PrefixMiddleware)

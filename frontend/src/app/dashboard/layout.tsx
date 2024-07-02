@@ -152,7 +152,7 @@ export default function DashboardLayout({
                 <div className="flex h-16 shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=orange&shade=600"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                     alt="Your Company"
                   />
                 </div>
@@ -166,16 +166,16 @@ export default function DashboardLayout({
                               href={item.href}
                               className={classNames(
                                 item.current
-                                  ? 'bg-gray-50 text-orange-500'
-                                  : 'text-gray-700 hover:bg-gray-50 hover:text-orange-500',
+                                  ? 'bg-gray-50 text-indigo-500'
+                                  : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-500',
                                 'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                               )}
                             >
                               <item.icon
                                 className={classNames(
                                   item.current
-                                    ? 'text-orange-500'
-                                    : 'text-gray-400 group-hover:text-orange-500',
+                                    ? 'text-indigo-500'
+                                    : 'text-gray-400 group-hover:text-indigo-500',
                                   'h-6 w-6 shrink-0'
                                 )}
                                 aria-hidden="true"
@@ -197,16 +197,16 @@ export default function DashboardLayout({
                               href={team.href}
                               className={classNames(
                                 team.current
-                                  ? 'bg-gray-50 text-orange-500'
-                                  : 'text-gray-700 hover:bg-gray-50 hover:text-orange-500',
+                                  ? 'bg-gray-50 text-indigo-500'
+                                  : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-500',
                                 'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                               )}
                             >
                               <span
                                 className={classNames(
                                   team.current
-                                    ? 'border-orange-500 text-orange-500'
-                                    : 'border-gray-200 text-gray-400 group-hover:border-orange-500 group-hover:text-orange-500',
+                                    ? 'border-indigo-500 text-indigo-500'
+                                    : 'border-gray-200 text-gray-400 group-hover:border-indigo-500 group-hover:text-indigo-500',
                                   'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium'
                                 )}
                               >
@@ -221,10 +221,10 @@ export default function DashboardLayout({
                     <li className="mt-auto">
                       <Link
                         href="#"
-                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-orange-500"
+                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-500"
                       >
                         <Cog6ToothIcon
-                          className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-orange-500"
+                          className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-500"
                           aria-hidden="true"
                         />
                         Settings
@@ -244,7 +244,7 @@ export default function DashboardLayout({
             <div className="flex h-16 shrink-0 items-center">
               <img
                 className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=orange&shade=600"
+                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt="Your Company"
               />
             </div>
@@ -258,16 +258,16 @@ export default function DashboardLayout({
                           href={item.href}
                           className={classNames(
                             item.current
-                              ? 'bg-gray-50 text-orange-500'
-                              : 'text-gray-700 hover:bg-gray-50 hover:text-orange-500',
+                              ? 'bg-gray-50 text-indigo-500'
+                              : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-500',
                             'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                           )}
                         >
                           <item.icon
                             className={classNames(
                               item.current
-                                ? 'text-orange-500'
-                                : 'text-gray-400 group-hover:text-orange-500',
+                                ? 'text-indigo-500'
+                                : 'text-gray-400 group-hover:text-indigo-500',
                               'h-6 w-6 shrink-0'
                             )}
                             aria-hidden="true"
@@ -289,16 +289,16 @@ export default function DashboardLayout({
                           href={team.href}
                           className={classNames(
                             team.current
-                              ? 'bg-gray-50 text-orange-500'
-                              : 'text-gray-700 hover:bg-gray-50 hover:text-orange-500',
+                              ? 'bg-gray-50 text-indigo-500'
+                              : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-500',
                             'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                           )}
                         >
                           <span
                             className={classNames(
                               team.current
-                                ? 'border-orange-500 text-orange-500'
-                                : 'border-gray-200 text-gray-400 group-hover:border-orange-500 group-hover:text-orange-500',
+                                ? 'border-indigo-500 text-indigo-500'
+                                : 'border-gray-200 text-gray-400 group-hover:border-indigo-500 group-hover:text-indigo-500',
                               'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium'
                             )}
                           >
@@ -313,10 +313,10 @@ export default function DashboardLayout({
                 <li className="mt-auto">
                   <Link
                     href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-orange-500"
+                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-500"
                   >
                     <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-orange-500"
+                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-500"
                       aria-hidden="true"
                     />
                     Settings

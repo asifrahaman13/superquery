@@ -75,6 +75,7 @@ class DIContainer:
 
 
 container = DIContainer()
+websocket_manager = ConnectionManager()
 
 
 def get_mysql_query_database_service():

@@ -1,22 +1,11 @@
 'use client';
 import React, { useState } from 'react';
-import { gql, useLazyQuery } from '@apollo/client';
 import ConnectionSettings from '@/app/components/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
-import { SiMysql } from 'react-icons/si';
-
-const GET_RESULT = gql`
-  query SqlLLMQuery($query: String!) {
-    sqlLLMQuery(query: $query) {
-      query
-    }
-  }
-`;
+// import { SiMysql } from 'react-icons/si';
 
 const Page = () => {
   const [query, setQuery] = useState<string>('');
-
-  const [executeQuery, { loading, error, data }] = useLazyQuery(GET_RESULT);
 
   const handleChange = (e: {
     target: {
@@ -28,7 +17,6 @@ const Page = () => {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    executeQuery({ variables: { query } });
   };
 
   const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
@@ -37,26 +25,17 @@ const Page = () => {
       {settingsBar && <ConnectionSettings dbType="mysql" key={key} />}
       <div className="w-full flex flex-col ">
         <div className="w-full flex flex-row h-full">
-          <div className="w-1/2 flex flex-col gap-4 h-full overflow-y-scroll no-scrollbar p-6">
+          <div className="w-1/2 flex flex-col gap-4 h-full justify-between overflow-y-scroll no-scrollbar p-6">
             <label
               htmlFor="email"
               className="block font-semibold leading-6 text-3xl text-Pri-Dark"
             >
               MySQL Query
             </label>
-            <div className="flex flex-grow">
-              {loading && <p>Loading...</p>}
-              {error && <p>Error: {error.message}</p>}
-              {data && (
-                <div>
-                  <p>Result:</p>
-                  <p>{data.sqlLLMQuery.query}</p>
-                </div>
-              )}
-            </div>
+            {/* 
             <div className="flex justify-center flex-grow">
               <SiMysql size={300} />
-            </div>
+            </div> */}
             <div className="mt-2 flex gap-2 ">
               <input
                 type="text"
@@ -91,7 +70,7 @@ const Page = () => {
                   </button>
                 </div>
               </div>
-              <p>
+              <p className="text-Pri-Dark text-lg font-medium text-justify">
                 MySQL is a widely-used open-source relational database
                 management system known for its scalability, performance, and
                 robust feature set. It organizes data into tables linked by
@@ -111,6 +90,11 @@ const Page = () => {
                 className="w-full h-20 border-2"
                 id=""
               ></textarea>
+              <div className="flex justify-end">
+                <button className="bg-Pri-Dark rounded-lg w-1/5 text-righ p-3 px-5 text-white">
+                  Submit
+                </button>
+              </div>
             </div>
             <div className="text-2xl font-semibold text-Pri-Dark">
               {' '}

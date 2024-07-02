@@ -11,17 +11,7 @@ the connections.
 
 
 class ConnectionManager:
-    def __init__(self, config_path="redis.conf"):
-        # Create a ConfigParser object
-        config = configparser.ConfigParser()
-
-        # Read the configuration file
-        config.read(config_path)
-
-        # Extract Redis connection settings
-        redis_host = config.get("redis", "host")
-        redis_port = config.getint("redis", "port")
-        redis_password = config.get("redis", "password")
+    def __init__(self, redis_host, redis_port, redis_password):
 
         # Initialize the Redis client
         self.redis_client = redis.Redis(

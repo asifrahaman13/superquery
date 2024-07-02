@@ -5,16 +5,14 @@ from src.infastructure.repositories.mongodb_query_repository import (
 )
 from src.infastructure.repositories.mysql_query_repository import MySqlQueryRepository
 from src.internal.use_cases.query_service import QueryService
-from src.internal.use_cases.data_service import DataService
 from src.ConnectionManager.ConnectionManager import ConnectionManager
 from src.infastructure.repositories.database_repository import (
     MongodbRepository,
 )
 from pymongo import MongoClient
-from typing import Any, Dict
 import logging
 from config.config import MONGO_DB_URI
-
+from config.config import REDIS_HOST, REDIS_PORT, REDIS_PASSWORD
 
 class DIContainer:
     def __init__(self):
@@ -75,7 +73,7 @@ class DIContainer:
 
 
 container = DIContainer()
-websocket_manager = ConnectionManager()
+websocket_manager = ConnectionManager(REDIS_HOST, REDIS_PORT, REDIS_PASSWORD)
 
 
 def get_mysql_query_database_service():

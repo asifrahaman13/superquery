@@ -95,44 +95,18 @@ assert MONGO_DB_URI, "Mongo URI is not set"
 logging.info("Mongo URI is set")
 
 
-AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
-assert AWS_ACCESS_KEY, "AWS access key is not set"
-logging.info("AWS access key is set")
-
-AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY")
-assert AWS_SECRET_KEY, "AWS secret key is not set"
-logging.info("AWS secret key is set")
-
-AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME")
-assert AWS_BUCKET_NAME, "AWS bucket name is not set"
-logging.info("AWS bucket name is set")
-
 REDIS_URL = config.redis.url
 assert REDIS_URL, "Redis URL is not set."
 logging.info("Redis URL is set")
 
+REDIS_PORT= os.getenv("REDIS_PORT")
+assert REDIS_PORT, "Redis port is not set."
+logging.info("Redis port is set")
 
-DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
-assert DEEPGRAM_API_KEY, "Deepgram API key is not set"
-logging.info("Deepgram API key is set")
+REDIS_HOST = os.getenv("REDIS_HOST")
+assert REDIS_HOST, "Redis host is not set."
+logging.info("Redis host is set")
 
-
-EMBEDDING_MODEL = config.vector_db.embedding_model
-assert EMBEDDING_MODEL, "Embedding model is not set"
-logging.info("Embedding model is set")
-
-EMAIL_HOST = config.email_service.host
-assert EMAIL_HOST, "Email host is not set"
-logging.info("Email host is set")
-
-EMAIL_PORT = config.email_service.port
-assert EMAIL_PORT, "Email port is not set"
-logging.info("Email port is set")
-
-EMAIL_USERNAME = config.email_service.username
-assert EMAIL_USERNAME, "Email username is not set"
-logging.info("Email username is set")
-
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-assert EMAIL_PASSWORD, "Email password is not set"
-logging.info("Email password is set")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
+assert REDIS_PASSWORD, "Redis password is not set."
+logging.info("Redis password is set")

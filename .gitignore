@@ -137,3 +137,5 @@ cython_debug/
 
 
 node_modules/
+
+redis.conf

@@ -29,9 +29,9 @@ async def query_mysql(
             user_input = await websocket.receive_json()
             query = user_input["query"]
             response = query_service.query_db(user["sub"], query, "mysql")
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
             await manager.send_personal_message(response, websocket)
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
     except WebSocketDisconnect:
         await manager.send_personal_message(
             {"error": "Some error occurred."}, websocket

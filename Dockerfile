@@ -28,4 +28,4 @@ EXPOSE 8000
 EXPOSE 6379
 
 # Start both Redis and the FastAPI app
-CMD redis-server /usr/local/etc/redis/redis.conf --daemonize yes && uvicorn src.main:app --host 0.0.0.0 --reload
+CMD redis-server /usr/local/etc/redis/redis.conf --daemonize yes && uvicorn src.main:app --host 0.0.0.0 

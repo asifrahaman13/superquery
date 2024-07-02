@@ -16,7 +16,7 @@ ENV PATH=$BUN_INSTALL/bin:$PATH
 ENV BUN_PATH=$BUN_INSTALL/bin/bun
 
 # Install dependencies with Bun
-RUN bun install
+RUN bun install --no-cache
 
 # Copy the rest of the frontend code
 COPY . .

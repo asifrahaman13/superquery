@@ -1,19 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import { gql, useLazyQuery } from '@apollo/client';
-
-const GET_RESULT = gql`
-  query SqlLLMQuery($query: String!) {
-    sqlLLMQuery(query: $query) {
-      query
-    }
-  }
-`;
 
 const Page = () => {
   const [query, setQuery] = useState('');
-
-  const [executeQuery, { loading, error, data }] = useLazyQuery(GET_RESULT);
 
   const handleChange = (e: {
     target: {
@@ -25,7 +14,6 @@ const Page = () => {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    executeQuery({ variables: { query } });
   };
 
   return (
@@ -49,16 +37,6 @@ const Page = () => {
           />
         </div>
         <button onClick={handleSubmit}>Submit</button>
-      </div>
-      <div>
-        {loading && <p>Loading...</p>}
-        {error && <p>Error: {error.message}</p>}
-        {data && (
-          <div>
-            <p>Result:</p>
-            <p>{data.sqlLLMQuery.query}</p>
-          </div>
-        )}
       </div>
     </>
   );

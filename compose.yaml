@@ -1,4 +1,9 @@
 services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+      
   backend:
     build:
       context: .
@@ -15,10 +20,6 @@ services:
     networks:
       - super-query
 
-    redis:
-      image: "redis:alpine"
-      ports:
-        - "6379:6379"
 
   frontend:
     build:

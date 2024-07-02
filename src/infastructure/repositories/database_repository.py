@@ -19,8 +19,6 @@ class MongodbRepository:
             return result
         except Exception as e:
             return None
-        finally:
-            self.__client.close()
 
     def find_all_entities_by_field_name(self, collection_name):
         try:
@@ -28,5 +26,11 @@ class MongodbRepository:
             return collection.find()
         except Exception as e:
             return None
-        finally:
-            self.__client.close()
+
+    def save_entity(self, collection_name, entity):
+        try:
+            collection = self.__database[collection_name]
+            result = collection.insert_one(entity).inserted_id
+            return result
+        except Exception as e:
+            return None

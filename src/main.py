@@ -18,6 +18,7 @@ from fastapi_limiter.depends import RateLimiter
 import os
 from config.config import REDIS_URL
 from src.application.web.controllers.query_controller import query_controller
+from src.application.web.controllers.auth_controller import auth_controller
 
 
 # Configure logging
@@ -73,6 +74,14 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+app.include_router(
+    auth_controller,
+    prefix="/auth",
+    tags=["Auth router"],
+    dependencies=[
+        Depends(RateLimiter(times=10, seconds=10, identifier=client_identifier))
+    ],
+)
 app.include_router(
     query_controller,
     prefix="/query",

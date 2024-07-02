@@ -1,3 +1,5 @@
+from src.internal.use_cases.auth_service import AuthService
+from src.infastructure.repositories.auth_repository import AuthRepository
 from src.infastructure.repositories.mongodb_query_repository import (
     MongodbQueryRepository,
 )
@@ -17,6 +19,20 @@ from config.config import MONGO_DB_URI
 class DIContainer:
     def __init__(self):
         self.__instances = {}
+
+    def get_auth_repository(self):
+        if "auth_repository" not in self.__instances:
+            self.__instances["auth_repository"] = AuthRepository()
+        return self.__instances["auth_repository"]
+    
+    def get_auth_service(self):
+        if "auth_service" not in self.__instances:
+            self.__instances["auth_service"] = AuthService(
+                self.get_auth_repository(),
+                self.get_database_repository()
+            )
+        return self.__instances["auth_service"]
+
 
     def get_database_repository(self):
         if "database_repository" not in self.__instances:
@@ -55,6 +71,7 @@ class DIContainer:
                 self.get_database_repository()
             )
         return self.__instances["mongodb_query_service"]
+    
 
 
 container = DIContainer()
@@ -65,4 +82,7 @@ def get_mysql_query_database_service():
 
 def get_mongodb_query_database_service():
     return container.get_mongodb_query_database_service()
+
+def get_auth_service():
+    return container.get_auth_service()
 

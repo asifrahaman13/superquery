@@ -6,7 +6,7 @@ import ApolloClientProvider from './apolloProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Octo',
+  title: 'SuperQuery',
   description: 'AI powered data query platform',
 };
 

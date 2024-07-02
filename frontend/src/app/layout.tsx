@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import ApolloClientProvider from "./apolloProvider";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import ApolloClientProvider from './apolloProvider';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "SuperQuery",
-  description: "AI powered data query platform",
+  title: 'SuperQuery',
+  description: 'AI powered data query platform',
 };
 
 export default function RootLayout({

@@ -1,8 +1,7 @@
-import { SuccessEntity } from "@/domain/entities/Success";
-import axios from "axios";
+import { SuccessEntity } from '@/domain/entities/Success';
+import axios from 'axios';
 
 class AuthRepository {
-
   async signup(email: string, username: string, password: string) {
     const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL;
 

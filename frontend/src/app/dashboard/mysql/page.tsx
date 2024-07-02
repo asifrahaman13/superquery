@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import ConnectionSettings from '@/app/components/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
-import {
-  SiMysql,
-} from 'react-icons/si';
+import { SiMysql } from 'react-icons/si';
 
 const GET_RESULT = gql`
   query SqlLLMQuery($query: String!) {
@@ -21,7 +19,9 @@ const Page = () => {
   const [executeQuery, { loading, error, data }] = useLazyQuery(GET_RESULT);
 
   const handleChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: {
+      value: React.SetStateAction<string>;
+    };
   }) => {
     setQuery(e.target.value);
   };
@@ -54,8 +54,8 @@ const Page = () => {
                 </div>
               )}
             </div>
-            <div className='flex justify-center flex-grow'>
-              <SiMysql size={300}/>
+            <div className="flex justify-center flex-grow">
+              <SiMysql size={300} />
             </div>
             <div className="mt-2 ">
               <input

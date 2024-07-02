@@ -1,21 +1,24 @@
-"use client";
-import { auth_interface } from "@/app/exports/exports";
-import Link from "next/dist/client/link";
-import React from "react";
+'use client';
+import { auth_interface } from '@/app/exports/exports';
+import Link from 'next/dist/client/link';
+import React from 'react';
 
 const Page = () => {
   const [username, setUsername] = React.useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   });
 
   async function handleSubmit() {
     try {
-     const loginResponse=await auth_interface.login( username.username, username.password);
+      const loginResponse = await auth_interface.login(
+        username.username,
+        username.password
+      );
       if (loginResponse?.code === 200) {
         console.log(loginResponse.data);
-        localStorage.setItem("accessToken", loginResponse.data.access_token);
+        localStorage.setItem('accessToken', loginResponse.data.access_token);
       }
     } catch (error) {
       console.log(error);
@@ -102,7 +105,7 @@ const Page = () => {
                   </div>
                   <div className="ml-3 text-sm">
                     <label className="font-light">
-                      I accept the{" "}
+                      I accept the{' '}
                       <a
                         className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                         href="#"
@@ -122,7 +125,7 @@ const Page = () => {
                   Create an account
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Already have an account?{" "}
+                  Already have an account?{' '}
                   <Link
                     href="/signin"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"

@@ -1,5 +1,4 @@
-
-import type { AppProps } from "next/app";
+import type { AppProps } from 'next/app';
 import Layout from './layout';
 
 function MyApp({ Component, pageProps }: AppProps) {

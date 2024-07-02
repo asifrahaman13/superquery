@@ -16,7 +16,9 @@ const Page = () => {
   const [executeQuery, { loading, error, data }] = useLazyQuery(GET_RESULT);
 
   const handleChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: {
+      value: React.SetStateAction<string>;
+    };
   }) => {
     setQuery(e.target.value);
   };

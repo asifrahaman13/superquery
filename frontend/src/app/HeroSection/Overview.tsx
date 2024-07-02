@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React from 'react';
 
 const Overview = () => {
   return (
@@ -12,8 +12,10 @@ const Overview = () => {
               <br className="hidden lg:inline-block" />
             </h1>
             <p className="mb-8 leading-relaxed text-medium">
-              {" "}
-              Save your precious time in building your stuff rather than trying to serach the information. With our amazing tool you can find instant asnwers from your knowledgebase.
+              {' '}
+              Save your precious time in building your stuff rather than trying
+              to serach the information. With our amazing tool you can find
+              instant asnwers from your knowledgebase.
             </p>
             <div className="flex justify-center">
               <a
@@ -22,7 +24,9 @@ const Overview = () => {
               >
                 Get started
               </a>
-              <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Button</button>
+              <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">
+                Button
+              </button>
             </div>
           </div>
           <div className="sm:w-1/2 mb-10 px-4">
@@ -49,7 +53,10 @@ const Overview = () => {
               Get more convenience
               <br className="hidden lg:inline-block" />
             </h1>
-            <p className="mb-8 leading-relaxed text-medium">Make it more convenient to use through our amazing tool. Just upload your knowledgebase and you are good to go! 🚀</p>
+            <p className="mb-8 leading-relaxed text-medium">
+              Make it more convenient to use through our amazing tool. Just
+              upload your knowledgebase and you are good to go! 🚀
+            </p>
             <div className="flex justify-center">
               <a
                 href="#"
@@ -57,7 +64,9 @@ const Overview = () => {
               >
                 Get started
               </a>
-              <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Button</button>
+              <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">
+                Button
+              </button>
             </div>
           </div>
         </div>

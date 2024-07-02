@@ -1,6 +1,6 @@
-import React, { PropsWithChildren } from "react";
-import HeroSection from "./HeroSection";
-import FooterComponent from "./FooterComponent";
+import React, { PropsWithChildren } from 'react';
+import HeroSection from './HeroSection';
+import FooterComponent from './FooterComponent';
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
@@ -9,7 +9,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 
       {children}
 
-      <FooterComponent/>
+      <FooterComponent />
     </div>
   );
 };

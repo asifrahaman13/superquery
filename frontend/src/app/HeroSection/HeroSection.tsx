@@ -1,23 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import { useEffect, useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
-import { Popover, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+'use client';
+import { useEffect, useState } from 'react';
+import { Dialog } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Fragment } from 'react';
+import { Popover, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import {
   callsToAction,
   navigation,
-} from "@/constants/static/HeroSection/HeroSectionStatic";
-import Link from "next/link";
+} from '@/constants/static/HeroSection/HeroSectionStatic';
+import Link from 'next/link';
 
 export default function HeroSection() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
+    const access_token = localStorage.getItem('access_token');
     if (access_token) {
       setIsSignedIn(true);
     }
@@ -131,7 +131,7 @@ export default function HeroSection() {
             <> Signed in</>
           ) : (
             <>
-              {" "}
+              {' '}
               <Link href="/auth/signup">Signup </Link>
             </>
           )}

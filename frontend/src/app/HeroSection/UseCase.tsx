@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
-import { posts } from "@/constants/static/HeroSection/HeroSectionStatic";
+import React from 'react';
+import { posts } from '@/constants/static/HeroSection/HeroSectionStatic';
 
 const UseCase = () => {
   return (

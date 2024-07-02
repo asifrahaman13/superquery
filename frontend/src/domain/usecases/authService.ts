@@ -1,7 +1,7 @@
-import { AuthRepository } from "@/infrastructure/repositories/infrastructure/repositories/AuthRepository";
-import { AuthInterface } from "@/domain/interfaces/authInterface";
+import { AuthInterface } from '@/domain/interfaces/authInterface';
+import { AuthRepository } from '@/infrastructure/repositories/AuthRepository';
 
-class AuthService implements AuthInterface{
+class AuthService implements AuthInterface {
   private authRepository: AuthRepository;
 
   constructor(authRepository: AuthRepository) {

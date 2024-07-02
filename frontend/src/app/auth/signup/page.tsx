@@ -1,18 +1,22 @@
-"use client";
-import { auth_interface } from "@/app/exports/exports";
-import Link from "next/dist/client/link";
-import React from "react";
+'use client';
+import { auth_interface } from '@/app/exports/exports';
+import Link from 'next/dist/client/link';
+import React from 'react';
 
 const Page = () => {
   const [username, setUsername] = React.useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   });
 
   async function handleSubmit() {
     try {
-       const login_response = await auth_interface.signup(username.email, username.username, username.password);
+      const login_response = await auth_interface.signup(
+        username.email,
+        username.username,
+        username.password
+      );
 
       if (login_response?.code === 200) {
         console.log(login_response.data);
@@ -138,7 +142,7 @@ const Page = () => {
                   Create an account
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Already have an account?{" "}
+                  Already have an account?{' '}
                   <Link
                     href="/signin"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"

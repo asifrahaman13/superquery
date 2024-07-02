@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@apollo/client": "^3.10.8",
@@ -16,6 +17,7 @@
     "axios": "^1.7.2",
     "graphql": "^16.9.0",
     "next": "14.2.4",
+    "prettier": "^3.3.2",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1"

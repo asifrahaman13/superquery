@@ -18,7 +18,9 @@ const Page = () => {
   const [executeQuery, { loading, error, data }] = useLazyQuery(GET_RESULT);
 
   const handleChange = (e: {
-    target: { value: React.SetStateAction<string> };
+    target: {
+      value: React.SetStateAction<string>;
+    };
   }) => {
     setQuery(e.target.value);
   };
@@ -33,8 +35,10 @@ const Page = () => {
     <>
       {settingsBar && <ConnectionSettings dbType="vector-db" key={key} />}
       <div className="w-full ">
-           <div>
-          <div className='text-3xl font-semibold text-orange-400'>Vector DB</div>
+        <div>
+          <div className="text-3xl font-semibold text-orange-400">
+            Vector DB
+          </div>
         </div>
         <div className="w-full text-right">
           <button

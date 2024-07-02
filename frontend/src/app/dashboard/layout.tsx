@@ -6,9 +6,9 @@ import {
   SiMongodb,
   SiSqlite,
   SiNeo4J,
-  SiPinescript
+  SiPinescript,
 } from 'react-icons/si';
-import { MdOutlineEco,  } from 'react-icons/md';
+import { MdOutlineEco } from 'react-icons/md';
 import {
   Dialog,
   DialogBackdrop,
@@ -20,9 +20,27 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const teams = [
-  { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-  { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-  { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
+  {
+    id: 1,
+    name: 'Heroicons',
+    href: '#',
+    initial: 'H',
+    current: false,
+  },
+  {
+    id: 2,
+    name: 'Tailwind Labs',
+    href: '#',
+    initial: 'T',
+    current: false,
+  },
+  {
+    id: 3,
+    name: 'Workcation',
+    href: '#',
+    initial: 'W',
+    current: false,
+  },
 ];
 
 function classNames(...classes: string[]) {
@@ -37,7 +55,12 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [navigation, SetNavigation] = useState([
-    { name: 'MySQL', href: '/dashboard/mysql', icon: SiMysql, current: true },
+    {
+      name: 'MySQL',
+      href: '/dashboard/mysql',
+      icon: SiMysql,
+      current: true,
+    },
     {
       name: 'PostgreSQL',
       href: '/dashboard/postgres',
@@ -61,14 +84,19 @@ export default function DashboardLayout({
       href: '/dashboard/pinecone',
       icon: SiPinescript,
       current: false,
-    }, 
-     {
+    },
+    {
       name: 'Qdrant',
       href: '/dashboard/qdrant',
       icon: MdOutlineEco,
       current: false,
     },
-    { name: 'Neo4j', href: '/dashboard/neo4j', icon: SiNeo4J, current: false },
+    {
+      name: 'Neo4j',
+      href: '/dashboard/neo4j',
+      icon: SiNeo4J,
+      current: false,
+    },
   ]);
 
   const router = usePathname();
@@ -81,7 +109,7 @@ export default function DashboardLayout({
         } else {
           return { ...item, current: false };
         }
-      }),
+      })
     );
   }, [navigation, router]);
   return (
@@ -138,7 +166,7 @@ export default function DashboardLayout({
                                 item.current
                                   ? 'bg-gray-50 text-orange-500'
                                   : 'text-gray-700 hover:bg-gray-50 hover:text-orange-500',
-                                'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                                'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                               )}
                             >
                               <item.icon
@@ -146,7 +174,7 @@ export default function DashboardLayout({
                                   item.current
                                     ? 'text-orange-500'
                                     : 'text-gray-400 group-hover:text-orange-500',
-                                  'h-6 w-6 shrink-0',
+                                  'h-6 w-6 shrink-0'
                                 )}
                                 aria-hidden="true"
                               />
@@ -169,7 +197,7 @@ export default function DashboardLayout({
                                 team.current
                                   ? 'bg-gray-50 text-orange-500'
                                   : 'text-gray-700 hover:bg-gray-50 hover:text-orange-500',
-                                'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                                'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                               )}
                             >
                               <span
@@ -177,7 +205,7 @@ export default function DashboardLayout({
                                   team.current
                                     ? 'border-orange-500 text-orange-500'
                                     : 'border-gray-200 text-gray-400 group-hover:border-orange-500 group-hover:text-orange-500',
-                                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium',
+                                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium'
                                 )}
                               >
                                 {team.initial}
@@ -230,7 +258,7 @@ export default function DashboardLayout({
                             item.current
                               ? 'bg-gray-50 text-orange-500'
                               : 'text-gray-700 hover:bg-gray-50 hover:text-orange-500',
-                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                           )}
                         >
                           <item.icon
@@ -238,7 +266,7 @@ export default function DashboardLayout({
                               item.current
                                 ? 'text-orange-500'
                                 : 'text-gray-400 group-hover:text-orange-500',
-                              'h-6 w-6 shrink-0',
+                              'h-6 w-6 shrink-0'
                             )}
                             aria-hidden="true"
                           />
@@ -261,7 +289,7 @@ export default function DashboardLayout({
                             team.current
                               ? 'bg-gray-50 text-orange-500'
                               : 'text-gray-700 hover:bg-gray-50 hover:text-orange-500',
-                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
                           )}
                         >
                           <span
@@ -269,7 +297,7 @@ export default function DashboardLayout({
                               team.current
                                 ? 'border-orange-500 text-orange-500'
                                 : 'border-gray-200 text-gray-400 group-hover:border-orange-500 group-hover:text-orange-500',
-                              'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium',
+                              'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium'
                             )}
                           >
                             {team.initial}
@@ -299,9 +327,6 @@ export default function DashboardLayout({
 
         <div className="flex w-4/5 p-6">{children}</div>
       </div>
-
-
-      
     </>
   );
 }

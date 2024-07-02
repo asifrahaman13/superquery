@@ -9,13 +9,14 @@
 
 - Now install the dependencies. `pip install -r requirements.txt`
 
-- Now rename the .env.example. `mv .env.example .env`.  Give the proper configuration by giving the API keys. For example set the open ai key, deepgram api key etc. Also set the configuration data in the config.yaml file. If you are using redis server instead of local redis environment please change the redis.conf file.
-
-- Next you need to run the application using the following script: `uvicorn src.main:app --reload`
+- Now rename the .env.example. `mv .env.example .env`.  Give the proper configuration by giving the API keys. For example set the open ai key, deepgram api key etc. Also set the configuration data in the config.yaml file. Now rename the redis.example.conf file to redis.conf file. `mv redis.example.conf redis.conf` If you are using redis server instead of local redis environment please change the redis.conf file.
 
 ## Install precommit hooks.
 
  `pre-commit install`
+
+# Run the server
+You need to run the application using the following script: `uvicorn src.main:app --reload`
 
 ## Frontend
 Next go to the front end folder 

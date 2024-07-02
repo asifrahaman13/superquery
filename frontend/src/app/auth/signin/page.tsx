@@ -2,8 +2,10 @@
 import { auth_interface } from '@/app/exports/exports';
 import Link from 'next/dist/client/link';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+  const router = useRouter();
   const [username, setUsername] = React.useState({
     username: '',
     email: '',
@@ -19,6 +21,7 @@ const Page = () => {
       if (loginResponse?.code === 200) {
         console.log(loginResponse.data);
         localStorage.setItem('accessToken', loginResponse.data.access_token);
+        router.push('/dashboard/mysql');
       }
     } catch (error) {
       console.log(error);

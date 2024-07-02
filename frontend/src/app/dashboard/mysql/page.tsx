@@ -35,12 +35,12 @@ const Page = () => {
   return (
     <>
       {settingsBar && <ConnectionSettings dbType="mysql" key={key} />}
-      <div className="w-full flex flex-col gap-12">
+      <div className="w-full flex flex-col ">
         <div className="w-full flex flex-row h-full">
-          <div className="w-1/2 flex flex-col gap-4 h-full overflow-y-scroll no-scrollbar">
+          <div className="w-1/2 flex flex-col gap-4 h-full overflow-y-scroll no-scrollbar p-6">
             <label
               htmlFor="email"
-              className="block font-semibold leading-6 text-3xl text-orange-400"
+              className="block font-semibold leading-6 text-3xl text-Pri-Dark"
             >
               MySQL Query
             </label>
@@ -57,7 +57,7 @@ const Page = () => {
             <div className="flex justify-center flex-grow">
               <SiMysql size={300} />
             </div>
-            <div className="mt-2 ">
+            <div className="mt-2 flex gap-2 ">
               <input
                 type="text"
                 name="query"
@@ -67,46 +67,56 @@ const Page = () => {
                 value={query}
                 onChange={handleChange}
               />
-            </div>
-            <div className="w-full">
-              {' '}
               <button
                 onClick={handleSubmit}
-                className="bg-orange-400 rounded-lg p-3 w-full text-white"
+                className="bg-Pri-Dark rounded-lg  p-3 px-5 text-white"
               >
                 Submit
               </button>
             </div>
           </div>
-          <div className="flex flex-col w-1/2 gap-8">
-            <div className="flex  w-full justify-between">
-              <div className="text-3xl font-semibold text-orange-400">
-                MySQL
-              </div>{' '}
-              <div>
-                <button
-                  className=" bg-orange-400 p-2 rounded-md px-4 text-white"
-                  onClick={toggleSettingsBar}
-                >
-                  Settings
-                </button>
+          <div className="flex flex-col w-1/2 gap-8 border-2 p-6">
+            <div className="h-1/2 flex flex-col gap-6">
+              {' '}
+              <div className="flex  w-full justify-between">
+                <div className="text-3xl font-semibold text-Pri-Dark">
+                  🎉 Manual Query
+                </div>{' '}
+                <div>
+                  <button
+                    className=" bg-Pri-Dark p-2 rounded-md px-4 text-white"
+                    onClick={toggleSettingsBar}
+                  >
+                    Settings
+                  </button>
+                </div>
               </div>
+              <p>
+                MySQL is a widely-used open-source relational database
+                management system known for its scalability, performance, and
+                robust feature set. It organizes data into tables linked by
+                relationships, supporting multi-platform deployment and offering
+                high availability through features like replication and
+                clustering. MySQL excels in handling both small-scale
+                applications and large-scale systems with efficient data
+                management and query execution. Security features include access
+                control and encryption, while its active community ensures
+                continuous development and support. Commonly used in web
+                applications, data warehousing, and online transaction
+                processing (OLTP), MySQL remains a cornerstone for developers
+                and businesses seeking a reliable, flexible database solution.{' '}
+              </p>
+              <textarea
+                name="query"
+                className="w-full h-20 border-2"
+                id=""
+              ></textarea>
             </div>
-            <p>
-              MySQL is a widely-used open-source relational database management
-              system known for its scalability, performance, and robust feature
-              set. It organizes data into tables linked by relationships,
-              supporting multi-platform deployment and offering high
-              availability through features like replication and clustering.
-              MySQL excels in handling both small-scale applications and
-              large-scale systems with efficient data management and query
-              execution. Security features include access control and
-              encryption, while its active community ensures continuous
-              development and support. Commonly used in web applications, data
-              warehousing, and online transaction processing (OLTP), MySQL
-              remains a cornerstone for developers and businesses seeking a
-              reliable, flexible database solution.{' '}
-            </p>
+            <div className="text-2xl font-semibold text-Pri-Dark">
+              {' '}
+              🚀My Result
+            </div>
+            <div className="h-1/2 border-2"></div>
           </div>
         </div>
       </div>

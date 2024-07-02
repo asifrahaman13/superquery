@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { useEffect, useState } from 'react';
 import {
@@ -111,7 +112,8 @@ export default function DashboardLayout({
         }
       })
     );
-  }, [navigation, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
   return (
     <>
       <div className="w-screen flex flex-row h-screen">
@@ -325,7 +327,7 @@ export default function DashboardLayout({
           </div>
         </div>
 
-        <div className="flex w-4/5 p-6">{children}</div>
+        <div className="flex w-4/5">{children}</div>
       </div>
     </>
   );

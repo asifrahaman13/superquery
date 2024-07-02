@@ -1,7 +1,7 @@
 import { PhoneIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 import { ArrowPathIcon, ChartPieIcon, CursorArrowRaysIcon, FingerPrintIcon, SquaresPlusIcon } from "@heroicons/react/24/outline";
 import { MdOutlineEco } from "react-icons/md";
-import { SiMongodb, SiNeo4J, SiPinescript, SiPostgresql } from "react-icons/si";
+import { SiMongodb, SiMysql, SiNeo4J, SiPinescript, SiPostgresql, SiSqlite } from "react-icons/si";
 
 const solutions = [
   { name: "Analytics", description: "Get a better understanding of your traffic", href: "#", icon: ChartPieIcon },
@@ -12,9 +12,9 @@ const solutions = [
 ];
 
 const products = [
-  { name: "mysql", description: "Chat with your MySQL database", href: "/dashboard/mysql", icon: ChartPieIcon },
-  { name: "sqlite", description: "Chat with SQLite database", href: "/dashboard/sqlite", icon: CursorArrowRaysIcon },
   { name: "postgres", description: "Chat with your PostgreSQL database", href: "/dashboard/postgres", icon: SiPostgresql },
+  { name: "sqlite", description: "Chat with SQLite database", href: "/dashboard/sqlite", icon: SiSqlite },
+  { name: "mysql", description: "Chat with your MySQL database", href: "/dashboard/mysql", icon: SiMysql },
   { name: "mongodb", description: "Chat with your MongoDB database", href: "/dashboard/mongodb", icon: SiMongodb },
   { name: "pinecone", description: "Chat with Pinecone vector database", href: "/dashboard/pinecone", icon: SiPinescript },
   { name: "qdrant", description: "Chat with Qdrant vector database", href: "/dashboard/qdrant", icon: MdOutlineEco },
@@ -22,17 +22,12 @@ const products = [
 ];
 
 
-const features = [
-  { name: "Pdf", description: "Get a better understanding of your traffic", href: "#", icon: ChartPieIcon },
-  { name: "Repository", description: "Speak directly to your customers", href: "#", icon: CursorArrowRaysIcon },
-];
-
 const callsToAction = [
   { name: "Watch demo", href: "#", icon: PlayCircleIcon },
   { name: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
-const navigation = [{ name: "Product", href: "#", solutions: products }];
+const navigation = [{ name: "Integrations", href: "#", solutions: products }];
 const posts = [
   {
     id: 1,

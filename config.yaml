@@ -1,8 +1,6 @@
-# config.yaml
-
 # Application settings
 app:
-  title: "Dreamer dolphin"
+  title: "SuperQuery"
   version: "1.0.0"
   description: "This is the backend server of dreamer dolphin."
 

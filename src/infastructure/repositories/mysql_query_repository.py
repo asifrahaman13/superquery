@@ -21,9 +21,6 @@ class MySqlQueryRepository:
         execute_query = QuerySQLDataBaseTool(db=db)
 
         write_query = create_sql_query_chain(llm, db)
-        response = write_query.invoke(
-            {"question": "How many users are there in users table"}
-        )
 
         answer_prompt = PromptTemplate.from_template(
             """Given the following user question, corresponding SQL query, and SQL result, answer the user question.

@@ -83,7 +83,7 @@ export default function DashboardLayout({
         }
       }),
     );
-  }, [router]);
+  }, [navigation, router]);
   return (
     <>
       <div className="w-screen flex flex-row h-screen">

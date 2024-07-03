@@ -51,6 +51,12 @@ const solutions = [
 
 const products = [
   {
+    name: 'mysql',
+    description: 'Chat with your MySQL database',
+    href: '/dashboard/mysql',
+    icon: SiMysql,
+  },
+  {
     name: 'postgres',
     description: 'Chat with your PostgreSQL database',
     href: '/dashboard/postgres',
@@ -61,12 +67,6 @@ const products = [
     description: 'Chat with SQLite database',
     href: '/dashboard/sqlite',
     icon: SiSqlite,
-  },
-  {
-    name: 'mysql',
-    description: 'Chat with your MySQL database',
-    href: '/dashboard/mysql',
-    icon: SiMysql,
   },
   {
     name: 'mongodb',

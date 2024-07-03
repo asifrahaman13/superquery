@@ -29,14 +29,12 @@ async def query_mysql(
         while True:
             user_input = await websocket.receive_json()
             query = user_input["query"]
-            response = query_service.query_db(user["sub"], query, "mysql")
-            await asyncio.sleep(0)
-            await manager.send_personal_message(response, websocket)
-            await asyncio.sleep(0)
+            async for response in query_service.query_db(user["sub"], query, "mysql"):
+                await asyncio.sleep(0)
+                await manager.send_personal_message(response.model_dump(), websocket)
+                await asyncio.sleep(0)
     except WebSocketDisconnect:
-        await manager.send_personal_message(
-            {"error": "Some error occurred."}, websocket
-        )
+        await manager.disconnect(websocket)
 
 
 @query_controller.websocket("/mongodb-query/{client_id}")
@@ -59,6 +57,4 @@ async def query_mongodb(
             await manager.send_personal_message(response, websocket)
             asyncio.sleep(0)
     except WebSocketDisconnect:
-        await manager.send_personal_message(
-            {"error": "Some error occurred."}, websocket
-        )
+        await manager.disconnect(websocket)

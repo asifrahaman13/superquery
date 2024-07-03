@@ -1,3 +1,4 @@
+import asyncio
 from langchain_community.utilities import SQLDatabase
 from langchain.chains import create_sql_query_chain
 from langchain_openai import ChatOpenAI
@@ -12,11 +13,7 @@ import logging
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from config.config import OPEN_AI_API_KEY
-from pydantic import BaseModel
-
-
-class AnswerFormat(BaseModel):
-    answer_type: str
+from src.internal.entities.router_models import AnswerFormat, QueryResponse
 
 
 class FormatAssistant:
@@ -89,13 +86,19 @@ class MySqlQueryRepository:
     def __init__(self) -> None:
         pass
 
-    def query_database(self, user_query: str, connection_string: str):
+    async def query_database(self, user_query: str, connection_string: str):
+        asyncio.sleep(0)
+        yield QueryResponse(message="Thinking of the answer", status=True)
+        asyncio.sleep(0)
 
         answer_type = FormatAssistant().run_answer_type_assistant(user_query)
 
         print("#################", answer_type)
 
         if answer_type["answer_type"] == "plain_answer":
+            asyncio.sleep(0)
+            yield QueryResponse(message="Querying the database", status=True)
+            asyncio.sleep(0)
             db = SQLDatabase.from_uri(connection_string)
             llm = ChatOpenAI(model="gpt-4", temperature=0)
 
@@ -124,8 +127,13 @@ class MySqlQueryRepository:
 
             print(response)
 
-            return {"message": response, "answer_type": "plain_answer"}
+            yield QueryResponse(
+                message=response, answer_type="plain_answer", status=False
+            )
         if answer_type["answer_type"] == "bar_chart":
+            asyncio.sleep(0)
+            yield QueryResponse(message="Querying the database", status=True)
+            asyncio.sleep(0)
             db = SQLDatabase.from_uri(connection_string)
             llm = ChatOpenAI(model="gpt-4", temperature=0)
 
@@ -158,9 +166,12 @@ class MySqlQueryRepository:
 
             print("############################# The final response", response)
 
-            return {"message": response, "answer_type": "bar_chart"}
+            yield QueryResponse(message=response, answer_type="bar_chart", status=False)
 
         if answer_type["answer_type"] == "line_chart":
+            asyncio.sleep(0)
+            yield QueryResponse(message="Querying the database", status=True)
+            asyncio.sleep(0)
             db = SQLDatabase.from_uri(connection_string)
             llm = ChatOpenAI(model="gpt-4", temperature=0)
 
@@ -193,4 +204,6 @@ class MySqlQueryRepository:
 
             print("############################# The final response", response)
 
-            return {"message": response, "answer_type": "line_chart"}
+            yield QueryResponse(
+                message=response, answer_type="line_chart", status=False
+            )

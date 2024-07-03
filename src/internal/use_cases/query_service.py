@@ -1,3 +1,4 @@
+from typing import Any, AsyncGenerator, Dict
 from src.internal.interfaces.services.query_interface import QueryInterface
 
 
@@ -7,14 +8,16 @@ class QueryService(QueryInterface):
         self.query_database = query_database
         self.database = database
 
-    def query_db(self, user: str, query: str, db: str) -> dict:
+    async def query_db(
+        self, user: str, query: str, db: str
+    ) -> AsyncGenerator[Dict[str, Any], None]:
         if db == "mysql":
+
             available_mysql_client = self.database.find_single_entity_by_field_name(
                 "configurations", "username", user
             )
             if available_mysql_client:
-                return self.query_database.query_database(
-                    query, str(available_mysql_client["mysql"]["mysqlConnectionString"])
-                )
-
-        return None
+                async for response in self.query_database.query_database(
+                    query, available_mysql_client["mysql"]["mysqlConnectionString"]
+                ):
+                    yield response

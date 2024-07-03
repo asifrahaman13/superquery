@@ -83,7 +83,7 @@ const Page = () => {
           </div>
         </div>
         <div className="w-full flex flex-row h-full p-4 gap-4">
-          <div className="w-1/2 flex flex-col gap-4  justify-between  p-6 bg-white rounded-2xl">
+          <div className="w-1/2 flex flex-col gap-4  justify-between mb-12  p-6 bg-white rounded-2xl">
             <div className="overflow-y-scroll no-scrollbar h-full flex flex-col gap-2 text-justify bg-white">
               {history.length > 0 && (
                 <>
@@ -171,7 +171,7 @@ const Page = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col w-1/2 gap-8 border-2 p-6 bg-white rounded-2xl">
+          <div className="flex flex-col w-1/2 gap-8 border-2 p-6 mb-12 bg-white rounded-2xl">
             <div className="h-1/2 flex flex-col gap-6">
               {' '}
               <div className="flex  w-full justify-between">

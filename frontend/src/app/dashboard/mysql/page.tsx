@@ -15,6 +15,8 @@ const Page = () => {
     message: '',
     status: false,
   });
+  const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
+
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SOCKET || '';
     const accessToken = localStorage.getItem('accessToken');
@@ -76,8 +78,6 @@ const Page = () => {
       console.log(history);
     }
   };
-
-  const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
 
   return (
     <React.Fragment>

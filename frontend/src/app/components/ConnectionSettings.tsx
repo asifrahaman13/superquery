@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import {
@@ -7,6 +8,7 @@ import {
   PlusIcon,
   QuestionMarkCircleIcon,
 } from '@heroicons/react/20/solid';
+import { configuration_interface } from '@/exports/exports';
 
 const team = [
   {
@@ -50,8 +52,42 @@ interface DbSettings {
   dbType: string;
 }
 
+interface ProjectConfig {
+  projectName: string;
+  username: string;
+  description: string;
+  mysqlConnectionString: string;
+}
+
 export default function ConnectionSettings({ dbType }: DbSettings) {
   const [open, setOpen] = useState(true);
+
+  const [configuration, setConfiguration] = useState<ProjectConfig>({
+    projectName: '',
+    username: '',
+    description: '',
+    mysqlConnectionString: '',
+  });
+
+  useEffect(() => {
+    async function fetchConfigurations(dbType: string) {
+      const token = localStorage.getItem('accessToken') || '';
+      const response = await configuration_interface.getConfiguration(
+        dbType,
+        token
+      );
+      if (response?.code === 200) {
+        console.log(response.data);
+        setConfiguration(response.data);
+      }
+      try {
+      } catch (e) {
+        throw new Error("Couldn't get configurations");
+      }
+    }
+
+    fetchConfigurations(dbType);
+  }, [dbType]);
 
   return (
     <Dialog className="relative z-10" open={open} onClose={setOpen}>
@@ -105,6 +141,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                               type="text"
                               name="project-name"
                               id="project-name"
+                              value={configuration.projectName}
                               className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
                             />
                           </div>
@@ -121,6 +158,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                               type="text"
                               name="connection-string"
                               id="connection-string"
+                              value={configuration.mysqlConnectionString}
                               className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
                             />
                           </div>
@@ -137,6 +175,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                               id="description"
                               name="description"
                               rows={4}
+                              value={configuration.description}
                               className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
                               defaultValue={''}
                             />

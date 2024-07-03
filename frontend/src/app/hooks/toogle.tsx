@@ -6,7 +6,7 @@ const useSettingsToggle = (initialState = false) => {
   const [key, setKey] = useState(0);
 
   const toggleSettingsBar = () => {
-    setSettingsBar(!settingsBar);
+    setSettingsBar(true);
     setKey(key + 1);
   };
 

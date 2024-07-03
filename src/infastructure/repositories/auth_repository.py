@@ -1,16 +1,14 @@
-import requests
 from datetime import datetime, timedelta, timezone
-from fastapi import HTTPException
-from fastapi.responses import JSONResponse
 from jose import JWTError, jwt
 from config.config import SECRET_KEY
+from datetime import datetime, UTC
 
 
 class AuthRepository:
 
     def __init__(self) -> None:
         self.secret_key = SECRET_KEY
-        self.expires_delta = timedelta(hours=50)
+        self.expires_delta = timedelta(hours=100)
 
     # Create a refresh token
     def create_refresh_token(self, data: dict) -> str:
@@ -21,7 +19,7 @@ class AuthRepository:
         to_encode = data.copy()
 
         # Get the current time and add the expiry time to it
-        expire = datetime.now(timezone.utc) + self.expires_delta
+        expire = datetime.now(UTC) + self.expires_delta
 
         to_encode.update({"exp": expire})
 

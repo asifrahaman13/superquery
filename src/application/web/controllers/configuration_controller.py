@@ -22,8 +22,10 @@ async def get_mysql_configurations(
         print("user", user)
         if user is None:
             return {"error": "Some error occured."}
-        return configuration_service.get_project_configurations(
+        response = configuration_service.get_project_configurations(
             user["sub"], db_type.db_type
         )
+        print("##############################", response)
+        return response
     except Exception as e:
         return {"error": "Some error occured."}

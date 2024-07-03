@@ -2,10 +2,9 @@ import { SuccessEntity } from '@/domain/entities/Success';
 import axios from 'axios';
 
 class AuthRepository {
+  private backend_url = process.env.NEXT_PUBLIC_BACKEND_URL;
   async signup(email: string, username: string, password: string) {
-    const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-    const response = await axios.post(`${backend_url}/auth/signup`, {
+    const response = await axios.post(`${this.backend_url}/auth/signup`, {
       email,
       username,
       password,
@@ -17,9 +16,7 @@ class AuthRepository {
   }
 
   async login(username: string, password: string) {
-    const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-    const response = await axios.post(`${backend_url}/auth/login`, {
+    const response = await axios.post(`${this.backend_url}/auth/login`, {
       username,
       password,
     });

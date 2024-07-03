@@ -1,5 +1,5 @@
 'use client';
-import { auth_interface } from '@/app/exports/exports';
+import { auth_interface } from '@/exports/exports';
 import Link from 'next/dist/client/link';
 import React from 'react';
 

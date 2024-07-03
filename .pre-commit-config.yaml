@@ -24,7 +24,7 @@ repos:
 
       - id: check-tests
         name: check-tests
-        entry: bash -c 'bash run_test.sh'
+        entry: bash -c 'python3 -m pytest'
         language: system
         types: [python]
         always_run: true

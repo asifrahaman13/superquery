@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ConnectionSettings from '@/app/components/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
 import BarChart from '@/app/components/BarChart';
+import LineChart from '@/app/components/LineChart';
 
 interface History {
   message: string;
@@ -12,8 +13,8 @@ interface History {
 
 const Page = () => {
   const websocketRef = useRef<WebSocket | null>(null);
-  const [data, setData] = useState<any>([]);
   const [history, setHistory] = useState<History[]>([]);
+  const [query, setQuery] = useState<string>('');
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SOCKET || '';
     const accessToken = localStorage.getItem('accessToken');
@@ -28,7 +29,6 @@ const Page = () => {
     websocket.onmessage = (event) => {
       console.log(event.data);
       const parsedData = JSON.parse(event.data);
-      setData(parsedData);
       console.log(parsedData);
       const chatResponse = { ...parsedData, messageFrom: 'chatbot' };
       setHistory((prev) => [...prev, chatResponse]);
@@ -42,13 +42,6 @@ const Page = () => {
       websocket.close();
     };
   }, []);
-
-  const jsonData = {
-    message:
-      '[\n    {"x": "Mumbai jn", "y": 1},\n    {"x": "41 Nirupama devi road", "y": 1},\n    {"x": "Salimar", "y": 1},\n    {"x": "Mumbai", "y": 1},\n    {"x": "Delhi", "y": 2}\n]',
-  };
-
-  const [query, setQuery] = useState<string>('');
 
   const handleChange = (e: {
     target: {
@@ -72,6 +65,10 @@ const Page = () => {
   };
 
   const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
+  const jsonData = {
+    message:
+      '[\n    {\n        "Product A": [\n            {"x": "2024-06-01", "y": 150.0},\n            {"x": "2024-06-04", "y": 45.0},\n            {"x": "2024-06-07", "y": 60.0},\n            {"x": "2024-06-10", "y": 15.0},\n            {"x": "2024-06-11", "y": 75.0},\n            {"x": "2024-06-14", "y": 30.0},\n            {"x": "2024-06-17", "y": 45.0},\n            {"x": "2024-06-20", "y": 15.0},\n            {"x": "2024-06-23", "y": 60.0},\n            {"x": "2024-06-26", "y": 30.0},\n            {"x": "2024-06-29", "y": 45.0},\n            {"x": "2024-07-02", "y": 30.0},\n            {"x": "2024-07-05", "y": 45.0},\n            {"x": "2024-07-08", "y": 60.0},\n            {"x": "2024-07-11", "y": 30.0},\n            {"x": "2024-07-14", "y": 75.0},\n            {"x": "2024-07-17", "y": 105.0},\n            {"x": "2024-07-20", "y": 60.0},\n            {"x": "2024-07-23", "y": 45.0},\n            {"x": "2024-07-26", "y": 30.0},\n            {"x": "2024-07-29", "y": 75.0}\n        ]\n    },\n    {\n        "Product B": [\n            {"x": "2024-06-02", "y": 100.0},\n            {"x": "2024-06-05", "y": 160.0},\n            {"x": "2024-06-08", "y": 40.0},\n            {"x": "2024-06-12", "y": 60.0},\n            {"x": "2024-06-15", "y": 80.0},\n            {"x": "2024-06-18", "y": 100.0},\n            {"x": "2024-06-21", "y": 40.0},\n            {"x": "2024-06-24", "y": 120.0},\n            {"x": "2024-06-27", "y": 100.0},\n            {"x": "2024-06-30", "y": 140.0},\n            {"x": "2024-07-03", "y": 100.0},\n            {"x": "2024-07-06", "y": 120.0},\n            {"x": "2024-07-09", "y": 100.0},\n            {"x": "2024-07-12", "y": 60.0},\n            {"x": "2024-07-15", "y": 80.0},\n            {"x": "2024-07-18", "y": 60.0},\n            {"x": "2024-07-21", "y": 120.0},\n            {"x": "2024-07-24", "y": 100.0},\n            {"x": "2024-07-27", "y": 80.0},\n            {"x": "2024-07-30", "y": 60.0}\n        ]\n    },\n    {\n        "Product C": [\n            {"x": "2024-06-03", "y": 175.0},\n            {"x": "2024-06-06", "y": 150.0},\n            {"x": "2024-06-09", "y": 225.0},\n            {"x": "2024-06-13", "y": 175.0},\n            {"x": "2024-06-16", "y": 150.0},\n            {"x": "2024-06-19", "y": 200.0},\n            {"x": "2024-06-22", "y": 175.0},\n            {"x": "2024-06-25", "y": 75.0},\n            {"x": "2024-06-28", "y": 100.0},\n            {"x": "2024-07-01", "y": 150.0},\n            {"x": "2024-07-04", "y": 100.0},\n            {"x": "2024-07-07", "y": 50.0},\n            {"x": "2024-07-10", "y": 175.0},\n            {"x": "2024-07-13", "y": 150.0},\n            {"x": "2024-07-16", "y": 50.0},\n            {"x": "2024-07-19", "y": 125.0},\n            {"x": "2024-07-22", "y": 50.0},\n            {"x": "2024-07-25", "y": 175.0},\n            {"x": "2024-07-28", "y": 150.0},\n            {"x": "2024-07-31", "y": 50.0}\n        ]\n    }\n]',
+  };
   return (
     <>
       {settingsBar && <ConnectionSettings dbType="mysql" key={key} />}
@@ -93,9 +90,10 @@ const Page = () => {
                       {item?.messageFrom === 'chatbot' && (
                         <>
                           {item.answer_type === 'bar_chart' && (
-                            <>
-                              <BarChart data={{ message: item.message }} />{' '}
-                            </>
+                            <BarChart data={{ message: item.message }} />
+                          )}
+                          {item.answer_type == 'line_chart' && (
+                            <LineChart data={{ message: item.message }} />
                           )}
                           {item.answer_type === 'plain_answer' && (
                             <>
@@ -123,11 +121,6 @@ const Page = () => {
                 </>
               )}
             </div>
-
-            {/* 
-            <div className="flex justify-center flex-grow">
-              <SiMysql size={300} />
-            </div> */}
             <div className="mt-2 flex gap-2 ">
               <input
                 type="text"

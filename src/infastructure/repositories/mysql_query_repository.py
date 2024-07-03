@@ -53,7 +53,8 @@ class FormatAssistant:
                     Your answer should be in the form of json. Key should be answer_type. The possible values are as follows:
                     1. plain_answer.
                     2. bar_chart.
-                    3. pie_chart.
+                    3. line_chart.
+                    4. pie_chart.
 
                     Only give the JSON response and you are not supposed to give any other answer.
 
@@ -158,3 +159,38 @@ class MySqlQueryRepository:
             print("############################# The final response", response)
 
             return {"message": response, "answer_type": "bar_chart"}
+
+        if answer_type["answer_type"] == "line_chart":
+            db = SQLDatabase.from_uri(connection_string)
+            llm = ChatOpenAI(model="gpt-4", temperature=0)
+
+            execute_query = QuerySQLDataBaseTool(db=db)
+
+            write_query = create_sql_query_chain(llm, db)
+
+            answer_prompt = PromptTemplate.from_template(
+                """Given the following user question, corresponding SQL query, and SQL result. Frame the answer in the form of a bar chart. Your response should be the following format:
+
+                List of dictionaries where the key represents the label and the values are list of another dictionaries where they are (x, y) x and y values represents the the data points.
+
+                Frame your answer from the sql result only and your output should be only in the above JSON format.
+
+                Question: {question}
+                SQL Query: {query}
+                SQL Result: {result}
+                Answer: """
+            )
+
+            answer = answer_prompt | llm | StrOutputParser()
+            chain = (
+                RunnablePassthrough.assign(query=write_query).assign(
+                    result=itemgetter("query") | execute_query
+                )
+                | answer
+            )
+
+            response = chain.invoke({"question": user_query})
+
+            print("############################# The final response", response)
+
+            return {"message": response, "answer_type": "line_chart"}

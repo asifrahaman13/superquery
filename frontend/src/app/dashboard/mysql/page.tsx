@@ -12,10 +12,19 @@ interface History {
   answer_type?: string;
 }
 
+interface Status {
+  message: string;
+  status: boolean;
+}
+
 const Page = () => {
   const websocketRef = useRef<WebSocket | null>(null);
   const [history, setHistory] = useState<History[]>([]);
   const [query, setQuery] = useState<string>('');
+  const [status, setStatus] = useState<Status>({
+    message: '',
+    status: false,
+  });
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SOCKET || '';
     const accessToken = localStorage.getItem('accessToken');
@@ -28,9 +37,21 @@ const Page = () => {
     };
 
     websocket.onmessage = (event) => {
-      console.log(event.data);
       const parsedData = JSON.parse(event.data);
       console.log(parsedData);
+      if (parsedData.status === true) {
+        setStatus({
+          message: parsedData.message,
+          status: true,
+        });
+        return;
+      } else {
+        setStatus({
+          message: 'Error in the query',
+          status: false,
+        });
+      }
+      console.log('##########################', status);
       const chatResponse = { ...parsedData, messageFrom: 'chatbot' };
       setHistory((prev) => [...prev, chatResponse]);
     };
@@ -42,6 +63,7 @@ const Page = () => {
     return () => {
       websocket.close();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e: {
@@ -68,7 +90,7 @@ const Page = () => {
   const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
 
   return (
-    <>
+    <React.Fragment>
       {settingsBar && <ConnectionSettings dbType="mysql" key={key} />}
       <div className="w-full flex flex-col">
         <div className="flex w-full justify-between items-center py-2 px-4">
@@ -88,9 +110,9 @@ const Page = () => {
               {history.length > 0 && (
                 <>
                   {history.map((item, index) => (
-                    <>
+                    <div key={index}>
                       {item?.messageFrom === 'chatbot' && (
-                        <>
+                        <div>
                           {item.answer_type === 'bar_chart' && (
                             <BarChart data={{ message: item.message }} />
                           )}
@@ -98,13 +120,11 @@ const Page = () => {
                             <LineChart data={{ message: item.message }} />
                           )}
                           {item.answer_type === 'plain_answer' && (
-                            <>
-                              <div className="bg-indigo-400 w-3/4 max-w-3/4 rounded-md p-2 text-white">
-                                {item?.message}
-                              </div>
-                            </>
+                            <div className="bg-indigo-400 w-3/4 max-w-3/4 rounded-md p-2 text-white">
+                              {item?.message}
+                            </div>
                           )}
-                        </>
+                        </div>
                       )}
 
                       {item?.messageFrom === 'user' && (
@@ -118,17 +138,27 @@ const Page = () => {
                           </div>
                         </>
                       )}
-                    </>
+                    </div>
                   ))}
                 </>
               )}
 
+              {status.status && <>{status.message}</>}
               <div className=" w-full flex justify-center flex-col gap-2 h-full items-center">
                 {history.length === 0 && (
                   <>
                     <SiMysql size={250} />
                     <div>Start conversation with our AI agent.</div>
                     <div className="flex gap-4 ">
+                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
+                        Can you tell me the total number of users in the users
+                        table.
+                      </button>
+                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
+                        I want bar graph on the users table to display the marks
+                        of the users. The x axis should be the address Group it
+                        by the address.
+                      </button>
                       <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
                         I want line graph of the price of all the products in
                         the sales table. y axis should contain the qrantity, x
@@ -137,16 +167,8 @@ const Page = () => {
                       </button>
                       <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
                         I want bar graph on the users table to display the marks
-                        of the users. The x axis should be the address Group it
-                        by the address.
-                      </button>
-                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Soluta maiores maxime ipsam fugit, impedit itaque.
-                      </button>
-                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Eos, quidem?
+                        of the users. The x axis should be the name of the user
+                        y axis the marks
                       </button>
                     </div>
                   </>
@@ -187,16 +209,11 @@ const Page = () => {
                 high availability through features like replication and
                 clustering. MySQL excels in handling both small-scale
                 applications and large-scale systems with efficient data
-                management and query execution. Security features include access
-                control and encryption, while its active community ensures
-                continuous development and support. Commonly used in web
-                applications, data warehousing, and online transaction
-                processing (OLTP), MySQL remains a cornerstone for developers
-                and businesses seeking a reliable, flexible database solution.{' '}
               </p>
               <textarea
                 name="query"
-                className="w-full h-20 border-2"
+                rows={5}
+                className="w-full h-50 border-2"
                 id=""
               ></textarea>
               <div className="flex justify-end">
@@ -213,7 +230,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

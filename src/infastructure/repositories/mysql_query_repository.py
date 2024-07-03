@@ -14,6 +14,8 @@ from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from config.config import OPEN_AI_API_KEY
 from src.internal.entities.router_models import AnswerFormat, QueryResponse
+from sqlmodel import SQLModel, Session, create_engine
+from sqlalchemy import text
 
 
 class FormatAssistant:
@@ -209,3 +211,13 @@ class MySqlQueryRepository:
                 message=response, answer_type="line_chart", status=False
             )
             await asyncio.sleep(0)
+
+    def general_raw_query(self, query: str, connection_string: str):
+        engine = create_engine(connection_string)
+        SQLModel.metadata.create_all(engine)
+        with Session(engine) as session:
+            result = session.exec(text(query))
+            columns = result.keys()
+            response = [dict(zip(columns, row)) for row in result.fetchall()]
+            session.close()
+            return response

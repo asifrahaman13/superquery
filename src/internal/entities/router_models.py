@@ -24,3 +24,8 @@ class QueryResponse(BaseModel):
 
 class ConfigurationBase(BaseModel):
     db_type: Annotated[str, "Database type"] = None
+
+
+class QueryBase(BaseModel):
+    raw_query: Annotated[str, "Raw query to execute"]
+    db_type: Annotated[str, "Database type"]

@@ -8,3 +8,7 @@ class QueryInterface(ABC):
         self, user: str, query: str, db: str
     ) -> AsyncGenerator[Dict[str, Any], None]:
         pass
+
+    @abstractmethod
+    def general_raw_query(self, user: str, query: str, db: str) -> dict:
+        pass

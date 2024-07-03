@@ -22,6 +22,7 @@ from src.application.web.controllers.auth_controller import auth_controller
 from src.application.web.controllers.configuration_controller import (
     configuration_controller,
 )
+from src.application.web.controllers.raw_query import raw_query_controller
 
 
 # Configure logging
@@ -94,6 +95,11 @@ app.include_router(
     configuration_controller,
     prefix="/config",
     tags=["Configuration router"],
+)
+app.include_router(
+    raw_query_controller,
+    prefix="/raw-query",
+    tags=["Raw Query router"],
 )
 # Include the middleware
 # app.add_middleware(PrefixMiddleware)

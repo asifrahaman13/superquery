@@ -21,3 +21,14 @@ class QueryService(QueryInterface):
                     query, available_mysql_client["mysql"]["mysqlConnectionString"]
                 ):
                     yield response
+
+    def general_raw_query(self, user: str, query: str, db: str):
+        if db == "mysql":
+            available_mysql_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_mysql_client:
+                return self.query_database.general_raw_query(
+                    query, available_mysql_client["mysql"]["mysqlConnectionString"]
+                )
+        return {"error": "Some error occured."}

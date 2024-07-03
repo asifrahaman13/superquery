@@ -9,7 +9,7 @@ jobs:
     name: Build Frontend 
     runs-on: ubuntu-latest
     env:
-      ORG_PROJECT: octo
+      ORG_PROJECT: super-query
       DEPLOY_ENV: dev
     steps:
       - uses: actions/checkout@v4

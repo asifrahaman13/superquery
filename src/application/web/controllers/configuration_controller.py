@@ -18,8 +18,6 @@ async def get_mysql_configurations(
     try:
         token = token.split(" ")[1]
         user = auth_service.user_info(token)
-
-        print("user", user)
         if user is None:
             return {"error": "Some error occured."}
         response = configuration_service.get_project_configurations(

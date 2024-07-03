@@ -1,5 +1,5 @@
 import asyncio
-from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, Depends, Header, WebSocket, WebSocketDisconnect
 from src.internal.use_cases.auth_service import AuthService
 from src.internal.use_cases.query_service import QueryService
 from exports.exports import (

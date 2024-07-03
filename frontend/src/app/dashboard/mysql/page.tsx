@@ -6,6 +6,7 @@ import BarChart from '@/app/components/BarChart';
 import LineChart from '@/app/components/LineChart';
 import { SiMysql } from 'react-icons/si';
 import { History, Status } from '@/constants/types/type.query';
+import { raw_query_interface } from '@/exports/exports';
 
 const Page = () => {
   const websocketRef = useRef<WebSocket | null>(null);
@@ -78,6 +79,35 @@ const Page = () => {
       console.log(history);
     }
   };
+
+  const [rawQuery, setRawQuery] = useState<string>('');
+
+  const handleRawQuery = (e: {
+    target: {
+      value: React.SetStateAction<string>;
+    };
+  }) => {
+    setRawQuery(e.target.value);
+  };
+  const [tableData, setTableData] = useState([]);
+
+  const tableHeaders = tableData.length > 0 ? Object.keys(tableData[0]) : [];
+  async function handleRaqQuerySubmit() {
+    try {
+      const accessToken = localStorage.getItem('accessToken') || '';
+      const response = await raw_query_interface.rawQuery(
+        rawQuery,
+        accessToken,
+        'mysql'
+      );
+      if (response?.code === 200) {
+        console.log(response);
+        setTableData(response.data);
+      }
+    } catch (e) {
+      throw new Error("Couldn't get raw query");
+    }
+  }
 
   return (
     <React.Fragment>
@@ -201,11 +231,17 @@ const Page = () => {
               <textarea
                 name="query"
                 rows={5}
-                className="w-full h-50 border-2"
+                className="w-full h-50 border-2 p-2"
                 id=""
+                placeholder="Enter your query"
+                value={rawQuery}
+                onChange={handleRawQuery}
               ></textarea>
               <div className="flex justify-end">
-                <button className="bg-Pri-Dark rounded-lg text-righ p-3 px-5 font-semibold text-white">
+                <button
+                  className="bg-Pri-Dark rounded-lg text-righ p-3 px-5 font-semibold text-white"
+                  onClick={handleRaqQuerySubmit}
+                >
                   Submit
                 </button>
               </div>
@@ -214,7 +250,31 @@ const Page = () => {
               {' '}
               🚀My Result
             </div>
-            <div className="h-1/2"></div>
+            <div className="h-1/2">
+              <div className="flex flex-col">
+                <div className="flex bg-gray-200 font-bold">
+                  {tableHeaders.map((header) => (
+                    <div key={header} className="p-2 flex-1 border">
+                      {header}
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col">
+                  {tableData.map((row, index) => (
+                    <div key={index} className="flex border-b">
+                      {tableHeaders.map((header) => (
+                        <div
+                          key={`${index}-${header}`}
+                          className="p-2 flex-1 border"
+                        >
+                          {row[header]}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ from src.internal.use_cases.query_service import QueryService
 raw_query_controller = APIRouter()
 
 
-@raw_query_controller.post("/mysql-raw-query")
+@raw_query_controller.post("/raw-query")
 async def raw_query_mysql(
     query: QueryBase,
     token: str = Header(..., alias="Authorization"),

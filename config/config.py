@@ -68,10 +68,9 @@ def load_config(file_path: str) -> Config:
 config = load_config("config.yaml")
 
 
-# Retrieve environment variables and ensure they are set
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-assert GOOGLE_CLIENT_ID, "Google client ID is not set"
-logging.info("Google client ID is set")
+SEARCHXNG_URI = os.getenv("SEARCHXNG_URI")
+assert SEARCHXNG_URI, "SEARCHXNG_URI is not set"
+logging.info(f"SEARCHXNG_URI: {SEARCHXNG_URI}")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 assert SECRET_KEY, "Secret key is not set"

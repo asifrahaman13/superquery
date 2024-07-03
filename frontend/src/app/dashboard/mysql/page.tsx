@@ -2,9 +2,70 @@
 import React, { useState } from 'react';
 import ConnectionSettings from '@/app/components/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
-// import { SiMysql } from 'react-icons/si';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+interface BarChartProps {
+  data: {
+    message: string;
+  };
+}
+const BarChart = ({ data }: BarChartProps) => {
+  // Parse the JSON data
+  const parsedData = JSON.parse(data.message);
+
+  // Extract labels and values
+  const labels = parsedData.map((item: { x: any }) => item.x);
+  const values = parsedData.map((item: { y: any }) => item.y);
+
+  // Prepare chart data
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Data Points',
+        data: values,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Chart options
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  return <Bar data={chartData} options={options} />;
+};
 
 const Page = () => {
+  const jsonData = {
+    message:
+      '[\n    {"x": "Mumbai jn", "y": 1},\n    {"x": "41 Nirupama devi road", "y": 1},\n    {"x": "Salimar", "y": 1},\n    {"x": "Mumbai", "y": 1},\n    {"x": "Delhi", "y": 2}\n]',
+  };
+
   const [query, setQuery] = useState<string>('');
 
   const handleChange = (e: {
@@ -25,13 +86,93 @@ const Page = () => {
       {settingsBar && <ConnectionSettings dbType="mysql" key={key} />}
       <div className="w-full flex flex-col ">
         <div className="w-full flex flex-row h-full">
-          <div className="w-1/2 flex flex-col gap-4 h-full justify-between overflow-y-scroll no-scrollbar p-6">
+          <div className="w-1/2 flex flex-col gap-4 h-full justify-between  p-6">
             <label
               htmlFor="email"
               className="block font-semibold leading-6 text-3xl text-Pri-Dark"
             >
               MySQL Query
             </label>
+
+            <div className="overflow-y-scroll no-scrollbar h-full flex flex-col gap-2 text-justify">
+              <div className="bg-indigo-400 w-3/4 max-w-3/4 rounded-md p-2 text-white">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Cupiditate, quaerat beatae iste deserunt animi rem totam nulla
+                enim voluptatem obcaecati assumenda earum minus, accusamus
+                praesentium libero hic ad sunt, dolor magni quia dolores
+                corrupti.
+              </div>
+              <div className="bg-gray-200 w-3/4 max-w-3/4 rounded-md p-2 ml-auto text-justify">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. At
+                doloremque sunt nesciunt qui impedit voluptatibus quod iusto
+                fugit, vel, quaerat enim rerum quas, numquam et culpa eum! Et
+                itaque harum unde veniam ex tenetur aperiam esse facilis maxime
+                consequatur. Recusandae optio perspiciatis odio praesentium
+                autem hic? Nam accusamus quaerat aut.
+              </div>
+              <div className="bg-indigo-400 w-4/5 rounded-md p-2 text-white">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Cupiditate, quaerat beatae iste deserunt animi rem totam nulla
+                enim voluptatem obcaecati assumenda earum minus, accusamus
+                praesentium libero hic ad sunt, dolor magni quia dolores
+                corrupti.
+              </div>
+              <div className="bg-gray-200 w-4/5 max-w-4/5 rounded-md p-2 ml-auto text-justify">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. At
+                doloremque sunt nesciunt qui impedit voluptatibus quod iusto
+                fugit, vel, quaerat enim rerum quas, numquam et culpa eum! Et
+                itaque harum unde veniam ex tenetur aperiam esse facilis maxime
+                consequatur. Recusandae optio perspiciatis odio praesentium
+                autem hic? Nam accusamus quaerat aut.
+              </div>{' '}
+              <div className="bg-indigo-400 w-4/5 rounded-md p-2 text-white">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Cupiditate, quaerat beatae iste deserunt animi rem totam nulla
+                enim voluptatem obcaecati assumenda earum minus, accusamus
+                praesentium libero hic ad sunt, dolor magni quia dolores
+                corrupti.
+              </div>
+              <div className="bg-gray-200 w-4/5 max-w-4/5 rounded-md p-2 ml-auto text-justify">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. At
+                doloremque sunt nesciunt qui impedit voluptatibus quod iusto
+                fugit, vel, quaerat enim rerum quas, numquam et culpa eum! Et
+                itaque harum unde veniam ex tenetur aperiam esse facilis maxime
+                consequatur. Recusandae optio perspiciatis odio praesentium
+                autem hic? Nam accusamus quaerat aut.
+              </div>{' '}
+              <div className="bg-indigo-400 w-4/5 rounded-md p-2 text-white">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Cupiditate, quaerat beatae iste deserunt animi rem totam nulla
+                enim voluptatem obcaecati assumenda earum minus, accusamus
+                praesentium libero hic ad sunt, dolor magni quia dolores
+                corrupti.
+              </div>
+              <div className="bg-gray-200 w-4/5 max-w-4/5 rounded-md p-2 ml-auto text-justify">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. At
+                doloremque sunt nesciunt qui impedit voluptatibus quod iusto
+                fugit, vel, quaerat enim rerum quas, numquam et culpa eum! Et
+                itaque harum unde veniam ex tenetur aperiam esse facilis maxime
+                consequatur. Recusandae optio perspiciatis odio praesentium
+                autem hic? Nam accusamus quaerat aut.
+              </div>{' '}
+              <div className="bg-indigo-400 w-4/5 rounded-md p-2 text-white">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Cupiditate, quaerat beatae iste deserunt animi rem totam nulla
+                enim voluptatem obcaecati assumenda earum minus, accusamus
+                praesentium libero hic ad sunt, dolor magni quia dolores
+                corrupti.
+              </div>
+              <div className="bg-gray-200 w-4/5 max-w-4/5 rounded-md p-2 ml-auto text-justify">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. At
+                doloremque sunt nesciunt qui impedit voluptatibus quod iusto
+                fugit, vel, quaerat enim rerum quas, numquam et culpa eum! Et
+                itaque harum unde veniam ex tenetur aperiam esse facilis maxime
+                consequatur. Recusandae optio perspiciatis odio praesentium
+                autem hic? Nam accusamus quaerat aut.
+              </div>
+              <BarChart data={jsonData} />
+            </div>
+
             {/* 
             <div className="flex justify-center flex-grow">
               <SiMysql size={300} />

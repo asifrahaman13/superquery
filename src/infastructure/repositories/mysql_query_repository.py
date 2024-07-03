@@ -87,18 +87,18 @@ class MySqlQueryRepository:
         pass
 
     async def query_database(self, user_query: str, connection_string: str):
-        asyncio.sleep(0)
+        await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
-        asyncio.sleep(0)
+        await asyncio.sleep(0)
 
         answer_type = FormatAssistant().run_answer_type_assistant(user_query)
 
         print("#################", answer_type)
 
         if answer_type["answer_type"] == "plain_answer":
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
             yield QueryResponse(message="Querying the database", status=True)
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
             db = SQLDatabase.from_uri(connection_string)
             llm = ChatOpenAI(model="gpt-4", temperature=0)
 
@@ -126,14 +126,15 @@ class MySqlQueryRepository:
             response = chain.invoke({"question": user_query})
 
             print(response)
-
+            await asyncio.sleep(0)
             yield QueryResponse(
                 message=response, answer_type="plain_answer", status=False
             )
+            await asyncio.sleep(0)
         if answer_type["answer_type"] == "bar_chart":
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
             yield QueryResponse(message="Querying the database", status=True)
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
             db = SQLDatabase.from_uri(connection_string)
             llm = ChatOpenAI(model="gpt-4", temperature=0)
 
@@ -165,9 +166,9 @@ class MySqlQueryRepository:
             response = chain.invoke({"question": user_query})
 
             print("############################# The final response", response)
-
+            await asyncio.sleep(0)
             yield QueryResponse(message=response, answer_type="bar_chart", status=False)
-
+            await asyncio.sleep(0)
         if answer_type["answer_type"] == "line_chart":
             asyncio.sleep(0)
             yield QueryResponse(message="Querying the database", status=True)
@@ -203,7 +204,8 @@ class MySqlQueryRepository:
             response = chain.invoke({"question": user_query})
 
             print("############################# The final response", response)
-
+            await asyncio.sleep(0)
             yield QueryResponse(
                 message=response, answer_type="line_chart", status=False
             )
+            await asyncio.sleep(0)

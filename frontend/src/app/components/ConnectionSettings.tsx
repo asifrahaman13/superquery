@@ -154,10 +154,10 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                             Connection string
                           </label>
                           <div className="mt-2">
-                            <input
-                              type="text"
+                            <textarea
                               name="connection-string"
                               id="connection-string"
+                              rows={2}
                               value={configuration.mysqlConnectionString}
                               className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
                             />

@@ -5,8 +5,8 @@ on:
   push:
 
 jobs:
-  deploy:
-    name: Deploy
+  build:
+    name: Build Frontend 
     runs-on: ubuntu-latest
     env:
       ORG_PROJECT: octo

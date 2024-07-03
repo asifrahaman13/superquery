@@ -175,7 +175,7 @@ const Page = () => {
               />
               <button
                 onClick={handleSubmit}
-                className="bg-Pri-Dark rounded-lg  p-3 px-5 text-white"
+                className="bg-Pri-Dark rounded-lg  p-3 px-5 font-semibold text-white"
               >
                 Submit
               </button>
@@ -205,7 +205,7 @@ const Page = () => {
                 id=""
               ></textarea>
               <div className="flex justify-end">
-                <button className="bg-Pri-Dark rounded-lg w-1/5 text-righ p-3 px-5 text-white">
+                <button className="bg-Pri-Dark rounded-lg text-righ p-3 px-5 font-semibold text-white">
                   Submit
                 </button>
               </div>

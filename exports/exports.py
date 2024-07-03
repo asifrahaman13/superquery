@@ -1,3 +1,4 @@
+from src.internal.use_cases.configurations_service import ConfigurationService
 from src.internal.use_cases.auth_service import AuthService
 from src.infastructure.repositories.auth_repository import AuthRepository
 from src.infastructure.repositories.mongodb_query_repository import (
@@ -70,6 +71,13 @@ class DIContainer:
             )
         return self.__instances["mongodb_query_service"]
     
+    def get_configuration_service(self):
+        if "configuration_service" not in self.__instances:
+            self.__instances["configuration_service"] = ConfigurationService(
+                self.get_database_repository()
+            )
+        return self.__instances["configuration_service"]
+    
 
 
 container = DIContainer()
@@ -85,3 +93,5 @@ def get_mongodb_query_database_service():
 def get_auth_service():
     return container.get_auth_service()
 
+def get_configuration_service():
+    return container.get_configuration_service()

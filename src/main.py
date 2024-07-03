@@ -19,6 +19,9 @@ import os
 from config.config import REDIS_URL
 from src.application.web.controllers.query_controller import query_controller
 from src.application.web.controllers.auth_controller import auth_controller
+from src.application.web.controllers.configuration_controller import (
+    configuration_controller,
+)
 
 
 # Configure logging
@@ -86,6 +89,11 @@ app.include_router(
     query_controller,
     prefix="/query",
     tags=["Query router"],
+)
+app.include_router(
+    configuration_controller,
+    prefix="/config",
+    tags=["Configuration router"],
 )
 # Include the middleware
 # app.add_middleware(PrefixMiddleware)

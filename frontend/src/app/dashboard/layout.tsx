@@ -116,7 +116,7 @@ export default function DashboardLayout({
   }, [router]);
   return (
     <>
-      <div className="w-screen flex flex-row h-screen">
+      <div className="w-screen flex flex-row h-screen bg-gray-100">
         <Dialog
           className="relative z-50 lg:hidden"
           open={sidebarOpen}
@@ -238,7 +238,7 @@ export default function DashboardLayout({
         </Dialog>
 
         {/* Static sidebar for desktop */}
-        <div className="w-1/5 h-screen">
+        <div className="w-[12%] h-screen">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 h-full overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
@@ -327,7 +327,7 @@ export default function DashboardLayout({
           </div>
         </div>
 
-        <div className="flex w-4/5">{children}</div>
+        <div className="flex w-[85%] overflow-y-hidden">{children}</div>
       </div>
     </>
   );

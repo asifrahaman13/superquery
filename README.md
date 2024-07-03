@@ -2,6 +2,8 @@
 
 Full stack AI Powered query on databases.
 
+
+
 # Tech stacks used:
 - **FastAPI**: A high perfomant python based framework for creating backend server. 📈
 - **Mongo db database**: A NoSQL database. Preferred this over the SQL database due to performance and highly unstructured data required. 📊

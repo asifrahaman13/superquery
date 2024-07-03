@@ -51,7 +51,7 @@ const LineChart = ({ data }: LineChartProps) => {
       borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
         Math.random() * 255
       )}, ${Math.floor(Math.random() * 255)}, 1)`,
-      tension: 0.4, // Adjust the curve tension here
+      tension: 0.4,
     };
   });
 
@@ -59,9 +59,9 @@ const LineChart = ({ data }: LineChartProps) => {
   const options = {
     scales: {
       x: {
-        type: 'time',
+        type: 'time' as const,
         time: {
-          unit: 'day',
+          unit: 'day' as const,
         },
         title: {
           display: true,

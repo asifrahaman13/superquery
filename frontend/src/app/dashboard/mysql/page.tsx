@@ -4,6 +4,7 @@ import ConnectionSettings from '@/app/components/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
 import BarChart from '@/app/components/BarChart';
 import LineChart from '@/app/components/LineChart';
+import { SiMysql } from 'react-icons/si';
 
 interface History {
   message: string;
@@ -65,24 +66,25 @@ const Page = () => {
   };
 
   const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
-  const jsonData = {
-    message:
-      '[\n    {\n        "Product A": [\n            {"x": "2024-06-01", "y": 150.0},\n            {"x": "2024-06-04", "y": 45.0},\n            {"x": "2024-06-07", "y": 60.0},\n            {"x": "2024-06-10", "y": 15.0},\n            {"x": "2024-06-11", "y": 75.0},\n            {"x": "2024-06-14", "y": 30.0},\n            {"x": "2024-06-17", "y": 45.0},\n            {"x": "2024-06-20", "y": 15.0},\n            {"x": "2024-06-23", "y": 60.0},\n            {"x": "2024-06-26", "y": 30.0},\n            {"x": "2024-06-29", "y": 45.0},\n            {"x": "2024-07-02", "y": 30.0},\n            {"x": "2024-07-05", "y": 45.0},\n            {"x": "2024-07-08", "y": 60.0},\n            {"x": "2024-07-11", "y": 30.0},\n            {"x": "2024-07-14", "y": 75.0},\n            {"x": "2024-07-17", "y": 105.0},\n            {"x": "2024-07-20", "y": 60.0},\n            {"x": "2024-07-23", "y": 45.0},\n            {"x": "2024-07-26", "y": 30.0},\n            {"x": "2024-07-29", "y": 75.0}\n        ]\n    },\n    {\n        "Product B": [\n            {"x": "2024-06-02", "y": 100.0},\n            {"x": "2024-06-05", "y": 160.0},\n            {"x": "2024-06-08", "y": 40.0},\n            {"x": "2024-06-12", "y": 60.0},\n            {"x": "2024-06-15", "y": 80.0},\n            {"x": "2024-06-18", "y": 100.0},\n            {"x": "2024-06-21", "y": 40.0},\n            {"x": "2024-06-24", "y": 120.0},\n            {"x": "2024-06-27", "y": 100.0},\n            {"x": "2024-06-30", "y": 140.0},\n            {"x": "2024-07-03", "y": 100.0},\n            {"x": "2024-07-06", "y": 120.0},\n            {"x": "2024-07-09", "y": 100.0},\n            {"x": "2024-07-12", "y": 60.0},\n            {"x": "2024-07-15", "y": 80.0},\n            {"x": "2024-07-18", "y": 60.0},\n            {"x": "2024-07-21", "y": 120.0},\n            {"x": "2024-07-24", "y": 100.0},\n            {"x": "2024-07-27", "y": 80.0},\n            {"x": "2024-07-30", "y": 60.0}\n        ]\n    },\n    {\n        "Product C": [\n            {"x": "2024-06-03", "y": 175.0},\n            {"x": "2024-06-06", "y": 150.0},\n            {"x": "2024-06-09", "y": 225.0},\n            {"x": "2024-06-13", "y": 175.0},\n            {"x": "2024-06-16", "y": 150.0},\n            {"x": "2024-06-19", "y": 200.0},\n            {"x": "2024-06-22", "y": 175.0},\n            {"x": "2024-06-25", "y": 75.0},\n            {"x": "2024-06-28", "y": 100.0},\n            {"x": "2024-07-01", "y": 150.0},\n            {"x": "2024-07-04", "y": 100.0},\n            {"x": "2024-07-07", "y": 50.0},\n            {"x": "2024-07-10", "y": 175.0},\n            {"x": "2024-07-13", "y": 150.0},\n            {"x": "2024-07-16", "y": 50.0},\n            {"x": "2024-07-19", "y": 125.0},\n            {"x": "2024-07-22", "y": 50.0},\n            {"x": "2024-07-25", "y": 175.0},\n            {"x": "2024-07-28", "y": 150.0},\n            {"x": "2024-07-31", "y": 50.0}\n        ]\n    }\n]',
-  };
+
   return (
     <>
       {settingsBar && <ConnectionSettings dbType="mysql" key={key} />}
-      <div className="w-full flex flex-col ">
-        <div className="w-full flex flex-row h-full">
-          <div className="w-1/2 flex flex-col gap-4 h-full justify-between  p-6">
-            <label
-              htmlFor="email"
-              className="block font-semibold leading-6 text-3xl text-Pri-Dark"
+      <div className="w-full flex flex-col">
+        <div className="flex w-full justify-between items-center py-2 px-4">
+          <div className=" font-semibold text-4xl text-Pri-Dark">MySQL</div>
+          <div>
+            <button
+              className=" bg-Pri-Dark p-2 rounded-md px-4 text-white"
+              onClick={toggleSettingsBar}
             >
-              MySQL Query
-            </label>
-
-            <div className="overflow-y-scroll no-scrollbar h-full flex flex-col gap-2 text-justify">
+              Settings
+            </button>
+          </div>
+        </div>
+        <div className="w-full flex flex-row h-full p-4 gap-4">
+          <div className="w-1/2 flex flex-col gap-4  justify-between  p-6 bg-white rounded-2xl">
+            <div className="overflow-y-scroll no-scrollbar h-full flex flex-col gap-2 text-justify bg-white">
               {history.length > 0 && (
                 <>
                   {history.map((item, index) => (
@@ -120,13 +122,43 @@ const Page = () => {
                   ))}
                 </>
               )}
+
+              <div className=" w-full flex justify-center flex-col gap-2 h-full items-center">
+                {history.length === 0 && (
+                  <>
+                    <SiMysql size={250} />
+                    <div>Start conversation with our AI agent.</div>
+                    <div className="flex gap-4 ">
+                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
+                        I want line graph of the price of all the products in
+                        the sales table. y axis should contain the qrantity, x
+                        axis the sales data, labels will the the product names.
+                        Fetch all the entries
+                      </button>
+                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
+                        I want bar graph on the users table to display the marks
+                        of the users. The x axis should be the address Group it
+                        by the address.
+                      </button>
+                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Soluta maiores maxime ipsam fugit, impedit itaque.
+                      </button>
+                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Eos, quidem?
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
             <div className="mt-2 flex gap-2 ">
               <input
                 type="text"
                 name="query"
                 id="query"
-                className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
+                className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400  px-2"
                 placeholder="Enter your query"
                 value={query}
                 onChange={handleChange}
@@ -139,23 +171,15 @@ const Page = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col w-1/2 gap-8 border-2 p-6">
+          <div className="flex flex-col w-1/2 gap-8 border-2 p-6 bg-white rounded-2xl">
             <div className="h-1/2 flex flex-col gap-6">
               {' '}
               <div className="flex  w-full justify-between">
                 <div className="text-3xl font-semibold text-Pri-Dark">
                   🎉 Manual Query
-                </div>{' '}
-                <div>
-                  <button
-                    className=" bg-Pri-Dark p-2 rounded-md px-4 text-white"
-                    onClick={toggleSettingsBar}
-                  >
-                    Settings
-                  </button>
                 </div>
               </div>
-              <p className="text-Pri-Dark text-lg font-medium text-justify">
+              <p className="text-Pri-Dark text-md font-normal text-justify">
                 MySQL is a widely-used open-source relational database
                 management system known for its scalability, performance, and
                 robust feature set. It organizes data into tables linked by
@@ -185,7 +209,7 @@ const Page = () => {
               {' '}
               🚀My Result
             </div>
-            <div className="h-1/2 border-2"></div>
+            <div className="h-1/2"></div>
           </div>
         </div>
       </div>

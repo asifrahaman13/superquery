@@ -5,17 +5,7 @@ import useSettingsToggle from '@/app/hooks/toogle';
 import BarChart from '@/app/components/BarChart';
 import LineChart from '@/app/components/LineChart';
 import { SiMysql } from 'react-icons/si';
-
-interface History {
-  message: string;
-  messageFrom: string;
-  answer_type?: string;
-}
-
-interface Status {
-  message: string;
-  status: boolean;
-}
+import { History, Status } from '@/constants/types/type.query';
 
 const Page = () => {
   const websocketRef = useRef<WebSocket | null>(null);
@@ -129,10 +119,8 @@ const Page = () => {
 
                       {item?.messageFrom === 'user' && (
                         <>
-                          {' '}
                           <div className=" w-3/4 max-w-3/4  ml-auto flex justify-end ">
                             <p className="bg-gray-200 p-2  rounded-md">
-                              {' '}
                               {item.message}
                             </p>
                           </div>

@@ -238,7 +238,7 @@ export default function DashboardLayout({
         </Dialog>
 
         {/* Static sidebar for desktop */}
-        <div className="w-[12%] h-screen">
+        <div className="w-[15%] h-screen">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 h-full overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">

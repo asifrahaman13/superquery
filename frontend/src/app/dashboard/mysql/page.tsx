@@ -7,6 +7,7 @@ import LineChart from '@/app/components/LineChart';
 import { SiMysql } from 'react-icons/si';
 import { History, Status } from '@/constants/types/type.query';
 import { raw_query_interface } from '@/exports/exports';
+import { mysqlTexts } from '@/constants/static/myssql/mysqlTexts';
 
 const Page = () => {
   const websocketRef = useRef<WebSocket | null>(null);
@@ -167,27 +168,14 @@ const Page = () => {
                   <>
                     <SiMysql size={250} />
                     <div>Start conversation with our AI agent.</div>
-                    <div className="flex gap-4 ">
-                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
-                        Can you tell me the total number of users in the users
-                        table.
-                      </button>
-                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
-                        I want bar graph on the users table to display the marks
-                        of the users. The x axis should be the address Group it
-                        by the address.
-                      </button>
-                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
-                        I want line graph of the price of all the products in
-                        the sales table. y axis should contain the qrantity, x
-                        axis the sales data, labels will the the product names.
-                        Fetch all the entries
-                      </button>
-                      <button className="bg-gray-100 w-1/4 p-4 rounded-lg">
-                        I want bar graph on the users table to display the marks
-                        of the users. The x axis should be the name of the user
-                        y axis the marks
-                      </button>
+                    <div className="flex gap-4  ">
+                      {mysqlTexts.map((text, index) => (
+                        <>
+                          <div className="bg-gray-100 w-1/4 p-4" key={index}>
+                            {text}
+                          </div>
+                        </>
+                      ))}
                     </div>
                   </>
                 )}

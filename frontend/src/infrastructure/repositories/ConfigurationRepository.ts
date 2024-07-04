@@ -25,5 +25,26 @@ class ConfigurationRepository {
       throw new Error("Couldn't get configurations");
     }
   }
+
+  async updateConfiguration(token: string, configuration: any) {
+    try {
+      const response = await axios.put(
+        `${this.backend_url}/config/configurations`,
+        configuration,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        return new SuccessEntity(200, response.data);
+      }
+    } catch (e) {
+      throw new Error("Couldn't update configurations");
+    }
+  }
 }
 export default ConfigurationRepository;

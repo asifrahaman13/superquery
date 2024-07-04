@@ -53,20 +53,22 @@ interface DbSettings {
 }
 
 interface ProjectConfig {
+  db_type: string;
   projectName: string;
   username: string;
   description: string;
-  mysqlConnectionString: string;
+  connectionString: string;
 }
 
 export default function ConnectionSettings({ dbType }: DbSettings) {
   const [open, setOpen] = useState(true);
 
   const [configuration, setConfiguration] = useState<ProjectConfig>({
+    db_type: '',
     projectName: '',
     username: '',
     description: '',
-    mysqlConnectionString: '',
+    connectionString: '',
   });
 
   useEffect(() => {
@@ -89,6 +91,27 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
     fetchConfigurations(dbType);
   }, [dbType]);
 
+  async function updateConfigurations() {
+    const token = localStorage.getItem('accessToken') || '';
+    setConfiguration((prev) => ({ ...prev, db_type: dbType }));
+    const response = await configuration_interface.updateConfiguration(
+      token,
+      configuration
+    );
+    if (response?.code === 200) {
+      console.log(response.data);
+    }
+    try {
+    } catch (e) {
+      throw new Error("Couldn't update configurations");
+    }
+  }
+
+  function handleConfigurationChange(e: { target: { name: any; value: any } }) {
+    const { name, value } = e.target;
+    setConfiguration((prev) => ({ ...prev, [name]: value }));
+  }
+
   return (
     <Dialog className="relative z-10" open={open} onClose={setOpen}>
       <div className="fixed inset-0" />
@@ -100,7 +123,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
               transition
               className="pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700"
             >
-              <form className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
+              <div className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
                 <div className="h-0 flex-1 overflow-y-auto">
                   <div className="bg-indigo-400 px-4 py-6 sm:px-6">
                     <div className="flex items-center justify-between">
@@ -139,9 +162,14 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                           <div className="mt-2">
                             <input
                               type="text"
-                              name="project-name"
+                              name="projectName"
                               id="project-name"
                               value={configuration.projectName}
+                              onChange={(e: {
+                                target: { name: any; value: any };
+                              }) => {
+                                handleConfigurationChange(e);
+                              }}
                               className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
                             />
                           </div>
@@ -155,10 +183,15 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                           </label>
                           <div className="mt-2">
                             <textarea
-                              name="connection-string"
+                              name="connectionString"
                               id="connection-string"
                               rows={2}
-                              value={configuration.mysqlConnectionString}
+                              value={configuration.connectionString}
+                              onChange={(e: {
+                                target: { name: any; value: any };
+                              }) => {
+                                handleConfigurationChange(e);
+                              }}
                               className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
                             />
                           </div>
@@ -176,6 +209,11 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                               name="description"
                               rows={4}
                               value={configuration.description}
+                              onChange={(e: {
+                                target: { name: any; value: any };
+                              }) => {
+                                handleConfigurationChange(e);
+                              }}
                               className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
                               defaultValue={''}
                             />
@@ -345,13 +383,13 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                     Cancel
                   </button>
                   <button
-                    type="submit"
                     className="ml-4 inline-flex justify-center rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                    onClick={updateConfigurations}
                   >
                     Save
                   </button>
                 </div>
-              </form>
+              </div>
             </DialogPanel>
           </div>
         </div>

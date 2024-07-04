@@ -11,6 +11,10 @@ class ConfigurationService implements ConfigurationInterface {
   async getConfiguration(dbType: string, token: string) {
     return this.configRepository.getConfiguration(dbType, token);
   }
+
+  async updateConfiguration(token: string, configuration: any) {
+    return this.configRepository.updateConfiguration(token, configuration);
+  }
 }
 
 export default ConfigurationService;

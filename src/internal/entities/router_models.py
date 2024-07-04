@@ -36,4 +36,4 @@ class UpdateConfig(BaseModel):
     projectName: Annotated[str, "The name of the project"]
     username: Annotated[str, "The username of the MySQL database"]
     description: str = Annotated[Optional[str], "The description of the MySQL database"]
-    mysqlConnectionString: Annotated[str, "The connection string of the MySQL database"]
+    connectionString: Annotated[str, "The connection string of the MySQL database"]

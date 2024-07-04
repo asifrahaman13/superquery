@@ -141,8 +141,8 @@ const Page = () => {
                             <LineChart data={{ message: item.message }} />
                           )}
                           {item.answer_type === 'plain_answer' && (
-                            <div className=" w-max-w-3/4  ml-auto flex justify-start ">
-                              <p className="bg-indigo-500 text-white p-2  rounded-md">
+                            <div className=" max-w-3/4  ml-auto flex justify-start ">
+                              <p className="bg-indigo-500 w-3/4 max-w-3/4 text-white p-2  rounded-md">
                                 {item.message}
                               </p>
                             </div>
@@ -201,7 +201,7 @@ const Page = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col w-1/2 gap-8 border-2 p-6 mb-12 bg-white rounded-2xl">
+          <div className="flex flex-col w-1/2  border-2 p-6 mb-12 bg-white rounded-2xl">
             <div className="h-1/2 flex flex-col gap-6">
               {' '}
               <div className="flex  w-full justify-between">
@@ -238,7 +238,7 @@ const Page = () => {
             </div>
 
             {tableData.length !== 0 && (
-              <div className=" overflow-y-scroll no-scrollbar">
+              <div className=" overflow-y-scroll no-scrollbar flex flex-col gap-4">
                 <div className="text-2xl font-semibold text-Pri-Dark">
                   {' '}
                   🚀My Result

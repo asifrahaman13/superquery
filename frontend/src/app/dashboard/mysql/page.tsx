@@ -18,6 +18,8 @@ const Page = () => {
     status: false,
   });
   const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
+  const [tableData, setTableData] = useState([]);
+  const tableHeaders = tableData.length > 0 ? Object.keys(tableData[0]) : [];
 
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SOCKET || '';
@@ -90,9 +92,7 @@ const Page = () => {
   }) => {
     setRawQuery(e.target.value);
   };
-  const [tableData, setTableData] = useState([]);
 
-  const tableHeaders = tableData.length > 0 ? Object.keys(tableData[0]) : [];
   async function handleRaqQuerySubmit() {
     try {
       const accessToken = localStorage.getItem('accessToken') || '';

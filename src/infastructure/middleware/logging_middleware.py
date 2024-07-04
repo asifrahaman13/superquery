@@ -39,6 +39,8 @@ class PrefixMiddleware(BaseHTTPMiddleware):
                 """
                 token = request.url.path.split("/")[-1]
                 logging.info("The token is: {}".format(token))
+            elif request.method == "PUT":
+                token = request.headers.get("Authorization").split(" ")[1]
 
             logging.info(f"Token: {token}")
             if not token:

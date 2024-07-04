@@ -29,3 +29,11 @@ class ConfigurationBase(BaseModel):
 class QueryBase(BaseModel):
     raw_query: Annotated[str, "Raw query to execute"]
     db_type: Annotated[str, "Database type"]
+
+
+class UpdateConfig(BaseModel):
+    db_type: Annotated[str, "Database type"]
+    projectName: Annotated[str, "The name of the project"]
+    username: Annotated[str, "The username of the MySQL database"]
+    description: str = Annotated[Optional[str], "The description of the MySQL database"]
+    mysqlConnectionString: Annotated[str, "The connection string of the MySQL database"]

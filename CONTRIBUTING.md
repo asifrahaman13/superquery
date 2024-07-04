@@ -4,7 +4,7 @@
 
 - Go to the root directory. `cd superquery`
 
-- create a virtual environment. `virtualenv .venv`. You need to activate the virtual environment too. `source .venv/bin/activate`
+- poetry config virtualenvs.in-project true 
 
 - Now install the dependencies. `pip install -r requirements.txt`
 

@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "superquery"
+version = "0.1.0"
+description = "AI powered query on databases to automate the process of query, visualize etc. Organizations can analyze their data and take decisions much faster. Leverages the use AI, LLM. The project is under development"
+authors = ["asifrahaman13 <asifrahaman162@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain-community = "^0.2.6"
+uvicorn = "^0.30.1"
+fastapi = "^0.111.0"
+schedule = "^1.2.2"
+python-jose = "^3.3.0"
+langchain-openai = "^0.1.14"
+sqlmodel = "^0.0.19"
+redis = "^5.0.7"
+pymongo = "^4.8.0"
+fastapi-limiter = "^0.1.6"
+pre-commit = "^3.7.1"
+pytest = "^8.2.2"
+black = "^24.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

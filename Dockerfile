@@ -1,19 +1,24 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container
-COPY requirements.txt ./
-
-# Install any needed packages specified in requirements.txt
+# Install Poetry
 RUN apt-get update && \
-    apt-get install -y redis-server && \
+    apt-get install -y curl && \
+    curl -sSL https://install.python-poetry.org | python3 - && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    rm -rf /var/lib/apt/lists/*
+
+# Add Poetry to PATH
+ENV PATH="/root/.local/bin:$PATH"
+
+# Copy the pyproject.toml and poetry.lock files to the container
+COPY pyproject.toml poetry.lock ./
+
+# Install dependencies using Poetry
+RUN poetry install --no-root
 
 # Copy the rest of the application into the container
 COPY . .
@@ -21,5 +26,5 @@ COPY . .
 # Expose the port that the application will run on
 EXPOSE 8000
 
-# Start both Redis and the FastAPI app
-CMD  uvicorn src.main:app --host 0.0.0.0 
+# Start the FastAPI app using Poetry's environment
+CMD ["poetry", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]

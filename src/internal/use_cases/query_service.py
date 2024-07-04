@@ -18,7 +18,7 @@ class QueryService(QueryInterface):
             )
             if available_mysql_client:
                 async for response in self.query_database.query_database(
-                    query, available_mysql_client["mysql"]["mysqlConnectionString"]
+                    query, available_mysql_client["mysql"]["connectionString"]
                 ):
                     yield response
 
@@ -29,6 +29,6 @@ class QueryService(QueryInterface):
             )
             if available_mysql_client:
                 return self.query_database.general_raw_query(
-                    query, available_mysql_client["mysql"]["mysqlConnectionString"]
+                    query, available_mysql_client["mysql"]["connectionString"]
                 )
         return {"error": "Some error occured."}

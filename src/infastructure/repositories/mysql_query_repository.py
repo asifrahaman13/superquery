@@ -172,9 +172,9 @@ class MySqlQueryRepository:
             yield QueryResponse(message=response, answer_type="bar_chart", status=False)
             await asyncio.sleep(0)
         if answer_type["answer_type"] == "line_chart":
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
             yield QueryResponse(message="Querying the database", status=True)
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
             db = SQLDatabase.from_uri(connection_string)
             llm = ChatOpenAI(model="gpt-4", temperature=0)
 

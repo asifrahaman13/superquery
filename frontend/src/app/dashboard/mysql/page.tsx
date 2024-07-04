@@ -141,8 +141,10 @@ const Page = () => {
                             <LineChart data={{ message: item.message }} />
                           )}
                           {item.answer_type === 'plain_answer' && (
-                            <div className="bg-indigo-400 w-3/4 max-w-3/4 rounded-md p-2 text-white">
-                              {item?.message}
+                            <div className=" w-max-w-3/4  ml-auto flex justify-start ">
+                              <p className="bg-indigo-500 text-white p-2  rounded-md">
+                                {item.message}
+                              </p>
                             </div>
                           )}
                         </div>

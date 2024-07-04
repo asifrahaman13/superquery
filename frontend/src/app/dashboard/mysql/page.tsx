@@ -8,6 +8,9 @@ import { SiMysql } from 'react-icons/si';
 import { History, Status } from '@/constants/types/type.query';
 import { raw_query_interface } from '@/exports/exports';
 import { mysqlTexts } from '@/constants/static/myssql/mysqlTexts';
+import Skeleton from '@/app/components/ui/Skeleton';
+import ButtonStatus from '@/app/components/ui/ButtonStatus';
+import TableView from '@/app/components/TableView';
 
 const Page = () => {
   const websocketRef = useRef<WebSocket | null>(null);
@@ -19,7 +22,6 @@ const Page = () => {
   });
   const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
   const [tableData, setTableData] = useState([]);
-  const tableHeaders = tableData.length > 0 ? Object.keys(tableData[0]) : [];
 
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SOCKET || '';
@@ -141,8 +143,8 @@ const Page = () => {
                             <LineChart data={{ message: item.message }} />
                           )}
                           {item.answer_type === 'plain_answer' && (
-                            <div className=" max-w-3/4  ml-auto flex justify-start ">
-                              <p className="bg-indigo-500 w-3/4 max-w-3/4 text-white p-2  rounded-md">
+                            <div className="max-w-3/4  ml-auto flex justify-start ">
+                              <p className="bg-indigo-500 max-w-3/4 text-white p-2  rounded-md">
                                 {item.message}
                               </p>
                             </div>
@@ -164,7 +166,7 @@ const Page = () => {
                 </>
               )}
 
-              {status.status && <>{status.message}</>}
+              {status.status && <Skeleton />}
               <div className=" w-full flex justify-center flex-col gap-2 h-full items-center">
                 {history.length === 0 && (
                   <>
@@ -193,17 +195,23 @@ const Page = () => {
                 value={query}
                 onChange={handleChange}
               />
-              <button
-                onClick={handleSubmit}
-                className="bg-Pri-Dark rounded-lg  p-3 px-5 font-semibold text-white"
-              >
-                Submit
-              </button>
+
+              {!status.status ? (
+                <>
+                  <button
+                    onClick={handleSubmit}
+                    className="bg-Pri-Dark rounded-lg  p-3 px-5 font-semibold text-white"
+                  >
+                    Submit
+                  </button>
+                </>
+              ) : (
+                <ButtonStatus message={status.message} />
+              )}
             </div>
           </div>
           <div className="flex flex-col w-1/2  border-2 p-6 mb-12 bg-white rounded-2xl">
             <div className="h-1/2 flex flex-col gap-6">
-              {' '}
               <div className="flex  w-full justify-between">
                 <div className="text-3xl font-semibold text-Pri-Dark">
                   🎉 Manual Query
@@ -236,38 +244,7 @@ const Page = () => {
                 </button>
               </div>
             </div>
-
-            {tableData.length !== 0 && (
-              <div className=" overflow-y-scroll no-scrollbar flex flex-col gap-4">
-                <div className="text-2xl font-semibold text-Pri-Dark">
-                  {' '}
-                  🚀My Result
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex bg-gray-200 font-bold">
-                    {tableHeaders?.map((header) => (
-                      <div key={header} className="p-2 flex-1 border">
-                        {header}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex flex-col">
-                    {tableData?.map((row, index) => (
-                      <div key={index} className="flex border-b">
-                        {tableHeaders?.map((header) => (
-                          <div
-                            key={`${index}-${header}`}
-                            className="p-2 flex-1 border"
-                          >
-                            {row[header]}
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+            <TableView tableData={tableData} />
           </div>
         </div>
       </div>

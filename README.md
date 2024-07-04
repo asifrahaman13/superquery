@@ -10,7 +10,6 @@ Full stack AI Powered query on databases.
 - **FastAPI**: A high performance Python based framework for creating backend servers. 📈
 - **Mongo db database**: A NoSQL database. I preferred this over the SQL database due to the performance and highly unstructured data required. 📊
 - **open, long-chain, Deepgram SDKs, and other libraries**: They are libraries to deal with LLMs, Voice, and other AI-based works. 🤖
-- **AWS**: Use AWS's S3 service to store FHIR files. ☁️
 - **Redis**: Open source key-value pair in-memory database. It is used to avoid DDOS attacks through a rate-limiting strategy. 📝
 - **Websockts**: Websocket is used over the rest of the API for agents to have better connection management. 🤝🏻
 - **Qdrant**: An open-source vector database for semantic search. Used for user search on the search bar. 🎉

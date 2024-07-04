@@ -5,8 +5,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 import asyncio
 import schedule
-
-# from src.infastructure.middleware.logging_middleware import PrefixMiddleware
+from src.infastructure.middleware.logging_middleware import PrefixMiddleware
 from math import ceil
 import redis.asyncio as redis
 import uvicorn
@@ -95,14 +94,20 @@ app.include_router(
     configuration_controller,
     prefix="/config",
     tags=["Configuration router"],
+    dependencies=[
+        Depends(RateLimiter(times=10, seconds=10, identifier=client_identifier))
+    ],
 )
 app.include_router(
     raw_query_controller,
     prefix="/raw-query",
     tags=["Raw Query router"],
+    dependencies=[
+        Depends(RateLimiter(times=10, seconds=10, identifier=client_identifier))
+    ],
 )
 # Include the middleware
-# app.add_middleware(PrefixMiddleware)
+app.add_middleware(PrefixMiddleware)
 
 
 # Define the jobs

@@ -248,23 +248,23 @@ const Page = () => {
             </div>
 
             {tableData.length !== 0 && (
-              <div className="h-1/2">
+              <div className=" overflow-y-scroll no-scrollbar">
                 <div className="text-2xl font-semibold text-Pri-Dark">
                   {' '}
                   🚀My Result
                 </div>
                 <div className="flex flex-col">
                   <div className="flex bg-gray-200 font-bold">
-                    {tableHeaders.map((header) => (
+                    {tableHeaders?.map((header) => (
                       <div key={header} className="p-2 flex-1 border">
                         {header}
                       </div>
                     ))}
                   </div>
                   <div className="flex flex-col">
-                    {tableData.map((row, index) => (
+                    {tableData?.map((row, index) => (
                       <div key={index} className="flex border-b">
-                        {tableHeaders.map((header) => (
+                        {tableHeaders?.map((header) => (
                           <div
                             key={`${index}-${header}`}
                             className="p-2 flex-1 border"

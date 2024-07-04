@@ -59,7 +59,8 @@ class PrefixMiddleware(BaseHTTPMiddleware):
 
         # Allow OPTIONS requests without authentication for CORS preflight
         if request.method == "OPTIONS":
-            return JSONResponse(status_code=200, content={"message": "OK"})
+            response = await call_next(request)
+            return response
 
         # If the prefix is among the protected routes then check the token of the routes.
         if self.prefix in self.protected_routes:

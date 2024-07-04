@@ -1,11 +1,10 @@
-## Contribution guidelines  
+## Contribution guidelines  👨🏻‍🚀
 
-
-- First pull the repository. `git clone https://github.com/asifrahaman13/superquery.git`
+- First, pull the repository. `git clone https://github.com/asifrahaman13/superquery.git`
 
 - Go to the root directory. `cd superquery`
 
-- create a virtual environment. `virtualenv .venv`. You need to actiavate the virtual environment too. `source .venv/bin/activate`
+- create a virtual environment. `virtualenv .venv`. You need to activate the virtual environment too. `source .venv/bin/activate`
 
 - Now install the dependencies. `pip install -r requirements.txt`
 
@@ -13,39 +12,35 @@
 
 ## Install precommit hooks.
 
+You need to install the pre-commit hooks to ensure that your code follows the proper guidelines and linting.
+
  `pre-commit install`
 
-# Run the server
+# Run the server 🚀
 You need to run the application using the following script: `uvicorn src.main:app --reload`
 
 ## Frontend
+
 Next go to the front end folder 
 
 `cd frontend/`
 
-Now install the dependencies.
+Now, install the dependencies.
 
 `bun install`
 
-Next you can run the code.
+Next, you can run the code.
 
 `bun run dev`
 
 ## Run with docker
 
-Best way of utilizing the docker is through the docker compose file.
+The best way of utilizing the docker is through the docker-compose file.
 
 `docker compose up -d`
 
-In case you face any issue with the installtion and set up, you can run using docker.
 
-`docker build -t superquery:lastest .`
-
-Next you can run the application:
-
-`docker run -p 8000:8000 superquery:latest`
-
-## PORT
+## PORT 👨🏻‍🚀
 
 - Backend: 8000
 - Frontend: 3000

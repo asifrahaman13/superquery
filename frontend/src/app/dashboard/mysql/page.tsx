@@ -115,7 +115,7 @@ const Page = () => {
   return (
     <React.Fragment>
       {settingsBar && <ConnectionSettings dbType="mysql" key={key} />}
-      <div className="w-full flex flex-col">
+      <div className="w-full my-6 flex flex-col">
         <div className="flex w-full justify-between items-center py-2 px-4">
           <div className=" font-semibold text-4xl text-Pri-Dark">MySQL</div>
           <div>

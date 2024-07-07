@@ -113,7 +113,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
   }
 
   return (
-    <Dialog className="relative z-10" open={open} onClose={setOpen}>
+    <Dialog className="relative z-50" open={open} onClose={setOpen}>
       <div className="fixed inset-0" />
 
       <div className="fixed inset-0 overflow-hidden">

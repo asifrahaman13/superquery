@@ -17,7 +17,7 @@ You need to install the pre-commit hooks to ensure that your code follows the pr
  `pre-commit install`
 
 # Run the server 🚀
-You need to run the application using the following script: `uvicorn src.main:app --reload`
+You need to run the application using the following script: `poetry run uvicorn src.main:app --reload`
 
 ## Frontend
 

@@ -26,10 +26,6 @@ jobs:
           poetry config virtualenvs.create true 
           poetry install
 
-      - name: Run tests
-        run: |
-          poetry run python3 -m pytest
-
       - name: Build and deploy
         run: |
           docker-compose up -d

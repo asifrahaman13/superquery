@@ -21,6 +21,15 @@ class QueryService(QueryInterface):
                     query, available_mysql_client["mysql"]["connectionString"]
                 ):
                     yield response
+        elif db == "postgres":
+            available_postgres_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_postgres_client:
+                async for response in self.query_database.query_database(
+                    query, available_postgres_client["postgres"]["connectionString"]
+                ):
+                    yield response
 
     def general_raw_query(self, user: str, query: str, db: str):
         if db == "mysql":
@@ -30,5 +39,13 @@ class QueryService(QueryInterface):
             if available_mysql_client:
                 return self.query_database.general_raw_query(
                     query, available_mysql_client["mysql"]["connectionString"]
+                )
+        elif db == "postgres":
+            available_postgres_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_postgres_client:
+                return self.query_database.general_raw_query(
+                    query, available_postgres_client["postgres"]["connectionString"]
                 )
         return {"error": "Some error occured."}

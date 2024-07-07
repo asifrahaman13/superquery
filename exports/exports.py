@@ -5,6 +5,7 @@ from src.infastructure.repositories.mongodb_query_repository import (
     MongodbQueryRepository,
 )
 from src.infastructure.repositories.mysql_query_repository import MySqlQueryRepository
+from src.infastructure.repositories.postgres_query_repository import PostgresQueryRepository
 from src.internal.use_cases.query_service import QueryService
 from src.ConnectionManager.ConnectionManager import ConnectionManager
 from src.infastructure.repositories.database_repository import (
@@ -46,6 +47,11 @@ class DIContainer:
         if "mysql_query_repository" not in self.__instances:
             self.__instances["mysql_query_repository"] = MySqlQueryRepository()
         return self.__instances["mysql_query_repository"]
+    
+    def get_postgres_query_repository(self):
+        if "postgres_query_repository" not in self.__instances:
+            self.__instances["postgres_query_repository"] = PostgresQueryRepository()
+        return self.__instances["postgres_query_repository"]
 
     def get_mongodb_query_repository(self):
         if "mongodb_query_repository" not in self.__instances:
@@ -62,6 +68,14 @@ class DIContainer:
                 self.get_database_repository()
             )
         return self.__instances["mysql_query_service"]
+    
+    def get_postgres_query_database_service(self):
+        if "postgres_query_service" not in self.__instances:
+            self.__instances["postgres_query_service"] = QueryService(
+                self.get_postgres_query_repository(),
+                self.get_database_repository()
+            )
+        return self.__instances["postgres_query_service"]
 
     def get_mongodb_query_database_service(self):
         if "mongodb_query_service" not in self.__instances:
@@ -86,6 +100,9 @@ websocket_manager = ConnectionManager(REDIS_HOST, REDIS_PORT, REDIS_PASSWORD)
 
 def get_mysql_query_database_service():
     return container.get_mysql_query_database_service()
+
+def get_postgres_query_database_service():
+    return container.get_postgres_query_database_service()
 
 def get_mongodb_query_database_service():
     return container.get_mongodb_query_database_service()

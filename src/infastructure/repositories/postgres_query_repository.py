@@ -14,7 +14,7 @@ from sqlalchemy import text
 from src.infastructure.repositories.helper.format_assistant import FormatAssistant
 
 
-class MySqlQueryRepository:
+class PostgresQueryRepository:
     def __init__(self) -> None:
         pass
 

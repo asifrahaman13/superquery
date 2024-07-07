@@ -4,9 +4,9 @@ FROM python:3.12-slim
 # Set the working directory in the container
 WORKDIR /app
 
-# Install Poetry
+# Install system dependencies and Poetry
 RUN apt-get update && \
-    apt-get install -y curl && \
+    apt-get install -y curl build-essential libpq-dev && \
     curl -sSL https://install.python-poetry.org | python3 - && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -18,7 +18,7 @@ ENV PATH="/root/.local/bin:$PATH"
 COPY pyproject.toml poetry.lock ./
 
 # Install dependencies using Poetry
-RUN poetry install --no-root
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
 
 # Copy the rest of the application into the container
 COPY . .

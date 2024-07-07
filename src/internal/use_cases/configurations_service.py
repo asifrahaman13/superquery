@@ -15,6 +15,8 @@ class ConfigurationService(ConfigurationInterface):
 
         if db_type == "mysql":
             return configurations["mysql"]
+        elif db_type == "postgres":
+            return configurations["postgres"]
         return None
 
     def update_project_configurations(
@@ -38,6 +40,27 @@ class ConfigurationService(ConfigurationInterface):
                 "username",
                 user,
                 {"mysql": previous_configurations["mysql"]},
+                "configurations",
+            )
+            return updated_configurations
+
+        elif db_type == "postgres":
+
+            previous_configurations = (
+                self.__database_repository.find_single_entity_by_field_name(
+                    "configurations", "username", user
+                )
+            )
+
+            if previous_configurations is None:
+                return None
+
+            previous_configurations["postgres"] = field_value
+
+            updated_configurations = self.__database_repository.update_entity(
+                "username",
+                user,
+                {"postgres": previous_configurations["postgres"]},
                 "configurations",
             )
             return updated_configurations

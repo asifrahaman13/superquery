@@ -95,7 +95,7 @@ const Page = () => {
     setRawQuery(e.target.value);
   };
 
-  async function handleRaqQuerySubmit() {
+  async function handleRawQuerySubmit() {
     try {
       const accessToken = localStorage.getItem('accessToken') || '';
       const response = await raw_query_interface.rawQuery(
@@ -217,15 +217,6 @@ const Page = () => {
                   🎉 Manual Query
                 </div>
               </div>
-              <p className="text-Pri-Dark text-md font-normal text-justify">
-                MySQL is a widely-used open-source relational database
-                management system known for its scalability, performance, and
-                robust feature set. It organizes data into tables linked by
-                relationships, supporting multi-platform deployment and offering
-                high availability through features like replication and
-                clustering. MySQL excels in handling both small-scale
-                applications and large-scale systems with efficient data
-              </p>
               <textarea
                 name="query"
                 rows={5}
@@ -238,7 +229,7 @@ const Page = () => {
               <div className="flex justify-end">
                 <button
                   className="bg-Pri-Dark rounded-lg text-righ p-3 px-5 font-semibold text-white"
-                  onClick={handleRaqQuerySubmit}
+                  onClick={handleRawQuerySubmit}
                 >
                   Submit
                 </button>

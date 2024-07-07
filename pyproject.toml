@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "AI powered query on databases to automate the process of query, visualize etc. Organizations can analyze their data and take decisions much faster. Leverages the use AI, LLM. The project is under development"
 authors = ["asifrahaman13 <asifrahaman162@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -20,7 +21,8 @@ fastapi-limiter = "^0.1.6"
 pre-commit = "^3.7.1"
 pytest = "^8.2.2"
 black = "^24.4.2"
-mysql-connector-python = "^9.0.0"
+mysql-connector-python = "9.0.0"
+psycopg2 = "2.9.9"
 
 [build-system]
 requires = ["poetry-core"]

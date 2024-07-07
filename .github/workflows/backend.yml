@@ -28,7 +28,7 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest
+          poetry run python3 -m pytest
 
       - name: Build and deploy
         run: |

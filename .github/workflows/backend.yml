@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -21,8 +22,14 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install poetry  
+          poetry config virtualenvs.create true 
+          poetry install
+
+      - name: Run tests
+        run: |
+          poetry run pytest
 
       - name: Build and deploy
         run: |
-          docker compose up -d
+          docker-compose up -d

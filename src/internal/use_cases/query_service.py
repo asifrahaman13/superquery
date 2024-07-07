@@ -31,6 +31,16 @@ class QueryService(QueryInterface):
                 ):
                     yield response
 
+        elif db == "sqlite":
+            available_sqlite_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_sqlite_client:
+                async for response in self.query_database.query_database(
+                    query, available_sqlite_client["sqlite"]["connectionString"]
+                ):
+                    yield response
+
     def general_raw_query(self, user: str, query: str, db: str):
         if db == "mysql":
             available_mysql_client = self.database.find_single_entity_by_field_name(
@@ -47,5 +57,14 @@ class QueryService(QueryInterface):
             if available_postgres_client:
                 return self.query_database.general_raw_query(
                     query, available_postgres_client["postgres"]["connectionString"]
+                )
+
+        elif db == "sqlite":
+            available_sqlite_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_sqlite_client:
+                return self.query_database.general_raw_query(
+                    query, available_sqlite_client["sqlite"]["connectionString"]
                 )
         return {"error": "Some error occured."}

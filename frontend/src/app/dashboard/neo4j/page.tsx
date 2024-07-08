@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import ConnectionSettings from '@/app/components/ConnectionSettings';
+import ConnectionSettings from '@/app/components/ConnectionSettings/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
 
 const Page = () => {

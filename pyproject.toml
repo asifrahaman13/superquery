@@ -23,6 +23,7 @@ pytest = "^8.2.2"
 black = "^24.4.2"
 mysql-connector-python = "9.0.0"
 psycopg2 = "2.9.9"
+pinecone = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core"]

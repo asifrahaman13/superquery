@@ -40,6 +40,18 @@ class QueryService(QueryInterface):
                     query, available_sqlite_client["sqlite"]["connectionString"]
                 ):
                     yield response
+        elif db == "pinecone":
+            available_pinecone_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_pinecone_client:
+                async for response in self.query_database.query_database(
+                    query,
+                    available_pinecone_client["pinecone"]["index_name"],
+                    available_pinecone_client["pinecone"]["model_name"],
+                    available_pinecone_client["pinecone"]["api_key"],
+                ):
+                    yield response
 
     def general_raw_query(self, user: str, query: str, db: str):
         if db == "mysql":

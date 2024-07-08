@@ -175,7 +175,10 @@ const Page = () => {
                     <div className="flex gap-4  ">
                       {sqliteTexts.map((text, index) => (
                         <>
-                          <div className="bg-gray-100 w-1/4 p-4" key={index}>
+                          <div
+                            className="bg-gray-100 w-1/4 p-4 rounded-lg"
+                            key={index}
+                          >
                             {text}
                           </div>
                         </>

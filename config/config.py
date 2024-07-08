@@ -68,10 +68,6 @@ def load_config(file_path: str) -> Config:
 config = load_config("config.yaml")
 
 
-SEARCHXNG_URI = os.getenv("SEARCHXNG_URI")
-assert SEARCHXNG_URI, "SEARCHXNG_URI is not set"
-logging.info(f"SEARCHXNG_URI: {SEARCHXNG_URI}")
-
 SECRET_KEY = os.getenv("SECRET_KEY")
 assert SECRET_KEY, "Secret key is not set"
 logging.info("Secret key is set")

@@ -44,3 +44,27 @@ class PineconeQueryRepository:
         await asyncio.sleep(0)
         yield QueryResponse(message=response, status=False, answer_type="plain_answer")
         await asyncio.sleep(0)
+
+    def general_raw_query(
+        self, query: str, index_name: str, model_name: str, pinecone_api_key: str
+    ):
+
+        # Initialize Pinecone
+        pinecone = Pinecone(api_key=pinecone_api_key)
+        index = pinecone.Index(index_name)
+
+        # Perform a semantic search
+        query_embedding = self.open_ai_client.embed_text(query, model_name)
+
+        # Query the index with the new data
+        result = index.query(
+            vector=query_embedding,
+            top_k=3,
+            include_metadata=True,
+        )
+
+        data_source = result.to_dict() if hasattr(result, "to_dict") else result
+
+        print("#################", data_source)
+
+        return data_source

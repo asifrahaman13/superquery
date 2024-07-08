@@ -12,6 +12,7 @@ import TableView from '@/app/components/TableView';
 import ButtonStatus from '@/app/components/ui/ButtonStatus';
 import { raw_query_interface } from '@/exports/exports';
 import { History, Status } from '@/constants/types/type.query';
+import JSONRenderer from '@/app/components/JsonView';
 
 const Page = () => {
   const [query, setQuery] = useState<string>('');
@@ -94,6 +95,7 @@ const Page = () => {
     setRawQuery(e.target.value);
   };
   const [tableData, setTableData] = useState([]);
+  const [rawQueryResponse, setRawQueryResponse] = useState<any>();
   async function handleRawQuerySubmit() {
     try {
       const accessToken = localStorage.getItem('accessToken') || '';
@@ -104,6 +106,7 @@ const Page = () => {
       );
       if (response?.code === 200) {
         console.log(response);
+        setRawQueryResponse(response.data);
         setTableData(response.data);
       }
     } catch (e) {
@@ -113,7 +116,7 @@ const Page = () => {
 
   return (
     <React.Fragment>
-      {settingsBar && <ConnectionSettings dbType="mysql" key={key} />}
+      {settingsBar && <ConnectionSettings dbType="pinecone" key={key} />}
       <div className="w-full my-6 flex flex-col">
         <div className="flex w-full justify-between items-center py-2 px-4">
           <div className=" font-semibold text-4xl text-Pri-Dark">Pinecone</div>
@@ -240,7 +243,13 @@ const Page = () => {
                 </button>
               </div>
             </div>
-            <TableView tableData={tableData} />
+
+            {rawQueryResponse?.response_type == 'table_answer' && (
+              <TableView tableData={tableData} />
+            )}
+            {rawQueryResponse?.response_type == 'json_answer' && (
+              <JSONRenderer data={rawQueryResponse} />
+            )}
           </div>
         </div>
       </div>

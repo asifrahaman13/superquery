@@ -79,4 +79,25 @@ class QueryService(QueryInterface):
                 return self.query_database.general_raw_query(
                     query, available_sqlite_client["sqlite"]["connectionString"]
                 )
-        return {"error": "Some error occured."}
+
+        elif db == "pinecone":
+
+            available_pinecone_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+
+            if available_pinecone_client:
+                print(
+                    query,
+                    available_pinecone_client["pinecone"]["index_name"],
+                    available_pinecone_client["pinecone"]["model_name"],
+                    available_pinecone_client["pinecone"]["api_key"],
+                )
+                print(self.query_database)
+                return self.query_database.general_raw_query(
+                    query,
+                    available_pinecone_client["pinecone"]["index_name"],
+                    available_pinecone_client["pinecone"]["model_name"],
+                    available_pinecone_client["pinecone"]["api_key"],
+                )
+        return {"error": "Some error occured. sorry"}

@@ -452,7 +452,9 @@ export default function DashboardLayout({
               </div>
             </div>
           </div>
-          <div className="flex w-full h-full overflow-y-hidden">{children}</div>
+          <div className="flex w-full h-full  overflow-y-hidden pb-16">
+            {children}
+          </div>
         </div>
       </div>
     </React.Fragment>

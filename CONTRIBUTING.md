@@ -4,9 +4,9 @@
 
 - Go to the root directory. `cd superquery`
 
-- poetry config virtualenvs.in-project true 
+- Enable virtual environment for the poetry. `poetry config virtualenvs.in-project true`
 
-- Now install the dependencies. `pip install -r requirements.txt`
+- Now install the dependencies. `poetry install`
 
 - Now rename the .env.example. `mv .env.example .env`.  Give the proper configuration by giving the API keys. For example set the open ai key etc. Also set the configuration data in the config.yaml file.
 
@@ -32,6 +32,11 @@ Now, install the dependencies.
 Next, you can run the code.
 
 `bun run dev`
+
+Now rename .env.example to .env file.
+
+`mv .env.example .env`
+
 
 ## Run with docker
 

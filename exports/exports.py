@@ -12,6 +12,7 @@ from src.ConnectionManager.ConnectionManager import ConnectionManager
 from src.infastructure.repositories.database_repository import (
     MongodbRepository,
 )
+from src.infastructure.repositories.helper.handle_answer_types import HandleAnswerTypes
 from pymongo import MongoClient
 import logging
 from config.config import MONGO_DB_URI
@@ -46,17 +47,17 @@ class DIContainer:
 
     def get_mysql_query_repository(self):
         if "mysql_query_repository" not in self.__instances:
-            self.__instances["mysql_query_repository"] = MySqlQueryRepository()
+            self.__instances["mysql_query_repository"] = MySqlQueryRepository(HandleAnswerTypes())
         return self.__instances["mysql_query_repository"]
     
     def get_postgres_query_repository(self):
         if "postgres_query_repository" not in self.__instances:
-            self.__instances["postgres_query_repository"] = PostgresQueryRepository()
+            self.__instances["postgres_query_repository"] = PostgresQueryRepository(HandleAnswerTypes())
         return self.__instances["postgres_query_repository"]
     
     def get_sqlite_query_repository(self):
         if "sqlite_query_repository" not in self.__instances:
-            self.__instances["sqlite_query_repository"] = SqliteQueryRepository()
+            self.__instances["sqlite_query_repository"] = SqliteQueryRepository(HandleAnswerTypes())
         return self.__instances["sqlite_query_repository"]
 
     def get_mongodb_query_repository(self):

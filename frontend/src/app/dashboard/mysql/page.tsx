@@ -227,14 +227,14 @@ const Page = () => {
                 </div>
               </div>
               <textarea
-                name="query"
-                rows={5}
-                className="w-full h-50 border-2 p-2 rounded-lg outline-none focus:border-2 focus:border-indigo-400 "
-                id=""
-                placeholder="Enter your SQL query"
+                id="comment"
+                name="comment"
+                rows={4}
+                className="block w-full rounded-md border-s py-1.5 text-gray-900  p-2  border-2  border-Gray-Background outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
+                defaultValue={''}
                 value={rawQuery}
                 onChange={handleRawQuery}
-              ></textarea>
+              />
               <div className="flex justify-end">
                 <button
                   className="bg-Pri-Dark rounded-lg text-righ p-3 px-5 font-semibold text-white"

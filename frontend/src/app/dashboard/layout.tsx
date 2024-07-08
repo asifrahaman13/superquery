@@ -30,9 +30,10 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import React from 'react';
 const userNavigation = [
   { name: 'Your profile', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Sign out', href: 'signout' },
 ];
 
 const teams = [
@@ -129,8 +130,13 @@ export default function DashboardLayout({
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
+
+  const signuout = () => {
+    localStorage.removeItem('accessToken');
+    window.location.href = '/';
+  };
   return (
-    <>
+    <React.Fragment>
       <div className="w-screen flex flex-row h-screen overflow-y-hidden bg-gray-100">
         <Dialog
           className="relative z-50 lg:hidden"
@@ -361,7 +367,7 @@ export default function DashboardLayout({
             />
 
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              <form action="#" method="GET" className="relative flex flex-1">
+              <form className="relative flex flex-1">
                 <label htmlFor="search-field" className="sr-only">
                   Search
                 </label>
@@ -374,7 +380,7 @@ export default function DashboardLayout({
                   name="search"
                   type="search"
                   placeholder="Search..."
-                  className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                  className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 outline-none sm:text-sm "
                 />
               </form>
               <div className="flex items-center gap-x-4 lg:gap-x-6">
@@ -420,12 +426,25 @@ export default function DashboardLayout({
                   >
                     {userNavigation.map((item) => (
                       <MenuItem key={item.name}>
-                        <a
-                          href={item.href}
-                          className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
-                        >
-                          {item.name}
-                        </a>
+                        {item.href === 'signout' ? (
+                          <button
+                            onClick={() => {
+                              signuout();
+                            }}
+                            className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
+                          >
+                            {item.name}
+                          </button>
+                        ) : (
+                          <>
+                            <a
+                              href={item.href}
+                              className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
+                            >
+                              {item.name}
+                            </a>
+                          </>
+                        )}
                       </MenuItem>
                     ))}
                   </MenuItems>
@@ -436,6 +455,6 @@ export default function DashboardLayout({
           <div className="flex w-full h-full overflow-y-hidden">{children}</div>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }

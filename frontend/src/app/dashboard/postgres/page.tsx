@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import ConnectionSettings from '@/app/components/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
 import BarChart from '@/app/components/Charts/BarChart';
 import LineChart from '@/app/components/Charts/LineChart';
@@ -12,6 +11,7 @@ import Skeleton from '@/app/components/ui/Skeleton';
 import ButtonStatus from '@/app/components/ui/ButtonStatus';
 import TableView from '@/app/components/TableView';
 import PieChart from '@/app/components/Charts/pieChart';
+import ConnectionSettings from '../../components/ConnectionSettings/ConnectionSettings';
 
 const Page = () => {
   const websocketRef = useRef<WebSocket | null>(null);

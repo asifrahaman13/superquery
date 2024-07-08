@@ -141,6 +141,44 @@ class SqliteQueryRepository:
                 message=response, answer_type="line_chart", status=False
             )
             await asyncio.sleep(0)
+        if answer_type["answer_type"] == "pie_chart":
+            await asyncio.sleep(0)
+            yield QueryResponse(message="Querying the database", status=True)
+            await asyncio.sleep(0)
+            db = SQLDatabase.from_uri(connection_string)
+            llm = ChatOpenAI(model="gpt-4", temperature=0)
+
+            execute_query = QuerySQLDataBaseTool(db=db)
+
+            write_query = create_sql_query_chain(llm, db)
+
+            answer_prompt = PromptTemplate.from_template(
+                """Given the following user question, corresponding SQL query, and SQL result. Frame the answer in the form of a pie chart. Your response should be the following format:
+
+                List of dictionaries where the key represents the label and the value is the percent share of the label data points. they label should be the key and the value of the key should be the percentage share of the data points.
+
+                Frame your answer from the sql result only and your output should be only in the above JSON format.
+
+                Question: {question}
+                SQL Query: {query}
+                SQL Result: {result}
+                Answer: """
+            )
+
+            answer = answer_prompt | llm | StrOutputParser()
+            chain = (
+                RunnablePassthrough.assign(query=write_query).assign(
+                    result=itemgetter("query") | execute_query
+                )
+                | answer
+            )
+
+            response = chain.invoke({"question": user_query})
+
+            print("############################# The final response", response)
+            await asyncio.sleep(0)
+            yield QueryResponse(message=response, answer_type="pie_chart", status=False)
+            await asyncio.sleep(0)
 
     def general_raw_query(self, query: str, connection_string: str):
         engine = create_engine(connection_string)

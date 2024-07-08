@@ -55,11 +55,7 @@ const PieChart = ({ data }: PieChartProps) => {
     },
   };
 
-  return (
-    <div className="w-3/4">
-      <Pie data={chartData} options={options} />
-    </div>
-  );
+  return <Pie data={chartData} options={options} />;
 };
 
 export default PieChart;

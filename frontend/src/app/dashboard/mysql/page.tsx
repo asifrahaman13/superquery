@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import ConnectionSettings from '@/app/components/ConnectionSettings';
+import ConnectionSettings from '@/app/components/ConnectionSettings/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
 import BarChart from '@/app/components/Charts/BarChart';
 import LineChart from '@/app/components/Charts/LineChart';

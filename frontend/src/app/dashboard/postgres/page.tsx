@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ConnectionSettings from '@/app/components/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
-import BarChart from '@/app/components/BarChart';
-import LineChart from '@/app/components/LineChart';
+import BarChart from '@/app/components/Charts/BarChart';
+import LineChart from '@/app/components/Charts/LineChart';
 import { SiPostgresql } from 'react-icons/si';
 import { History, Status } from '@/constants/types/type.query';
 import { raw_query_interface } from '@/exports/exports';
@@ -11,6 +11,7 @@ import { postgresTexts } from '@/constants/static/postgres/postgresTexts';
 import Skeleton from '@/app/components/ui/Skeleton';
 import ButtonStatus from '@/app/components/ui/ButtonStatus';
 import TableView from '@/app/components/TableView';
+import PieChart from '@/app/components/Charts/pieChart';
 
 const Page = () => {
   const websocketRef = useRef<WebSocket | null>(null);
@@ -141,6 +142,9 @@ const Page = () => {
                           )}
                           {item.answer_type == 'line_chart' && (
                             <LineChart data={{ message: item.message }} />
+                          )}
+                          {item.answer_type === 'pie_chart' && (
+                            <PieChart data={{ message: item.message }} />
                           )}
                           {item.answer_type === 'plain_answer' && (
                             <div className="max-w-3/4  ml-auto flex justify-start ">

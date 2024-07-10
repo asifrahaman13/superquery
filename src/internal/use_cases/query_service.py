@@ -46,10 +46,16 @@ class QueryService(QueryInterface):
             )
             if available_pinecone_client:
                 async for response in self.query_database.query_database(
-                    query,
-                    available_pinecone_client["pinecone"]["index_name"],
-                    available_pinecone_client["pinecone"]["model_name"],
-                    available_pinecone_client["pinecone"]["api_key"],
+                    query, **available_pinecone_client["pinecone"]
+                ):
+                    yield response
+        elif db == "qdrant":
+            available_qdrant_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_qdrant_client:
+                async for response in self.query_database.query_database(
+                    query, **available_qdrant_client["qdrant"]
                 ):
                     yield response
 

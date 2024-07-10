@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from jose import JWTError, jwt
+from jose import ExpiredSignatureError, JWTError, jwt
 from config.config import SECRET_KEY
 from datetime import datetime, UTC
 
@@ -82,9 +82,9 @@ class AuthRepository:
                 return access_token
             else:
                 raise ValueError("Refresh token is missing user ID")
-        except jwt.ExpiredSignatureError:
+        except ExpiredSignatureError:
             raise ValueError("Refresh token has expired")
-        except jwt.InvalidTokenError:
+        except JWTError:
             raise ValueError("Invalid refresh token")
 
     def get_current_user(self, token) -> str:

@@ -8,8 +8,14 @@ class PineconeQueryRepository:
         self.open_ai_client = open_ai_client
 
     async def query_database(
-        self, query: str, index_name: str, model_name: str, pinecone_api_key: str
+        self,
+        query: str,
+        *args,
+        **kwargs,
     ):
+        index_name = kwargs.get("index_name")
+        model_name = kwargs.get("model_name")
+        pinecone_api_key = kwargs.get("pinecone_api_key")
 
         # Initialize Pinecone
         pinecone = Pinecone(api_key=pinecone_api_key)
@@ -64,7 +70,5 @@ class PineconeQueryRepository:
         )
 
         data_source = result.to_dict() if hasattr(result, "to_dict") else result
-
-        print("#################", data_source)
 
         return data_source

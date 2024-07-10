@@ -13,14 +13,10 @@ import {
   IconComponentsProps,
   ICONS,
   RenderConversationProps,
-  TITLE,
 } from '@/constants/types/type.dashboard';
 
 const IconComponents: React.FC<IconComponentsProps> = ({ props }) => {
   const IconComponent = ICONS[props.slug];
-
-  console.log('IconComponent:', IconComponent);
-  console.log('Title:', TITLE[props.slug]);
 
   if (!IconComponent) {
     console.error(`Icon component not found for slug: ${props.slug}`);
@@ -94,13 +90,11 @@ const RenderConversation = ({
                   )}
 
                   {item?.messageFrom === 'user' && (
-                    <>
-                      <div className=" w-3/4 max-w-3/4  ml-auto flex justify-end ">
-                        <p className="bg-gray-200  rounded-md p-2">
-                          {item.message}
-                        </p>
-                      </div>
-                    </>
+                    <div className=" w-3/4 max-w-3/4  ml-auto flex justify-end ">
+                      <p className="bg-gray-200  rounded-md p-2">
+                        {item.message}
+                      </p>
+                    </div>
                   )}
                 </div>
               ))}
@@ -116,14 +110,12 @@ const RenderConversation = ({
                 <div>Start conversation with our AI agent.</div>
                 <div className="flex gap-4  ">
                   {texts.map((text, index) => (
-                    <>
-                      <div
-                        className="bg-gray-100 w-1/4 p-4 rounded-lg"
-                        key={index}
-                      >
-                        {text}
-                      </div>
-                    </>
+                    <div
+                      className="bg-gray-100 w-1/4 p-4 rounded-lg"
+                      key={index}
+                    >
+                      {text}
+                    </div>
                   ))}
                 </div>
               </>
@@ -142,14 +134,12 @@ const RenderConversation = ({
           />
 
           {!status.status ? (
-            <>
-              <button
-                onClick={handleSubmit}
-                className="bg-Pri-Dark rounded-lg  p-3 px-5 font-semibold text-white"
-              >
-                Submit
-              </button>
-            </>
+            <button
+              onClick={handleSubmit}
+              className="bg-Pri-Dark rounded-lg  p-3 px-5 font-semibold text-white"
+            >
+              Submit
+            </button>
           ) : (
             <ButtonStatus message={status.message} />
           )}

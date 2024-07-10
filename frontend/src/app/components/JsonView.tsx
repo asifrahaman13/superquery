@@ -5,7 +5,6 @@ interface JSONRendererProps {
 }
 
 const JSONRenderer: React.FC<JSONRendererProps> = ({ data }) => {
-  // Recursive function to render JSON data with indentation
   const renderJSON = (data: any, indentLevel: number = 0): JSX.Element => {
     if (Array.isArray(data)) {
       return (

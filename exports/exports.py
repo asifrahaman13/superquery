@@ -83,10 +83,7 @@ class DIContainer:
 
     def get_pinecone_query_repository(self):
         if "pinecone_query_repository" not in self.__instances:
-            open_ai_client = LlmResponse(OpenAI(api_key=OPEN_AI_API_KEY))
-            self.__instances["pinecone_query_repository"] = PineconeQueryRepository(
-                open_ai_client
-            )
+            self.__instances["pinecone_query_repository"] = PineconeQueryRepository()
         return self.__instances["pinecone_query_repository"]
 
     def get_qdrant_query_repository(self):
@@ -94,9 +91,8 @@ class DIContainer:
 
             embedding_service: EmbeddingService = EmbeddingService()
             qdrant_service: QdrantService = QdrantService()
-            open_ai_client = LlmResponse(OpenAI(api_key=OPEN_AI_API_KEY))
             self.__instances["qdrant_query_repository"] = QdrantQueryRepository(
-                embedding_service, qdrant_service, open_ai_client
+                embedding_service, qdrant_service 
             )
         return self.__instances["qdrant_query_repository"]
 

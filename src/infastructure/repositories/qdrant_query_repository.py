@@ -2,6 +2,7 @@ import asyncio
 import logging
 from typing import Dict, List
 from qdrant_client.models import PointStruct
+from src.infastructure.repositories.helper.llm_response import LlmResponse
 from src.internal.entities.router_models import QueryResponse
 from src.infastructure.repositories.helper.embeddings_assistant import EmbeddingService
 from src.infastructure.repositories.helper.qdrant_service_assistant import QdrantService
@@ -18,11 +19,9 @@ class QdrantQueryRepository:
         self,
         embedding_service: EmbeddingService,
         qdrant_service: QdrantService,
-        open_ai_client: Client,
     ):
         self.__embedding_service = embedding_service
         self.__qdrant_service = qdrant_service
-        self.__open_ai_client = open_ai_client
 
     """
     Prepare the points from the text and metadata. Metadata includes the front end configuration 
@@ -81,7 +80,9 @@ class QdrantQueryRepository:
 
             logging.info(f"qdrant service response: {response}")
 
-            llm_response = self.__open_ai_client.bulk_llm_response(
+            open_ai_client = LlmResponse(Client(api_key=open_ai_api_key))
+
+            llm_response = open_ai_client.bulk_llm_response(
                 query_text, response, "qdrant"
             )
             await asyncio.sleep(0)

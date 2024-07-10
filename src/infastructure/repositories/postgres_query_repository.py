@@ -16,28 +16,26 @@ class PostgresQueryRepository:
 
         answer_type = FormatAssistant().run_answer_type_assistant(user_query)
 
-        print("#################", answer_type)
-
         if answer_type["answer_type"] == "plain_answer":
-            async for response in self.handle_answer_type._handle_plain_answer(
+            async for response in self.handle_answer_type.handle_plain_answer(
                 user_query, connection_string
             ):
                 yield response
 
         elif answer_type["answer_type"] == "bar_chart":
-            async for response in self.handle_answer_type._handle_bar_chart(
+            async for response in self.handle_answer_type.handle_bar_chart(
                 user_query, connection_string
             ):
                 yield response
 
         elif answer_type["answer_type"] == "line_chart":
-            async for response in self.handle_answer_type._handle_line_chart(
+            async for response in self.handle_answer_type.handle_line_chart(
                 user_query, connection_string
             ):
                 yield response
 
         elif answer_type["answer_type"] == "pie_chart":
-            async for response in self.handle_answer_type._handle_pie_chart(
+            async for response in self.handle_answer_type.handle_pie_chart(
                 user_query, connection_string
             ):
                 yield response

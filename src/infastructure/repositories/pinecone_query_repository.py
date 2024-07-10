@@ -1,14 +1,14 @@
 import asyncio
+from openai import OpenAI
 from pinecone import Pinecone
+from src.infastructure.repositories.helper.llm_response import LlmResponse
 from src.internal.entities.router_models import QueryResponse
 
 
 class PineconeQueryRepository:
-    def __init__(self, open_ai_client) -> None:
-        self.open_ai_client = open_ai_client
 
+    @staticmethod
     async def query_database(
-        self,
         query: str,
         *args,
         **kwargs,
@@ -16,6 +16,7 @@ class PineconeQueryRepository:
         index_name = kwargs.get("index_name")
         model_name = kwargs.get("model_name")
         pinecone_api_key = kwargs.get("pinecone_api_key")
+        open_ai_api_key = kwargs.get("open_ai_api_key")
 
         # Initialize Pinecone
         pinecone = Pinecone(api_key=pinecone_api_key)
@@ -27,8 +28,10 @@ class PineconeQueryRepository:
         )
         await asyncio.sleep(0)
 
+        open_ai_client = LlmResponse(OpenAI(api_key=open_ai_api_key))
+
         # Perform a semantic search
-        query_embedding = self.open_ai_client.embed_text(query, model_name)
+        query_embedding = open_ai_client.embed_text(query, model_name)
 
         # Query the index with the new data
         result = index.query(
@@ -45,24 +48,30 @@ class PineconeQueryRepository:
         )
         await asyncio.sleep(0)
 
-        response = self.open_ai_client.bulk_llm_response(query, data_source, "pinecone")
+        response = open_ai_client.bulk_llm_response(query, data_source, "pinecone")
 
         await asyncio.sleep(0)
         yield QueryResponse(message=response, status=False, answer_type="plain_answer")
         await asyncio.sleep(0)
 
-    def general_raw_query(self, query: str, *args, **kwargs):
+    @staticmethod
+    def general_raw_query(query: str, *args, **kwargs):
+
+        print("Querying Pinecone", query, kwargs)
 
         index_name = kwargs.get("index_name")
         model_name = kwargs.get("model_name")
         pinecone_api_key = kwargs.get("pinecone_api_key")
+        open_ai_api_key = kwargs.get("open_ai_api_key")
 
         # Initialize Pinecone
         pinecone = Pinecone(api_key=pinecone_api_key)
         index = pinecone.Index(index_name)
 
+        open_ai_client = LlmResponse(OpenAI(api_key=open_ai_api_key))
+
         # Perform a semantic search
-        query_embedding = self.open_ai_client.embed_text(query, model_name)
+        query_embedding = open_ai_client.embed_text(query, model_name)
 
         # Query the index with the new data
         result = index.query(

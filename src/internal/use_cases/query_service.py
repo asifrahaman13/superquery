@@ -92,6 +92,9 @@ class QueryService(QueryInterface):
                 "configurations", "username", user
             )
 
+            print("########################", available_pinecone_client)
+            print("########################", self.query_database)
+
             if available_pinecone_client:
                 return self.query_database.general_raw_query(
                     query, **available_pinecone_client["pinecone"]
@@ -105,4 +108,3 @@ class QueryService(QueryInterface):
                 return self.query_database.general_raw_query(
                     query, **available_qdrant_client["qdrant"]
                 )
-        return {"error": "Some error occured. sorry"}

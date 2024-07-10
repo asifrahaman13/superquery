@@ -12,7 +12,7 @@ from operator import itemgetter
 
 
 class HandleAnswerTypes:
-    async def _handle_plain_answer(self, user_query: str, connection_string: str):
+    async def handle_plain_answer(self, user_query: str, connection_string: str):
         await asyncio.sleep(0)
         yield QueryResponse(message="Querying the database", status=True)
         await asyncio.sleep(0)
@@ -45,7 +45,7 @@ class HandleAnswerTypes:
         yield QueryResponse(message=response, answer_type="plain_answer", status=False)
         await asyncio.sleep(0)
 
-    async def _handle_bar_chart(self, user_query: str, connection_string: str):
+    async def handle_bar_chart(self, user_query: str, connection_string: str):
         await asyncio.sleep(0)
         yield QueryResponse(message="Querying the database", status=True)
         await asyncio.sleep(0)
@@ -82,7 +82,7 @@ class HandleAnswerTypes:
         yield QueryResponse(message=response, answer_type="bar_chart", status=False)
         await asyncio.sleep(0)
 
-    async def _handle_line_chart(self, user_query: str, connection_string: str):
+    async def handle_line_chart(self, user_query: str, connection_string: str):
         await asyncio.sleep(0)
         yield QueryResponse(message="Querying the database", status=True)
         await asyncio.sleep(0)
@@ -119,7 +119,7 @@ class HandleAnswerTypes:
         yield QueryResponse(message=response, answer_type="line_chart", status=False)
         await asyncio.sleep(0)
 
-    async def _handle_pie_chart(self, user_query: str, connection_string: str):
+    async def handle_pie_chart(self, user_query: str, connection_string: str):
         await asyncio.sleep(0)
         yield QueryResponse(message="Querying the database", status=True)
         await asyncio.sleep(0)

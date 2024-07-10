@@ -93,17 +93,16 @@ class QueryService(QueryInterface):
             )
 
             if available_pinecone_client:
-                print(
-                    query,
-                    available_pinecone_client["pinecone"]["index_name"],
-                    available_pinecone_client["pinecone"]["model_name"],
-                    available_pinecone_client["pinecone"]["api_key"],
-                )
-                print(self.query_database)
                 return self.query_database.general_raw_query(
-                    query,
-                    available_pinecone_client["pinecone"]["index_name"],
-                    available_pinecone_client["pinecone"]["model_name"],
-                    available_pinecone_client["pinecone"]["api_key"],
+                    query, **available_pinecone_client["pinecone"]
+                )
+
+        elif db == "qdrant":
+            available_qdrant_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_qdrant_client:
+                return self.query_database.general_raw_query(
+                    query, **available_qdrant_client["qdrant"]
                 )
         return {"error": "Some error occured. sorry"}

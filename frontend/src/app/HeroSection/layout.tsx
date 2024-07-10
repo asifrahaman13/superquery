@@ -6,9 +6,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <div>
       <HeroSection />
-
       {children}
-
       <FooterComponent />
     </div>
   );

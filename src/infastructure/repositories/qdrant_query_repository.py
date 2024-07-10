@@ -61,7 +61,7 @@ class QdrantQueryRepository:
         try:
             await asyncio.sleep(0)
             yield QueryResponse(
-                message="Querying Pinecone", status=True, answer_type="plain_answer"
+                message="Querying Qdrant", status=True, answer_type="plain_answer"
             )
             await asyncio.sleep(0)
             # Get the embeddings for the query text.
@@ -94,3 +94,34 @@ class QdrantQueryRepository:
             yield QueryResponse(
                 message="Failed to search", status=False, answer_type="plain_answer"
             )
+
+    def general_raw_query(self, query_text: str, *args, **kwargs):
+        collection_name = kwargs.get("collection_name")
+        embedding_model_name = kwargs.get("embedding_model_name")
+        open_ai_api_key = kwargs.get("open_ai_api_key")
+        qdrant_api_key = kwargs.get("qdrant_api_key")
+        api_endpoint = kwargs.get("api_endpoint")
+        try:
+
+            # Get the embeddings for the query text.
+            query_embedding = self.__embedding_service.get_embeddings(
+                query_text,
+                api_key=open_ai_api_key,
+                embedding_model=embedding_model_name,
+            )
+
+            # Search the text using the embeddings.
+            response = self.__qdrant_service.search(
+                query_embedding,
+                collection_name,
+                api_endpoint=api_endpoint,
+                qdrant_api_key=qdrant_api_key,
+            )
+
+            logging.info(f"qdrant service response: {response}")
+
+            return response
+
+        except Exception as e:
+            logging.error(f"Failed to search: {e}")
+            return {"error": "Some error occured. sorry"}

@@ -31,6 +31,8 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { clearHistory } from '@/lib/conversation/conversationSlice';
 const userNavigation = [
   { name: 'Your profile', href: '#' },
   { name: 'Sign out', href: 'signout' },
@@ -116,8 +118,11 @@ export default function DashboardLayout({
     },
   ]);
 
+  const dispatch = useDispatch();
+
   const router = usePathname();
   useEffect(() => {
+    dispatch(clearHistory());
     const path = router;
     SetNavigation(
       navigation.map((item) => {

@@ -51,9 +51,11 @@ class PineconeQueryRepository:
         yield QueryResponse(message=response, status=False, answer_type="plain_answer")
         await asyncio.sleep(0)
 
-    def general_raw_query(
-        self, query: str, index_name: str, model_name: str, pinecone_api_key: str
-    ):
+    def general_raw_query(self, query: str, *args, **kwargs):
+
+        index_name = kwargs.get("index_name")
+        model_name = kwargs.get("model_name")
+        pinecone_api_key = kwargs.get("pinecone_api_key")
 
         # Initialize Pinecone
         pinecone = Pinecone(api_key=pinecone_api_key)

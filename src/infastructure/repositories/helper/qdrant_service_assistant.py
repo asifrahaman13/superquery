@@ -1,9 +1,4 @@
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import (
-    Filter,
-    FieldCondition,
-    MatchValue,
-)
 from openai import Client
 
 
@@ -30,6 +25,6 @@ class QdrantService:
         return client.search(
             collection_name=collection_name,
             query_vector=query_embedding,
-            limit=5,
+            limit=1,
             # query_filter=filter_condition,
         )

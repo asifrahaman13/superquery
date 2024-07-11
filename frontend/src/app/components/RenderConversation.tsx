@@ -106,8 +106,6 @@ const RenderConversation = ({
             {conversationSlice.history.length === 0 && (
               <>
                 <IconComponents props={{ slug: db }} />
-
-                <div>Start conversation with our AI agent.</div>
                 <div className="flex gap-4  ">
                   {texts.map((text, index) => (
                     <div

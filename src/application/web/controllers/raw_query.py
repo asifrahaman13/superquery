@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, Header
+from fastapi import APIRouter, Depends, HTTPException, Header
+from src.constants.databases.database_service_mapping import QueryServiceMapping
 from exports.exports import (
     get_auth_service,
     get_mysql_query_database_service,
@@ -16,58 +17,41 @@ raw_query_controller = APIRouter()
 
 
 @raw_query_controller.post("/raw-query")
-async def raw_query_mysql(
+async def raw_query(
     query: QueryBase,
     token: str = Header(..., alias="Authorization"),
+    auth_service: AuthService = Depends(get_auth_service),
     mysql_query_service: QueryService = Depends(get_mysql_query_database_service),
     postgres_query_service: QueryService = Depends(get_postgres_query_database_service),
     sqlite_query_service: QueryService = Depends(get_sqlite_query_database_service),
     pinecone_query_service: QueryService = Depends(get_pinecone_query_database_service),
     qdrant_query_service: QueryService = Depends(get_qdrant_query_database_service),
     neo4j_query_service: QueryService = Depends(get_neo4j_query_database_service),
-    auth_service: AuthService = Depends(get_auth_service),
 ):
+    db_service_mapping = QueryServiceMapping.get_mapping(
+        mysql_query_service,
+        postgres_query_service,
+        sqlite_query_service,
+        pinecone_query_service,
+        qdrant_query_service,
+        neo4j_query_service,
+    )
+
     try:
         user = auth_service.user_info(token.split(" ")[1])
         if user is None:
-            return {"error": "Some error occured."}
+            raise HTTPException(status_code=401, detail="Authentication failed")
 
-        elif query.db_type == "mysql":
-            response = mysql_query_service.general_raw_query(
-                user["sub"], query.raw_query, query.db_type
+        service, response_type = db_service_mapping.get(query.db_type, (None, None))
+        if not service:
+            raise HTTPException(
+                status_code=400, detail=f"Unsupported database type: {query.db_type}"
             )
-            print("#######################", response)
-            return {"response": response, "response_type": "table"}
 
-        elif query.db_type == "postgres":
-            response = postgres_query_service.general_raw_query(
-                user["sub"], query.raw_query, query.db_type
-            )
-            return {"response": response, "response_type": "table"}
-
-        elif query.db_type == "sqlite":
-            response = sqlite_query_service.general_raw_query(
-                user["sub"], query.raw_query, query.db_type
-            )
-            return {"response": response, "response_type": "table"}
-
-        if query.db_type == "pinecone":
-            response = pinecone_query_service.general_raw_query(
-                user["sub"], query.raw_query, query.db_type
-            )
-            return {"response": response, "response_type": "json"}
-
-        elif query.db_type == "qdrant":
-            response = qdrant_query_service.general_raw_query(
-                user["sub"], query.raw_query, query.db_type
-            )
-            return {"response": response, "response_type": "json"}
-
-        elif query.db_type == "neo4j":
-            response = neo4j_query_service.general_raw_query(
-                user["sub"], query.raw_query, query.db_type
-            )
-            return {"response": response, "response_type": "json"}
+        response = service.general_raw_query(
+            user["sub"], query.raw_query, query.db_type
+        )
+        return {"response": response, "response_type": response_type}
 
     except Exception as e:
-        return {"error": e}
+        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")

@@ -84,7 +84,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
               className="pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700"
             >
               <div className="flex h-full flex-col divide-y divide-gray-200 text-Pri-Dark bg-white shadow-xl">
-                <div className="h-0 flex-1 overflow-y-auto">
+                <div className="h-0 flex-1 overflow-y-scroll no-scrollbar">
                   <div className=" px-4 py-6 sm:px-6">
                     <div className="flex items-center justify-between">
                       <DialogTitle className="text-base font-semibold leading-6 ">
@@ -93,7 +93,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                       <div className="ml-3 flex h-7 items-center">
                         <button
                           type="button"
-                          className="relative rounded-md  text-Pri-Dark hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                          className="relative rounded-md  text-Pri-Dark  focus:outline-none focus:ring-2 "
                           onClick={() => setOpen(false)}
                         >
                           <span className="absolute -inset-2.5" />

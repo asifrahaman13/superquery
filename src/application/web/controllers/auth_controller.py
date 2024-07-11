@@ -11,7 +11,7 @@ async def register(
     user: UserBase, auth_service: AuthService = Depends(get_auth_service)
 ):
     try:
-        response = auth_service.singup(user.username, user.email, user.password)
+        response = auth_service.signup(user.username, user.email, user.password)
         if response is None:
             return {"error": "Some error occured."}
         return {"message": "User registered successfully."}

@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class AuthInterface(ABC):
     @abstractmethod
-    def singup(self, username: str, email: str, password: str):
+    def signup(self, username: str, email: str, password: str):
         pass
 
     @abstractmethod

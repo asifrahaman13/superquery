@@ -52,24 +52,21 @@ interface DbSettings {
   dbType: string;
 }
 
-interface ProjectConfig {
-  db_type: string;
-  projectName: string;
-  username: string;
-  description: string;
-  connectionString: string;
+interface Configuration {
+  key?: string;
+}
+function snakeToTitleCase(snakeCaseStr: string): string {
+  const words = snakeCaseStr.split('_');
+  const titleCaseStr = words
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+  return titleCaseStr;
 }
 
 export default function ConnectionSettings({ dbType }: DbSettings) {
   const [open, setOpen] = useState(true);
 
-  const [configuration, setConfiguration] = useState<ProjectConfig>({
-    db_type: '',
-    projectName: '',
-    username: '',
-    description: '',
-    connectionString: '',
-  });
+  const [configuration, setConfiguration] = useState<Configuration>({});
 
   useEffect(() => {
     async function fetchConfigurations(dbType: string) {
@@ -123,17 +120,17 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
               transition
               className="pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700"
             >
-              <div className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
+              <div className="flex h-full flex-col divide-y divide-gray-200 text-Pri-Dark bg-white shadow-xl">
                 <div className="h-0 flex-1 overflow-y-auto">
-                  <div className="bg-indigo-400 px-4 py-6 sm:px-6">
+                  <div className=" px-4 py-6 sm:px-6">
                     <div className="flex items-center justify-between">
-                      <DialogTitle className="text-base font-semibold leading-6 text-white">
+                      <DialogTitle className="text-base font-semibold leading-6 ">
                         {dbType}
                       </DialogTitle>
                       <div className="ml-3 flex h-7 items-center">
                         <button
                           type="button"
-                          className="relative rounded-md bg-indigo-400 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                          className="relative rounded-md  text-Pri-Dark hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
                           onClick={() => setOpen(false)}
                         >
                           <span className="absolute -inset-2.5" />
@@ -143,7 +140,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                       </div>
                     </div>
                     <div className="mt-1">
-                      <p className="text-sm text-white">
+                      <p className="text-sm ">
                         Get started by filling in the information below to
                         create your new project.
                       </p>
@@ -152,73 +149,33 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                   <div className="flex flex-1 flex-col justify-between">
                     <div className="divide-y divide-gray-200 px-4 sm:px-6">
                       <div className="space-y-6 pb-5 pt-6">
-                        <div>
-                          <label
-                            htmlFor="project-name"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Project name
-                          </label>
-                          <div className="mt-2">
-                            <input
-                              type="text"
-                              name="projectName"
-                              id="project-name"
-                              value={configuration.projectName}
-                              onChange={(e: {
-                                target: { name: any; value: any };
-                              }) => {
-                                handleConfigurationChange(e);
-                              }}
-                              className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
-                            />
+                        {Object.values(configuration).map((item, index) => (
+                          <div key={index}>
+                            <label
+                              htmlFor="project-name"
+                              className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                              {snakeToTitleCase(
+                                Object.keys(configuration)[index]
+                              )}
+                            </label>
+                            <div className="mt-2">
+                              <input
+                                type="text"
+                                name={Object.keys(configuration)[index]}
+                                id={Object.keys(configuration)[index]}
+                                value={item}
+                                onChange={(e: {
+                                  target: { name: any; value: any };
+                                }) => {
+                                  handleConfigurationChange(e);
+                                }}
+                                className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="project-name"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Connection string
-                          </label>
-                          <div className="mt-2">
-                            <textarea
-                              name="connectionString"
-                              id="connection-string"
-                              rows={2}
-                              value={configuration.connectionString}
-                              onChange={(e: {
-                                target: { name: any; value: any };
-                              }) => {
-                                handleConfigurationChange(e);
-                              }}
-                              className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="description"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Description
-                          </label>
-                          <div className="mt-2">
-                            <textarea
-                              id="description"
-                              name="description"
-                              rows={4}
-                              value={configuration.description}
-                              onChange={(e: {
-                                target: { name: any; value: any };
-                              }) => {
-                                handleConfigurationChange(e);
-                              }}
-                              className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
-                              defaultValue={''}
-                            />
-                          </div>
-                        </div>
+                        ))}
+
                         <div>
                           <h3 className="text-sm font-medium leading-6 text-gray-900">
                             Team Members

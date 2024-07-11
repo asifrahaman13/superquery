@@ -38,11 +38,5 @@ class QueryService(QueryInterface):
         )
         if available_client and db_key in available_client:
             connection_string = available_client[db_key]
-            print(
-                "normal client...........................................",
-                connection_string,
-            )
-            # print("** client...........................................", **connection_string)
-
             return self.query_database.general_raw_query(query, **connection_string)
         return None

@@ -9,7 +9,8 @@ class PostgresQueryRepository:
     def __init__(self, handle_answer_type) -> None:
         self.handle_answer_type = handle_answer_type
 
-    async def query_database(self, user_query: str, connection_string: str):
+    async def query_database(self, user_query: str, *args, **kwargs):
+        connection_string: str = kwargs.get("connectionString")
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
         await asyncio.sleep(0)
@@ -40,7 +41,8 @@ class PostgresQueryRepository:
             ):
                 yield response
 
-    def general_raw_query(self, query: str, connection_string: str):
+    def general_raw_query(self, query: str, *args, **kwargs):
+        connection_string: str = kwargs.get("connectionString")
         engine = create_engine(connection_string)
         SQLModel.metadata.create_all(engine)
         with Session(engine) as session:

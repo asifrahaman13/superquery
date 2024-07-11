@@ -1,4 +1,6 @@
+import React, { useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
+import html2canvas from 'html2canvas';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,12 +19,16 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
 interface BarChartProps {
   data: {
     message: string;
   };
 }
+
 const BarChart = ({ data }: BarChartProps) => {
+  const chartRef = useRef(null);
+
   // Parse the JSON data
   const parsedData = JSON.parse(data.message);
 
@@ -53,7 +59,25 @@ const BarChart = ({ data }: BarChartProps) => {
     },
   };
 
-  return <Bar data={chartData} options={options} />;
+  const saveChart = () => {
+    if (chartRef.current) {
+      html2canvas(chartRef.current).then((canvas) => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'chart.png';
+        link.click();
+      });
+    }
+  };
+
+  return (
+    <div>
+      <div ref={chartRef}>
+        <Bar data={chartData} options={options} />
+      </div>
+      <button onClick={saveChart}>Save Chart</button>
+    </div>
+  );
 };
 
 export default BarChart;

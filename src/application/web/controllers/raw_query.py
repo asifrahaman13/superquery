@@ -36,6 +36,7 @@ async def raw_query_mysql(
             response = mysql_query_service.general_raw_query(
                 user["sub"], query.raw_query, query.db_type
             )
+            print("#######################", response)
             return {"response": response, "response_type": "table"}
 
         elif query.db_type == "postgres":

@@ -1,4 +1,4 @@
-from openai import OpenAI
+from src.infastructure.repositories.neo4j_query_repository import Neo4jQueryRepository
 from src.infastructure.repositories.helper.embeddings_assistant import EmbeddingService
 from src.infastructure.repositories.helper.qdrant_service_assistant import QdrantService
 from src.infastructure.repositories.qdrant_query_repository import QdrantQueryRepository
@@ -95,6 +95,11 @@ class DIContainer:
                 embedding_service, qdrant_service 
             )
         return self.__instances["qdrant_query_repository"]
+    
+    def get_neo4j_query_repository(self):
+        if "neo4j_query_repository" not in self.__instances:
+            self.__instances["neo4j_query_repository"] = Neo4jQueryRepository()
+        return self.__instances["neo4j_query_repository"]
 
     def get_mysql_query_database_service(self):
         if "mysql_query_service" not in self.__instances:
@@ -138,6 +143,13 @@ class DIContainer:
                 self.get_qdrant_query_repository(), self.get_database_repository()
             )
         return self.__instances["qdrant_query_service"]
+    
+    def get_neo4j_query_database_service(self):
+        if "neo4j_query_service" not in self.__instances:
+            self.__instances["neo4j_query_service"] = QueryService(
+                self.get_neo4j_query_repository(), self.get_database_repository()
+            )
+        return self.__instances["neo4j_query_service"]
 
     def get_configuration_service(self):
         if "configuration_service" not in self.__instances:
@@ -173,9 +185,11 @@ def get_pinecone_query_database_service():
 def get_qdrant_query_database_service():
     return container.get_qdrant_query_database_service()
 
+def get_neo4j_query_database_service():
+    return container.get_neo4j_query_database_service()
+
 def get_auth_service():
     return container.get_auth_service()
-
 
 def get_configuration_service():
     return container.get_configuration_service()

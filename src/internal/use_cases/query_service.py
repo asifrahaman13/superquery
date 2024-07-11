@@ -12,7 +12,6 @@ class QueryService(QueryInterface):
         self, user: str, query: str, db: str
     ) -> AsyncGenerator[Dict[str, Any], None]:
         if db == "mysql":
-
             available_mysql_client = self.database.find_single_entity_by_field_name(
                 "configurations", "username", user
             )
@@ -56,6 +55,16 @@ class QueryService(QueryInterface):
             if available_qdrant_client:
                 async for response in self.query_database.query_database(
                     query, **available_qdrant_client["qdrant"]
+                ):
+                    yield response
+
+        elif db == "neo4j":
+            available_neo4j_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_neo4j_client:
+                async for response in self.query_database.query_database(
+                    query, **available_neo4j_client["neo4j"]
                 ):
                     yield response
 
@@ -92,9 +101,6 @@ class QueryService(QueryInterface):
                 "configurations", "username", user
             )
 
-            print("########################", available_pinecone_client)
-            print("########################", self.query_database)
-
             if available_pinecone_client:
                 return self.query_database.general_raw_query(
                     query, **available_pinecone_client["pinecone"]
@@ -107,4 +113,12 @@ class QueryService(QueryInterface):
             if available_qdrant_client:
                 return self.query_database.general_raw_query(
                     query, **available_qdrant_client["qdrant"]
+                )
+        elif db == "neo4j":
+            available_neo4j_client = self.database.find_single_entity_by_field_name(
+                "configurations", "username", user
+            )
+            if available_neo4j_client:
+                return self.query_database.general_raw_query(
+                    query, **available_neo4j_client["neo4j"]
                 )

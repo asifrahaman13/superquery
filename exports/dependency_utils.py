@@ -11,8 +11,6 @@ def get_current_user(
     token: str = Header(..., alias="Authorization"),
     auth_service: AuthService = Depends(get_auth_service),
 ) -> Dict:
-    if token is None:
-        raise HTTPException(status_code=400, detail="Token is required.")
     try:
         user = auth_service.user_info(token.split(" ")[1])
         if user is None:

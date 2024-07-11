@@ -127,7 +127,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
             db={db}
           />
           <div className="flex flex-col w-1/2  border-2 p-6 mb-12 bg-white rounded-2xl">
-            <div className="h-1/2 flex flex-col gap-6">
+            <div className="h-1/2 flex flex-col gap-2">
               <div className="flex  w-full justify-between">
                 <div className="text-3xl font-semibold text-Pri-Dark">
                   🎉 Manual Query
@@ -144,7 +144,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
               />
               <div className="flex justify-end">
                 <button
-                  className="bg-Pri-Dark rounded-lg text-righ p-3 px-5 font-semibold text-white"
+                  className="bg-Pri-Dark rounded-lg text-righ p-3  px-5 font-semibold text-white"
                   onClick={handleRawQuerySubmit}
                 >
                   Submit

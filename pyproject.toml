@@ -25,6 +25,7 @@ mysql-connector-python = "9.0.0"
 psycopg2 = "2.9.9"
 pinecone = "^4.0.0"
 qdrant-client = "^1.10.1"
+neo4j = "^5.22.0"
 
 [build-system]
 requires = ["poetry-core"]

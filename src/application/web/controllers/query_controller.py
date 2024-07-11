@@ -5,6 +5,7 @@ from src.internal.use_cases.query_service import QueryService
 from exports.exports import (
     get_auth_service,
     get_mysql_query_database_service,
+    get_neo4j_query_database_service,
     get_pinecone_query_database_service,
     get_postgres_query_database_service,
     get_mongodb_query_database_service,
@@ -158,4 +159,31 @@ async def query_qdrant(
                 await manager.send_personal_message(response.model_dump(), websocket)
                 await asyncio.sleep(0)
     except WebSocketDisconnect:
+        await manager.disconnect(websocket)
+
+
+@query_controller.websocket("/neo4j-query/{client_id}")
+async def query_neo4j(
+    websocket: WebSocket,
+    client_id: str,
+    query_service: QueryService = Depends(get_neo4j_query_database_service),
+    auth_service: AuthService = Depends(get_auth_service),
+):
+    user = auth_service.user_info(client_id)
+    if user is None:
+        await websocket.close()
+    await manager.connect(websocket, client_id)
+    try:
+        while True:
+            user_input = await websocket.receive_json()
+            query = user_input["query"]
+            async for response in query_service.query_db(user["sub"], query, "neo4j"):
+                print("Response:", response)
+                await asyncio.sleep(0)
+                await manager.send_personal_message(response.model_dump(), websocket)
+                await asyncio.sleep(0)
+    except WebSocketDisconnect:
+        await manager.disconnect(websocket)
+    except Exception as e:
+        print(e)
         await manager.disconnect(websocket)

@@ -1,4 +1,4 @@
-# About the application
+# 🎉 AI-powered query on databases.
 
 🚨 The project is under development, and lots of work is needed to be done.
 
@@ -12,7 +12,7 @@ The project will be actively maintained. The primary focus for upcoming weeks wi
 - Add cool features to it.
 - Add documentation for the developers.
 
-### Full stack AI-powered query on databases.
+### About the application
 
 🐍 AI-powered query on databases to automate the process of query, visualization, etc. Organizations can analyze their data and make decisions much faster. Leverages the use of AI and LLM.
 The application is user-friendly. The user only needs to enter the API keys, connection strings, etc., from the databases' settings section. They should be good to explore their databases!

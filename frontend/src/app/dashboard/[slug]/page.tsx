@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ConnectionSettings from '@/app/components/ConnectionSettings/ConnectionSettings';
 import useSettingsToggle from '@/app/hooks/toogle';
-import { mysqlTexts } from '@/constants/static/myssql/mysqlTexts';
+import { conversationStaticTexts } from '@/constants/static/staticTexts/staticTexts';
 import TableView from '@/app/components/TableView';
 import { raw_query_interface } from '@/exports/exports';
 import { Status } from '@/constants/types/type.query';
@@ -122,7 +122,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
         <div className="w-full flex flex-row h-full p-4 gap-4">
           <RenderConversation
             websocketRef={websocketRef}
-            texts={mysqlTexts}
+            texts={conversationStaticTexts}
             status={status}
             db={db}
           />

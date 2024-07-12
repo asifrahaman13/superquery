@@ -26,3 +26,12 @@ Users can interact in natural languages without much technical knowledge. Howeve
 ## How to run the code:
 
 The guidelines for running the application can be found in the CONTRIBUTING.md file.
+
+
+## Contribution
+
+If you want to contribute to this repository, please follow the CONTRIBUTING.md guidelines.
+
+For discussions or queries, please join the discord server:
+
+[Join our Discord Server](https://discord.gg/bQBqdA6NsU)

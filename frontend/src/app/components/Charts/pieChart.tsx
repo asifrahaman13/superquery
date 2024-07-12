@@ -1,5 +1,7 @@
-import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import useSaveChart from '@/app/hooks/charts';
 
 ChartJS.register(ArcElement, Title, Tooltip, Legend);
 
@@ -10,6 +12,8 @@ interface PieChartProps {
 }
 
 const PieChart = ({ data }: PieChartProps) => {
+  const { chartRef, saveChart } = useSaveChart();
+
   // Parse the JSON data
   const parsedData = JSON.parse(data.message);
 
@@ -50,12 +54,19 @@ const PieChart = ({ data }: PieChartProps) => {
     plugins: {
       legend: {
         display: true,
-        position: 'top' as 'top', // Specify the position as 'top'
+        position: 'top' as const, // Specify the position as 'top'
       },
     },
   };
 
-  return <Pie data={chartData} options={options} />;
+  return (
+    <div>
+      <div ref={chartRef}>
+        <Pie data={chartData} options={options} />
+      </div>
+      <button onClick={saveChart}>Save Chart</button>
+    </div>
+  );
 };
 
 export default PieChart;

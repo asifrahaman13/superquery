@@ -41,25 +41,25 @@ const userNavigation = [
 const teams = [
   {
     id: 1,
-    name: 'Heroicons',
-    href: '#',
+    name: 'Saved graphs',
+    href: 'saved-graphs',
     initial: 'H',
     current: false,
   },
   {
     id: 2,
-    name: 'Tailwind Labs',
-    href: '#',
+    name: 'Links',
+    href: 'links',
     initial: 'T',
     current: false,
   },
-  {
-    id: 3,
-    name: 'Workcation',
-    href: '#',
-    initial: 'W',
-    current: false,
-  },
+  // {
+  //   id: 3,
+  //   name: 'Workcation',
+  //   href: '#',
+  //   initial: 'W',
+  //   current: false,
+  // },
 ];
 
 function classNames(...classes: string[]) {
@@ -214,7 +214,7 @@ export default function DashboardLayout({
                     </li>
                     <li>
                       <div className="text-xs font-semibold leading-6 text-gray-400">
-                        Your teams
+                        Glacier
                       </div>
                       <ul role="list" className="-mx-2 mt-2 space-y-1">
                         {teams.map((team) => (
@@ -307,13 +307,13 @@ export default function DashboardLayout({
                 </li>
                 <li>
                   <div className="text-xs font-semibold leading-6 text-gray-400">
-                    Your teams
+                    Glacier
                   </div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
                       <li key={team.name}>
                         <Link
-                          href={team.href}
+                          href={`/dashboard/${team.href}`}
                           className={classNames(
                             team.current
                               ? 'bg-gray-50 text-indigo-500'

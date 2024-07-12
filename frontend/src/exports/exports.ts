@@ -7,6 +7,9 @@ import { ConfigurationInterface } from '@/domain/interfaces/configInterface';
 import RawQueryRepository from '../infrastructure/repositories/RawQueryRepository';
 import RawQueryService from '@/domain/usecases/RawQueryService';
 import { RawQueryInterface } from '@/domain/interfaces/rawQueryInterface';
+import FileRepository from '@/infrastructure/repositories/FileRepository';
+import { FileInterface } from '@/domain/interfaces/fileInterface';
+import FileService from '@/domain/usecases/uploadService';
 
 const authRepository: AuthRepository = new AuthRepository();
 const auth_interface: AuthInterface = new AuthService(authRepository);
@@ -21,4 +24,12 @@ const raw_query_interface: RawQueryInterface = new RawQueryService(
   rawQueryRepository
 );
 
-export { auth_interface, configuration_interface, raw_query_interface };
+const fileRespository: FileRepository = new FileRepository();
+const file_interface: FileInterface = new FileService(fileRespository);
+
+export {
+  auth_interface,
+  configuration_interface,
+  raw_query_interface,
+  file_interface,
+};

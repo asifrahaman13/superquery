@@ -1,3 +1,4 @@
+import React from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -11,6 +12,7 @@ import {
   TimeScale,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
+import useSaveChart from '@/app/hooks/charts';
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +32,8 @@ interface LineChartProps {
 }
 
 const LineChart = ({ data }: LineChartProps) => {
+  const { chartRef, saveChart } = useSaveChart();
+
   // Parse the JSON data
   const parsedData = JSON.parse(data.message);
 
@@ -83,7 +87,14 @@ const LineChart = ({ data }: LineChartProps) => {
     datasets: datasets,
   };
 
-  return <Line data={chartData} options={options} />;
+  return (
+    <div>
+      <div ref={chartRef}>
+        <Line data={chartData} options={options} />
+      </div>
+      <button onClick={saveChart}>Save Chart</button>
+    </div>
+  );
 };
 
 export default LineChart;

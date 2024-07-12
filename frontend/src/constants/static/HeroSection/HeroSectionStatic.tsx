@@ -114,19 +114,20 @@ const navigation = [
     solutions: products,
   },
 ];
+
 const posts = [
   {
     id: 1,
-    title: 'Boost your conversion rate',
+    title: 'Enhance Your Data Analysis',
     href: '#',
     description:
-      "I've been using this knowledge base AI for a while now, and it has been incredibly helpful. The ability to upload files and chat with the AI makes it easy to find information quickly. The AI is also very responsive and provides accurate answers to my questions. Overall, a great tool for managing knowledge and improving productivity!",
-    date: 'Mar 16, 2020',
-    datetime: '2020-03-16',
-    category: { title: 'Marketing', href: '#' },
+      "I've been using this LLM-powered platform for data analysis, and it's incredibly effective. The ability to upload datasets and chat with the AI to get insights is a game-changer. The AI provides accurate and relevant answers to my queries, making data analysis much more efficient. Highly recommended for anyone looking to streamline their data workflows!",
+    date: 'Mar 16, 2025',
+    datetime: '2025-03-16',
+    category: { title: 'Data Analysis', href: '#' },
     author: {
       name: 'Michael Foster',
-      role: 'Co-Founder / CTO',
+      role: 'Data Scientist',
       href: '#',
       imageUrl:
         'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -134,16 +135,16 @@ const posts = [
   },
   {
     id: 2,
-    title: 'Increase your website traffic',
+    title: 'Boost Your Research Efficiency',
     href: '#',
     description:
-      ' This knowledge base AI is a game-changer! Being able to upload files and chat with the AI has made it so much easier to access information. The AI is smart and understands my queries, providing relevant answers in no time. It has definitely helped me become more efficient at work. Highly recommend!   ',
-    date: 'Mar 10, 2020',
-    datetime: '2020-03-10',
-    category: { title: 'SEO', href: '#' },
+      "This LLM-powered chat platform has revolutionized the way I conduct research. Uploading my data and getting immediate insights from the AI has saved me a lot of time. The AI understands complex queries and provides detailed, accurate answers. It's an essential tool for any researcher aiming to increase productivity.",
+    date: 'Mar 10, 2025',
+    datetime: '2025-03-10',
+    category: { title: 'Research', href: '#' },
     author: {
       name: 'Sylvia Hale',
-      role: 'Co-Founder / CEO',
+      role: 'Research Analyst',
       href: '#',
       imageUrl:
         'https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
@@ -151,19 +152,19 @@ const posts = [
   },
   {
     id: 3,
-    title: 'Optimize your social media strategy',
+    title: 'Optimize Your Business Insights',
     href: '#',
     description:
-      "I can't imagine managing my documents without this knowledge base AI. Uploading files and chatting with the AI feels like having a personal assistant. It's so intuitive and saves me a lot of time searching for information. The AI's ability to understand complex queries is impressive. It's a must-have tool for anyone looking to streamline their knowledge management process!.",
-    date: 'Feb 23, 2020',
-    datetime: '2020-02-23',
+      "This platform powered by LLMs has transformed how I obtain business insights. Uploading data and interacting with the AI to get detailed responses is like having an expert consultant available 24/7. It's intuitive, responsive, and has significantly improved the speed and accuracy of my business decision-making process. A must-have for any business professional!",
+    date: 'Feb 23, 2025',
+    datetime: '2025-02-23',
     category: {
-      title: 'Social Media',
+      title: 'Business Intelligence',
       href: '#',
     },
     author: {
       name: 'Bradley Hunter',
-      role: 'Marketing Specialist',
+      role: 'Business Analyst',
       href: '#',
       imageUrl:
         'https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',

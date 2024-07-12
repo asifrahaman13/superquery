@@ -17,7 +17,7 @@ export default function HeroSection() {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
-    const access_token = localStorage.getItem('access_token');
+    const access_token = localStorage.getItem('accessToken');
     if (access_token) {
       setIsSignedIn(true);
     }
@@ -128,12 +128,11 @@ export default function HeroSection() {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {isSignedIn === true ? (
-            <> Signed in</>
+            <div className="text-lg font-medium">Signed In</div>
           ) : (
-            <>
-              {' '}
-              <Link href="/auth/signup">Signup </Link>
-            </>
+            <Link href="/auth/signup  bg-Lime-Green p-2 rounded-md text-green-400">
+              Signup{' '}
+            </Link>
           )}
         </div>
       </nav>

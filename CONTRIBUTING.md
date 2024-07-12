@@ -1,6 +1,12 @@
-## Contribution guidelines  👨🏻‍🚀
+## 🎉 Contribution guidelines  👨🏻‍🚀
 
-- First, pull the repository. `git clone https://github.com/asifrahaman13/superquery.git`
+👈🏻 Thanks for visiting this page and your interest in contributing to this repository.
+
+- First, fork the repository. 
+
+- Next pull the forked repository. `git clone https://github.com/<your_username>/superquery.git`
+  
+- Upstream with the original repo `git remote add upstream https://github.com/asifrahaman13/superquery.git`
 
 - Go to the root directory. `cd superquery`
 
@@ -12,7 +18,7 @@
 
 ## Install precommit hooks.
 
-You need to install the pre-commit hooks to ensure that your code follows the proper guidelines and linting.
+You must install the pre-commit hooks to ensure that your code follows the proper guidelines and linting.
 
  `pre-commit install`
 
@@ -21,7 +27,7 @@ You need to run the application using the following script: `poetry run uvicorn 
 
 ## Frontend
 
-Next go to the front end folder 
+Next, go to the front-end folder 
 
 `cd frontend/`
 
@@ -29,18 +35,18 @@ Now, install the dependencies.
 
 `bun install`
 
-Next, you can run the code.
-
-`bun run dev`
-
 Now rename .env.example to .env file.
 
 `mv .env.example .env`
 
+Next, you can run the front-end application.
+
+`bun run dev`
+
 
 ## Run with docker
 
-The best way of utilizing the docker is through the docker-compose file.
+The best way to utilize the docker is through the docker compose file.
 
 `docker compose up -d`
 

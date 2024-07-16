@@ -21,9 +21,9 @@ class QueryService(QueryInterface):
             "configurations", "username", user
         )
         if available_client and db_key in available_client:
-            connection_string = available_client[db_key]
+            configurations = available_client[db_key]
             async for response in self.query_database.query_database(
-                query, **connection_string
+                query, **configurations
             ):
                 yield response
 

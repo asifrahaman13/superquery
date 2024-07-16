@@ -3,21 +3,22 @@
 import { useEffect, useState } from 'react';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import {
-  LinkIcon,
-  PlusIcon,
-  QuestionMarkCircleIcon,
-} from '@heroicons/react/20/solid';
 import { configuration_interface } from '@/exports/exports';
-import { team } from '@/constants/static/staticTexts/staticTexts';
 
 interface DbSettings {
   dbType: string;
 }
 
 interface Configuration {
-  key?: string;
+  db_type?: string;
+  projectName?: string;
+  username?: string;
+  description?: string;
+  connectionString?: string;
+  ddlCommands?: string[];
+  examples?: { query: string; sqlQuery: string }[];
 }
+
 function snakeToTitleCase(snakeCaseStr: string): string {
   const words = snakeCaseStr.split('_');
   const titleCaseStr = words
@@ -72,6 +73,22 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
     setConfiguration((prev) => ({ ...prev, [name]: value }));
   }
 
+  function handleDDLChange(index: number, value: string) {
+    setConfiguration((prev) => {
+      const ddlCommands = [...(prev.ddlCommands || [])];
+      ddlCommands[index] = value;
+      return { ...prev, ddlCommands };
+    });
+  }
+
+  function handleExampleChange(index: number, field: string, value: string) {
+    setConfiguration((prev) => {
+      const examples = [...(prev.examples || [])];
+      examples[index] = { ...examples[index], [field]: value };
+      return { ...prev, examples };
+    });
+  }
+
   return (
     <Dialog className="relative z-50" open={open} onClose={setOpen}>
       <div className="fixed inset-0" />
@@ -112,184 +129,109 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                   <div className="flex flex-1 flex-col justify-between">
                     <div className="divide-y divide-gray-200 px-4 sm:px-6">
                       <div className="space-y-6 pb-5 pt-6">
-                        {Object.values(configuration).map((item, index) => (
-                          <div key={index}>
-                            <label
-                              htmlFor="project-name"
-                              className="block text-sm font-medium leading-6 text-gray-900"
-                            >
-                              {snakeToTitleCase(
-                                Object.keys(configuration)[index]
-                              )}
-                            </label>
-                            <div className="mt-2">
-                              <input
-                                type="text"
-                                name={Object.keys(configuration)[index]}
-                                id={Object.keys(configuration)[index]}
-                                value={item}
-                                onChange={(e: {
-                                  target: { name: any; value: any };
-                                }) => {
-                                  handleConfigurationChange(e);
-                                }}
-                                className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2"
-                              />
-                            </div>
-                          </div>
-                        ))}
-
-                        <div>
-                          <h3 className="text-sm font-medium leading-6 text-gray-900">
-                            Team Members
-                          </h3>
-                          <div className="mt-2">
-                            <div className="flex space-x-2">
-                              {team.map((person) => (
-                                <a
-                                  key={person.email}
-                                  href={person.href}
-                                  className="relative rounded-full hover:opacity-75"
-                                >
-                                  <img
-                                    className="inline-block h-8 w-8 rounded-full"
-                                    src={person.imageUrl}
-                                    alt={person.name}
-                                  />
-                                </a>
-                              ))}
-                              <button
-                                type="button"
-                                className="relative inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                              >
-                                <span className="absolute -inset-2" />
-                                <span className="sr-only">Add team member</span>
-                                <PlusIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <fieldset>
-                          <legend className="text-sm font-medium leading-6 text-gray-900">
-                            Privacy
-                          </legend>
-                          <div className="mt-2 space-y-4">
-                            <div className="relative flex items-start">
-                              <div className="absolute flex h-6 items-center">
-                                <input
-                                  id="privacy-public"
-                                  name="privacy"
-                                  aria-describedby="privacy-public-description"
-                                  type="radio"
-                                  className="h-4 w-4 border-gray-300 text-indigo-400 focus:ring-indigo-400"
-                                  defaultChecked
-                                />
-                              </div>
-                              <div className="pl-7 text-sm leading-6">
-                                <label
-                                  htmlFor="privacy-public"
-                                  className="font-medium text-gray-900"
-                                >
-                                  Public access
-                                </label>
-                                <p
-                                  id="privacy-public-description"
-                                  className="text-gray-500"
-                                >
-                                  Everyone with the link will see this project.
-                                </p>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="relative flex items-start">
-                                <div className="absolute flex h-6 items-center">
-                                  <input
-                                    id="privacy-private-to-project"
-                                    name="privacy"
-                                    aria-describedby="privacy-private-to-project-description"
-                                    type="radio"
-                                    className="h-4 w-4 border-gray-300 text-indigo-400 focus:ring-indigo-400"
-                                  />
-                                </div>
-                                <div className="pl-7 text-sm leading-6">
+                        {Object.entries(configuration).map(
+                          ([key, value], index) => {
+                            if (Array.isArray(value)) {
+                              return (
+                                <div key={index}>
                                   <label
-                                    htmlFor="privacy-private-to-project"
-                                    className="font-medium text-gray-900"
+                                    htmlFor="project-name"
+                                    className="block text-sm font-medium leading-6 text-gray-900"
                                   >
-                                    Private to project members
+                                    {snakeToTitleCase(key)}
                                   </label>
-                                  <p
-                                    id="privacy-private-to-project-description"
-                                    className="text-gray-500"
-                                  >
-                                    Only members of this project would be able
-                                    to access.
-                                  </p>
+                                  {key === 'ddlCommands' ? (
+                                    value.map((item, idx) => (
+                                      <div key={idx} className="mt-2">
+                                        <textarea
+                                          name={`${key}-${idx}`}
+                                          id={`${key}-${idx}`}
+                                          value={item}
+                                          onChange={(e: {
+                                            target: { value: string };
+                                          }) => {
+                                            handleDDLChange(
+                                              idx,
+                                              e.target.value
+                                            );
+                                          }}
+                                          className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2 resize-none no-scrollbar"
+                                          rows={4}
+                                        />
+                                      </div>
+                                    ))
+                                  ) : key === 'examples' ? (
+                                    <div className="flex flex-col gap-8">
+                                      {value.map((example, idx) => (
+                                        <div key={idx} className="mt-2 ">
+                                          <div>{idx + 1}</div>
+                                          <textarea
+                                            name={`examples-query-${idx}`}
+                                            id={`examples-query-${idx}`}
+                                            value={example.query}
+                                            onChange={(e: {
+                                              target: { value: string };
+                                            }) => {
+                                              handleExampleChange(
+                                                idx,
+                                                'query',
+                                                e.target.value
+                                              );
+                                            }}
+                                            className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2 resize-none no-scrollbar"
+                                            rows={3}
+                                            placeholder="Query"
+                                          />
+                                          <textarea
+                                            rows={5}
+                                            name={`examples-sqlQuery-${idx}`}
+                                            id={`examples-sqlQuery-${idx}`}
+                                            value={example.sqlQuery}
+                                            onChange={(e: {
+                                              target: { value: string };
+                                            }) => {
+                                              handleExampleChange(
+                                                idx,
+                                                'sqlQuery',
+                                                e.target.value
+                                              );
+                                            }}
+                                            className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2 resize-none no-scrollbar"
+                                            placeholder="SQL Query"
+                                          />
+                                        </div>
+                                      ))}
+                                    </div>
+                                  ) : null}
                                 </div>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="relative flex items-start">
-                                <div className="absolute flex h-6 items-center">
-                                  <input
-                                    id="privacy-private"
-                                    name="privacy"
-                                    aria-describedby="privacy-private-to-project-description"
-                                    type="radio"
-                                    className="h-4 w-4 border-gray-300 text-indigo-400 focus:ring-indigo-400"
-                                  />
-                                </div>
-                                <div className="pl-7 text-sm leading-6">
+                              );
+                            } else {
+                              return (
+                                <div key={index}>
                                   <label
-                                    htmlFor="privacy-private"
-                                    className="font-medium text-gray-900"
+                                    htmlFor={key}
+                                    className="block text-sm font-medium leading-6 text-gray-900"
                                   >
-                                    Private to you
+                                    {snakeToTitleCase(key)}
                                   </label>
-                                  <p
-                                    id="privacy-private-description"
-                                    className="text-gray-500"
-                                  >
-                                    You are the only one able to access this
-                                    project.
-                                  </p>
+                                  <div className="mt-2">
+                                    <textarea
+                                      name={key}
+                                      id={key}
+                                      value={value}
+                                      onChange={(e: {
+                                        target: { name: any; value: any };
+                                      }) => {
+                                        handleConfigurationChange(e);
+                                      }}
+                                      className="block w-full rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2 no-scrollbar"
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                          </div>
-                        </fieldset>
-                      </div>
-
-                      <div className="pb-6 pt-4">
-                        <div className="flex text-sm">
-                          <a
-                            href="#"
-                            className="group inline-flex items-center font-medium text-indigo-400 hover:text-indigo-900"
-                          >
-                            <LinkIcon
-                              className="h-5 w-5 text-indigo-500 group-hover:text-indigo-900"
-                              aria-hidden="true"
-                            />
-                            <span className="ml-2">Copy link</span>
-                          </a>
-                        </div>
-                        <div className="mt-4 flex text-sm">
-                          <a
-                            href="#"
-                            className="group inline-flex items-center text-gray-500 hover:text-gray-900"
-                          >
-                            <QuestionMarkCircleIcon
-                              className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                              aria-hidden="true"
-                            />
-                            <span className="ml-2">
-                              Learn more about sharing
-                            </span>
-                          </a>
-                        </div>
+                              );
+                            }
+                          }
+                        )}
                       </div>
                     </div>
                   </div>
@@ -303,7 +245,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                     Cancel
                   </button>
                   <button
-                    className="ml-4 inline-flex justify-center rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                    className="ml-4 inline-flex justify-center rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                     onClick={updateConfigurations}
                   >
                     Save

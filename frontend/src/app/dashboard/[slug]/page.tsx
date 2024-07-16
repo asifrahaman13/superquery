@@ -111,7 +111,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
   return (
     <React.Fragment>
       {settingsBar && <ConnectionSettings dbType={db} key={key} />}
-      <div className="w-full my-16 flex flex-col">
+      <div className="w-full my-6 mb-16 flex flex-col">
         <div className="flex w-full justify-between items-center py-2 px-4">
           <div className=" font-semibold text-4xl text-Pri-Dark">
             {TITLE[db]}
@@ -143,7 +143,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
                 id="comment"
                 name="comment"
                 rows={4}
-                className="block w-full rounded-md border-s py-1.5 text-gray-900  p-2  border-2  border-Gray-Background outline-none placeholder:text-gray-400 sm:text-base sm:leading-6"
+                className="block w-full rounded-md border-s py-1.5 text-gray-900  p-2  border-2  border-Gray-Background outline-none no-scrollbar placeholder:text-gray-400 sm:text-base sm:leading-6"
                 defaultValue={''}
                 value={rawQuery}
                 onChange={handleRawQuery}

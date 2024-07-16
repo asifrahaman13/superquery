@@ -1,4 +1,6 @@
 import asyncio
+import json
+import sqlite3
 from src.internal.entities.router_models import QueryResponse
 from langchain_community.tools.sql_database.tool import QuerySQLDataBaseTool
 from langchain_community.utilities import SQLDatabase
@@ -16,34 +18,37 @@ class HandleAnswerTypes:
         await asyncio.sleep(0)
         yield QueryResponse(message="Querying the database", status=True)
         await asyncio.sleep(0)
-        db = SQLDatabase.from_uri(connection_string)
-        llm = ChatOpenAI(model="gpt-4", temperature=0)
 
-        execute_query = QuerySQLDataBaseTool(db=db)
-        write_query = create_sql_query_chain(llm, db)
+        print("Querying the database #########", connection_string)
 
-        answer_prompt = PromptTemplate.from_template(
-            """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
-
-            Question: {question}
-            SQL Query: {query}
-            SQL Result: {result}
-            Answer: """
+        conn = sqlite3.connect(connection_string[10:])
+        cursor = conn.cursor()
+        print("Connection established", user_query)
+        cursor.execute(user_query)
+        results = cursor.fetchall()
+        headers = (
+            [description[0] for description in cursor.description]
+            if cursor.description
+            else []
         )
+        data = [dict(zip(headers, row)) for row in results]
+        json_data = json.dumps(data)
+        print(json_data)
 
-        answer = answer_prompt | llm | StrOutputParser()
-        chain = (
-            RunnablePassthrough.assign(query=write_query).assign(
-                result=itemgetter("query") | execute_query
+        if results:
+            await asyncio.sleep(0)
+            yield QueryResponse(
+                message=json_data,
+                answer_type="table_response",
+                status=False,
             )
-            | answer
-        )
+            await asyncio.sleep(0)
 
-        response = chain.invoke({"question": user_query})
-        print(response)
-        await asyncio.sleep(0)
-        yield QueryResponse(message=response, answer_type="plain_answer", status=False)
-        await asyncio.sleep(0)
+            await asyncio.sleep(0)
+            yield QueryResponse(
+                sql_query=user_query, answer_type="sql_query", status=False
+            )
+            await asyncio.sleep(0)
 
     async def handle_bar_chart(self, user_query: str, connection_string: str):
         await asyncio.sleep(0)
@@ -77,7 +82,6 @@ class HandleAnswerTypes:
         )
 
         response = chain.invoke({"question": user_query})
-        print("############################# The final response", response)
         await asyncio.sleep(0)
         yield QueryResponse(message=response, answer_type="bar_chart", status=False)
         await asyncio.sleep(0)
@@ -114,7 +118,6 @@ class HandleAnswerTypes:
         )
 
         response = chain.invoke({"question": user_query})
-        print("############################# The final response", response)
         await asyncio.sleep(0)
         yield QueryResponse(message=response, answer_type="line_chart", status=False)
         await asyncio.sleep(0)
@@ -151,7 +154,6 @@ class HandleAnswerTypes:
         )
 
         response = chain.invoke({"question": user_query})
-        print("############################# The final response", response)
         await asyncio.sleep(0)
         yield QueryResponse(message=response, answer_type="pie_chart", status=False)
         await asyncio.sleep(0)

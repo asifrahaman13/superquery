@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Dispatch, AnyAction } from 'redux';
 
 // Define the state and action types
 interface ConversationState {
@@ -13,6 +12,7 @@ interface SetQueryActionPayload {
 
 interface SetHistoryActionPayload {
   message: string;
+  sql_query: string | '';
   messageFrom: string;
   answer_type: string | null;
 }
@@ -30,8 +30,8 @@ export const conversationSlice = createSlice({
       state.query = query;
     },
     setHistory: (state, action: PayloadAction<SetHistoryActionPayload>) => {
-      const { message, messageFrom, answer_type } = action.payload;
-      const chatResponse = { message, messageFrom, answer_type };
+      const { message, messageFrom, answer_type, sql_query } = action.payload;
+      const chatResponse = { message, messageFrom, answer_type, sql_query };
       state.history = [...state.history, chatResponse];
       console.log(
         'The entire history',

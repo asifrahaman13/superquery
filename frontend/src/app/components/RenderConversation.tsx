@@ -14,6 +14,8 @@ import {
   ICONS,
   RenderConversationProps,
 } from '@/constants/types/type.dashboard';
+import TableView from './TableView';
+import SqlRender from './ui/sqlRender';
 
 const IconComponents: React.FC<IconComponentsProps> = ({ props }) => {
   const IconComponent = ICONS[props.slug];
@@ -53,6 +55,7 @@ const RenderConversation = ({
         setHistory({
           message: conversationSlice.query,
           messageFrom: 'user',
+          sql_query: '',
           answer_type: null,
         })
       );
@@ -79,12 +82,12 @@ const RenderConversation = ({
                       {item.answer_type === 'pie_chart' && (
                         <PieChart data={{ message: item.message }} />
                       )}
-                      {item.answer_type === 'plain_answer' && (
-                        <div className="max-w-3/4 ml-auto flex justify-start">
-                          <p className="bg-indigo-500 w-3/4 max-w-xl text-white p-4 rounded-md">
-                            <ReactMarkdown>{item.message}</ReactMarkdown>
-                          </p>
-                        </div>
+                      {item.answer_type === 'table_response' && (
+                        <TableView tableData={JSON.parse(item?.message)} />
+                      )}
+
+                      {item.answer_type === 'sql_query' && (
+                        <SqlRender sqlQuery={item?.sql_query} />
                       )}
                     </div>
                   )}
@@ -134,7 +137,7 @@ const RenderConversation = ({
           {!status.status ? (
             <button
               onClick={handleSubmit}
-              className="bg-Pri-Dark rounded-lg  p-3 px-5 font-semibold text-white"
+              className="bg-gray-100 rounded-lg  p-3 px-5 font-semibold text-Pri-Dark"
             >
               Submit
             </button>

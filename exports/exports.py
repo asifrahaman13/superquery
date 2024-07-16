@@ -1,3 +1,6 @@
+from openai import OpenAI
+from src.internal.use_cases.file_service import FileService
+from src.infastructure.repositories.aws_repository import AWSRepository
 from src.infastructure.repositories.neo4j_query_repository import Neo4jQueryRepository
 from src.infastructure.repositories.helper.embeddings_assistant import EmbeddingService
 from src.infastructure.repositories.helper.qdrant_service_assistant import QdrantService
@@ -69,8 +72,10 @@ class DIContainer:
 
     def get_sqlite_query_repository(self):
         if "sqlite_query_repository" not in self.__instances:
+            openai_client= client = OpenAI(api_key=OPEN_AI_API_KEY)
             self.__instances["sqlite_query_repository"] = SqliteQueryRepository(
-                HandleAnswerTypes()
+                HandleAnswerTypes(),
+                LlmResponse(openai_client)
             )
         return self.__instances["sqlite_query_repository"]
 
@@ -92,14 +97,19 @@ class DIContainer:
             embedding_service: EmbeddingService = EmbeddingService()
             qdrant_service: QdrantService = QdrantService()
             self.__instances["qdrant_query_repository"] = QdrantQueryRepository(
-                embedding_service, qdrant_service 
+                embedding_service, qdrant_service
             )
         return self.__instances["qdrant_query_repository"]
-    
+
     def get_neo4j_query_repository(self):
         if "neo4j_query_repository" not in self.__instances:
             self.__instances["neo4j_query_repository"] = Neo4jQueryRepository()
         return self.__instances["neo4j_query_repository"]
+
+    def get_aws_repository(self):
+        if "aws_repository" not in self.__instances:
+            self.__instances["aws_repository"] = AWSRepository()
+        return self.__instances["aws_repository"]
 
     def get_mysql_query_database_service(self):
         if "mysql_query_service" not in self.__instances:
@@ -136,14 +146,14 @@ class DIContainer:
                 self.get_pinecone_query_repository(), self.get_database_repository()
             )
         return self.__instances["pinecone_query_service"]
-    
+
     def get_qdrant_query_database_service(self):
         if "qdrant_query_service" not in self.__instances:
             self.__instances["qdrant_query_service"] = QueryService(
                 self.get_qdrant_query_repository(), self.get_database_repository()
             )
         return self.__instances["qdrant_query_service"]
-    
+
     def get_neo4j_query_database_service(self):
         if "neo4j_query_service" not in self.__instances:
             self.__instances["neo4j_query_service"] = QueryService(
@@ -157,6 +167,13 @@ class DIContainer:
                 self.get_database_repository()
             )
         return self.__instances["configuration_service"]
+
+    def get_aws_service(self):
+        if "aws_service" not in self.__instances:
+            self.__instances["aws_service"] = FileService(
+                self.get_database_repository(), self.get_aws_repository()
+            )
+        return self.__instances["aws_service"]
 
 
 container = DIContainer()
@@ -182,14 +199,22 @@ def get_mongodb_query_database_service():
 def get_pinecone_query_database_service():
     return container.get_pinecone_query_database_service()
 
+
 def get_qdrant_query_database_service():
     return container.get_qdrant_query_database_service()
+
 
 def get_neo4j_query_database_service():
     return container.get_neo4j_query_database_service()
 
+
 def get_auth_service():
     return container.get_auth_service()
 
+
 def get_configuration_service():
     return container.get_configuration_service()
+
+
+def get_aws_service():
+    return container.get_aws_service()

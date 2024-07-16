@@ -35,7 +35,14 @@ export interface Status {
 export interface HistoryItem {
   message: string;
   messageFrom: string;
-  answer_type?: 'bar_chart' | 'line_chart' | 'pie_chart' | 'plain_answer';
+  sql_query?: string;
+  answer_type?:
+    | 'bar_chart'
+    | 'line_chart'
+    | 'pie_chart'
+    | 'plain_answer'
+    | 'table_response'
+    | 'sql_query';
 }
 
 export interface RenderConversationProps {

@@ -23,10 +23,17 @@ class MongodbRepository:
         except Exception as e:
             return None
 
-    def find_all_entities_by_field_name(self, collection_name: str):
+    def find_all_entities_by_field_name(
+        self, collection_name: str, file_name: str, field_value: str
+    ):
         try:
             collection = self.__database[collection_name]
-            return collection.find()
+            results = collection.find({file_name: field_value})
+            all_documents = []
+            for item in results:
+                item["_id"] = str(item["_id"])
+                all_documents.append(item)
+            return all_documents
         except Exception as e:
             return None
 

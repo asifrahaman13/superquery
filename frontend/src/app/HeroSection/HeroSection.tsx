@@ -130,7 +130,10 @@ export default function HeroSection() {
           {isSignedIn === true ? (
             <div className="text-lg font-medium">Signed In</div>
           ) : (
-            <Link href="/auth/signup  bg-Lime-Green p-2 rounded-md text-green-400">
+            <Link
+              href="/auth/signup"
+              className="bg-Lime-Green p-2 rounded-md text-green-400"
+            >
               Signup{' '}
             </Link>
           )}

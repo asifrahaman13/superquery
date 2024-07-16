@@ -1,4 +1,5 @@
 import asyncio
+from src.infastructure.repositories.helper.llm_response import LlmResponse
 from src.internal.entities.router_models import QueryResponse
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy import text

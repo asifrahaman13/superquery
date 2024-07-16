@@ -105,3 +105,16 @@ logging.info("Redis host is set")
 REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 assert REDIS_PASSWORD, "Redis password is not set."
 logging.info("Redis password is set")
+
+
+AWS_BUCKET_NAME= os.getenv("AWS_BUCKET_NAME")
+assert AWS_BUCKET_NAME, "AWS bucket name is not set."
+logging.info("AWS bucket name is set")
+
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+assert AWS_ACCESS_KEY_ID, "AWS access key is not set."
+logging.info("AWS access key is set")
+
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+assert AWS_SECRET_ACCESS_KEY, "AWS secret access key is not set."
+logging.info("AWS secret access key is set")

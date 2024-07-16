@@ -14,7 +14,7 @@
 
 You need to install the pre-commit hooks to ensure that your code follows the proper guidelines and linting.
 
- `pre-commit install`
+ `poetry run pre-commit install`
 
 # Run the server 🚀
 You need to run the application using the following script: `poetry run uvicorn src.main:app --reload`

@@ -1,4 +1,4 @@
-from typing import Annotated, Dict, Optional
+from typing import Annotated, Any, Dict, Optional
 from pydantic import BaseModel, Field
 
 
@@ -17,10 +17,11 @@ class AnswerFormat(BaseModel):
 
 
 class QueryResponse(BaseModel):
-    json_message: Optional[Dict] = Field(None, description="The json message")
-    message: Annotated[str, "The response message"] = None
+    json_message: Any = Field(None, description="The json message")
+    message: Any = None
     status: Annotated[Optional[bool], "The status of the response"]
     answer_type: Annotated[Optional[str], "The type of the answer"] = None
+    sql_query: Annotated[Optional[str], "The sql query"] = None
 
 
 class ConfigurationBase(BaseModel):
@@ -35,3 +36,7 @@ class QueryBase(BaseModel):
 class UpdateConfig(BaseModel):
     class Config:
         extra = "allow"
+
+
+class Files(BaseModel):
+    file_name: Annotated[str, "File name"]

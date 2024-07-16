@@ -1,4 +1,5 @@
 import asyncio
+from src.infastructure.repositories.helper.llm_response import LlmResponse
 from src.internal.entities.router_models import QueryResponse
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy import text
@@ -6,8 +7,9 @@ from src.infastructure.repositories.helper.format_assistant import FormatAssista
 
 
 class SqliteQueryRepository:
-    def __init__(self, handle_answer_type) -> None:
+    def __init__(self, handle_answer_type, llm_response) -> None:
         self.handle_answer_type = handle_answer_type
+        self.open_ai_client = llm_response
 
     async def query_database(self, user_query: str, *args, **kwargs):
         connection_string: str = kwargs.get("connectionString")
@@ -18,8 +20,11 @@ class SqliteQueryRepository:
         answer_type = FormatAssistant().run_answer_type_assistant(user_query)
 
         if answer_type["answer_type"] == "plain_answer":
+            llm_generated_query = self.open_ai_client.bulk_llm_response(
+                user_query, "sqlite"
+            )
             async for response in self.handle_answer_type.handle_plain_answer(
-                user_query, connection_string
+                llm_generated_query, connection_string
             ):
                 yield response
 

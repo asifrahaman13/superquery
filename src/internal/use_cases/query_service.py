@@ -26,7 +26,6 @@ class QueryService(QueryInterface):
                 query, **connection_string
             ):
                 yield response
-                yield response
 
     def general_raw_query(self, user: str, query: str, db: str):
         db_key = self.__db_keys.get(db)

@@ -22,6 +22,7 @@ from src.application.web.controllers.configuration_controller import (
     configuration_controller,
 )
 from src.application.web.controllers.raw_query import raw_query_controller
+from src.application.web.controllers.file_controller import upload_controller
 
 
 # Configure logging
@@ -102,6 +103,14 @@ app.include_router(
     raw_query_controller,
     prefix="/raw-query",
     tags=["Raw Query router"],
+    dependencies=[
+        Depends(RateLimiter(times=10, seconds=10, identifier=client_identifier))
+    ],
+)
+app.include_router(
+    upload_controller,
+    prefix="/upload",
+    tags=["Upload router"],
     dependencies=[
         Depends(RateLimiter(times=10, seconds=10, identifier=client_identifier))
     ],

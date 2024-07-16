@@ -22,6 +22,9 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
   const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
   const [rawQuery, setRawQuery] = useState<string>('');
   const dispatch = useDispatch();
+  const [tableData, setTableData] = useState([]);
+  const [resultType, setResultType] = useState<string>('');
+  const [rawQueryResponse, setRawQueryResponse] = useState<any>();
 
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SOCKET || '';
@@ -53,10 +56,15 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
       dispatch(
         setHistory({
           message: parsedData.message,
+          sql_query: parsedData.sql_query,
           messageFrom: 'chatbot',
           answer_type: parsedData.answer_type,
         })
       );
+      if (parsedData.sql_query !== null && parsedData.sql_query !== undefined) {
+        console.log('ljasdffffffffffffffff :', parsedData.sql_query);
+        setRawQuery(parsedData.sql_query);
+      }
     };
 
     websocket.onclose = () => {
@@ -76,9 +84,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
   }) => {
     setRawQuery(e.target.value);
   };
-  const [tableData, setTableData] = useState([]);
-  const [resultType, setResultType] = useState<string>('');
-  const [rawQueryResponse, setRawQueryResponse] = useState<any>();
+
   async function handleRawQuerySubmit() {
     try {
       const accessToken = localStorage.getItem('accessToken') || '';
@@ -105,14 +111,14 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
   return (
     <React.Fragment>
       {settingsBar && <ConnectionSettings dbType={db} key={key} />}
-      <div className="w-full my-6 flex flex-col">
+      <div className="w-full my-16 flex flex-col">
         <div className="flex w-full justify-between items-center py-2 px-4">
           <div className=" font-semibold text-4xl text-Pri-Dark">
             {TITLE[db]}
           </div>
           <div>
             <button
-              className=" bg-Pri-Dark p-2 rounded-md px-4 text-white"
+              className=" bg-white p-2 rounded-md px-4 text-Pri-Dark"
               onClick={toggleSettingsBar}
             >
               Settings
@@ -144,7 +150,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
               />
               <div className="flex justify-end">
                 <button
-                  className="bg-Pri-Dark rounded-lg text-righ p-3  px-5 font-semibold text-white"
+                  className="bg-gray-100 rounded-lg  p-3  px-5 font-semibold text-Pri-Dark"
                   onClick={handleRawQuerySubmit}
                 >
                   Submit

@@ -18,8 +18,10 @@ The project will be actively maintained. The primary focus for upcoming weeks wi
 The application is user-friendly. The user only needs to enter the API keys, connection strings, etc., from the databases' settings section. They should be good to explore their databases!
 Users can interact in natural languages without much technical knowledge. However, they can also perform raw queries.
 
+![Screenshot from 2024-07-16 09-24-29](https://github.com/user-attachments/assets/087f78a2-a172-483e-8201-76c570b60c76)
+![Screenshot from 2024-07-16 09-28-44](https://github.com/user-attachments/assets/5dabde9d-0c8c-4689-9a2e-1780ad80e944)
+![Screenshot from 2024-07-16 09-26-22](https://github.com/user-attachments/assets/c1795f39-6b07-4125-a484-f4f152ad28f0)
 ![Screenshot from 2024-07-04 09-57-01](https://github.com/asifrahaman13/superquery/assets/97652031/be436ffd-c161-4c6a-870a-ee32fb82d539)
-![Screenshot from 2024-07-04 09-58-03](https://github.com/asifrahaman13/superquery/assets/97652031/8a8c41b5-a94c-4804-a317-7d50550b0f00)
 ![Screenshot from 2024-07-04 10-04-29](https://github.com/asifrahaman13/superquery/assets/97652031/1639cf35-1797-4ced-ac71-671d8089968d)
 ![Screenshot from 2024-07-12 10-45-28](https://github.com/user-attachments/assets/4eacf545-1d6a-4c6b-9e18-3949b0c4d5f6)
 

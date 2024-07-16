@@ -58,24 +58,25 @@ class DIContainer:
 
     def get_mysql_query_repository(self):
         if "mysql_query_repository" not in self.__instances:
+            openai_client = OpenAI(api_key=OPEN_AI_API_KEY)
             self.__instances["mysql_query_repository"] = MySqlQueryRepository(
-                HandleAnswerTypes()
+                HandleAnswerTypes(), LlmResponse(openai_client)
             )
         return self.__instances["mysql_query_repository"]
 
     def get_postgres_query_repository(self):
         if "postgres_query_repository" not in self.__instances:
+            openai_client = OpenAI(api_key=OPEN_AI_API_KEY)
             self.__instances["postgres_query_repository"] = PostgresQueryRepository(
-                HandleAnswerTypes()
+                HandleAnswerTypes(), LlmResponse(openai_client)
             )
         return self.__instances["postgres_query_repository"]
 
     def get_sqlite_query_repository(self):
         if "sqlite_query_repository" not in self.__instances:
-            openai_client= client = OpenAI(api_key=OPEN_AI_API_KEY)
+            openai_client = OpenAI(api_key=OPEN_AI_API_KEY)
             self.__instances["sqlite_query_repository"] = SqliteQueryRepository(
-                HandleAnswerTypes(),
-                LlmResponse(openai_client)
+                HandleAnswerTypes(), LlmResponse(openai_client)
             )
         return self.__instances["sqlite_query_repository"]
 

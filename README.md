@@ -1,11 +1,8 @@
 # 🎉 AI-powered query on databases.
 
-🚨 The project is under development, and lots of work is needed to be done.
-
-
 ### 🌟🌟🌟 If you like the repository, don't forget to give it a star 🌟🌟🌟
 
-The project will be actively maintained. The primary focus for upcoming weeks will be :
+The primary focus for upcoming weeks will be :
 - Fix the bugs
 - Fault tolerance and fix the edge cases of various errors.
 - Better code quality.

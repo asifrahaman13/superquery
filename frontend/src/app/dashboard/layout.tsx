@@ -355,7 +355,7 @@ export default function DashboardLayout({
         </div>
 
         <div className="w-[85%] overflow-y-hidden">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4   bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
@@ -385,7 +385,7 @@ export default function DashboardLayout({
                   name="search"
                   type="search"
                   placeholder="Search..."
-                  className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 outline-none sm:text-sm "
+                  className="block h-full w-full  py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 outline-none sm:text-sm "
                 />
               </form>
               <div className="flex items-center gap-x-4 lg:gap-x-6">

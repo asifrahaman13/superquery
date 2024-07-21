@@ -111,7 +111,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
   return (
     <React.Fragment>
       {settingsBar && <ConnectionSettings dbType={db} key={key} />}
-      <div className="w-full my-6 mb-16 flex flex-col">
+      <div className="w-full my-6 mb-6 flex flex-col">
         <div className="flex w-full justify-between items-center py-2 px-4">
           <div className=" font-semibold text-4xl text-Pri-Dark">
             {TITLE[db]}
@@ -132,11 +132,11 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
             status={status}
             db={db}
           />
-          <div className="flex flex-col w-1/2  border-2 p-6 mb-12 bg-white rounded-2xl">
+          <div className="flex flex-col w-1/2  p-6 mb-12 bg-white rounded-2xl">
             <div className="h-1/2 flex flex-col gap-2">
               <div className="flex  w-full justify-between">
                 <div className="text-3xl font-semibold text-Pri-Dark">
-                  🎉 Manual Query
+                  Manual Query
                 </div>
               </div>
               <textarea

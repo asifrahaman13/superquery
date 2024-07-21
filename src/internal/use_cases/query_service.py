@@ -1,5 +1,5 @@
 import asyncio
-from typing import Any, AsyncGenerator, Dict
+from typing import Any, AsyncGenerator, Dict, List
 from src.internal.entities.router_models import QueryResponse
 from src.internal.interfaces.services.query_interface import QueryInterface
 from src.constants.databases.available_databases import DatabaseKeys
@@ -49,3 +49,17 @@ class QueryService(QueryInterface):
             connection_string = available_client[db_key]
             return self.query_database.general_raw_query(query, **connection_string)
         return None
+
+    def add_data_to_vector_db(
+        self, user_query: str, sql_query: str, source: List[Dict[str, Any]]
+    ):
+        data = [
+            {
+                "text": f"User prompt: {user_query}\n Sql query: {sql_query}",
+                "source": source,
+            }
+        ]
+        # Separate texts and metadata for initialization
+        texts = [item["text"] for item in data]
+        metadata = [{k: v for k, v in item.items() if k != "text"} for item in data]
+        return self.semantic_search_repository.initialize_qdrant(texts, metadata)

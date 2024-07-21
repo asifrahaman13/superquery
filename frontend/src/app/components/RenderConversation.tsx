@@ -1,9 +1,5 @@
 import React from 'react';
 import ButtonStatus from './ui/ButtonStatus';
-import BarChart from './Charts/BarChart';
-import LineChart from './Charts/LineChart';
-import PieChart from './Charts/pieChart';
-import ReactMarkdown from 'react-markdown';
 import Skeleton from './ui/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuery, setHistory } from '@/lib/conversation/conversationSlice';
@@ -70,11 +66,6 @@ const RenderConversation = ({
           answer_type: null,
         })
       );
-
-      console.log(
-        'history ############################33',
-        conversationSlice.history
-      );
     }
   };
 
@@ -87,7 +78,7 @@ const RenderConversation = ({
   const [selected, setSelected] = useState(people[0]);
   return (
     <React.Fragment>
-      <div className="w-1/2 flex flex-col gap-4  justify-between mb-12  p-6 bg-white rounded-2xl">
+      <div className="w-1/2 flex flex-col gap-4  justify-between   p-6 bg-white rounded-2xl">
         <div className="overflow-y-scroll no-scrollbar h-full flex flex-col  text-justify bg-white">
           {conversationSlice.history.length > 0 && (
             <div>
@@ -95,9 +86,11 @@ const RenderConversation = ({
                 <div key={index} className="flex flex-col gap-6">
                   {item?.messageFrom === 'chatbot' && (
                     <div className="flex flex-col gap-8">
-                      {item.answer_type === 'sql_query' && (
-                        <SqlRender sqlQuery={item?.sql_query} />
-                      )}
+                      <div className="mt-6">
+                        {item?.answer_type === 'sql_query' && (
+                          <SqlRender sqlQuery={item?.sql_query} />
+                        )}
+                      </div>
 
                       {item.answer_type === 'table_response' && (
                         <TableView tableData={JSON.parse(item?.message)} />
@@ -108,10 +101,10 @@ const RenderConversation = ({
                           <div>
                             <Listbox value={selected} onChange={setSelected}>
                               <Label className="block text-lg font-semibold leading-6 text-gray-900">
-                                Graph
+                                Graph (Choose your graph)
                               </Label>
                               <div className="relative mt-2">
-                                <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm  focus:outline-none  sm:text-sm sm:leading-6">
                                   <span className="block truncate">
                                     {selected.name}
                                   </span>
@@ -160,7 +153,7 @@ const RenderConversation = ({
 
                   {item?.messageFrom === 'user' && (
                     <div className=" w-3/4 max-w-3/4  ml-auto flex justify-end ">
-                      <p className="bg-gray-200  rounded-md p-2">
+                      <p className="bg-[#f2f2f2] rounded-md p-2">
                         {item.message}
                       </p>
                     </div>
@@ -178,7 +171,7 @@ const RenderConversation = ({
                 <div className="flex gap-4  ">
                   {texts.map((text, index) => (
                     <div
-                      className="bg-gray-100 w-1/4 p-4 rounded-lg"
+                      className="bg-[#f2f2f2] w-1/4 p-4 rounded-lg"
                       key={index}
                     >
                       {text}

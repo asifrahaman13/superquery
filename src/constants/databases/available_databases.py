@@ -26,16 +26,6 @@ INITIAL_DASHBOARD = {
         "description": "",
         "connectionString": "",
         "ddlCommands": ["", "", ""],
-        "examples": [
-            {
-                "query": "",
-                "sqlQuery": "",
-            },
-            {
-                "query": "",
-                "sqlQuery": "",
-            },
-        ],
     },
     "postgres": {
         "db_type": "postgres",
@@ -44,16 +34,6 @@ INITIAL_DASHBOARD = {
         "description": ".",
         "connectionString": "",
         "ddlCommands": ["", "", ""],
-        "examples": [
-            {
-                "query": "",
-                "sqlQuery": "",
-            },
-            {
-                "query": "",
-                "sqlQuery": "",
-            },
-        ],
     },
     "sqlite": {
         "db_type": "sqlite",
@@ -62,16 +42,6 @@ INITIAL_DASHBOARD = {
         "description": "",
         "connectionString": "",
         "ddlCommands": ["", "", ""],
-        "examples": [
-            {
-                "query": "",
-                "sqlQuery": "",
-            },
-            {
-                "query": "",
-                "sqlQuery": "",
-            },
-        ],
     },
     "pinecone": {
         "db_type": "pinecone",

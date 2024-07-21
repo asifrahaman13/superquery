@@ -40,3 +40,9 @@ class UpdateConfig(BaseModel):
 
 class Files(BaseModel):
     file_name: Annotated[str, "File name"]
+
+
+class TrainData(BaseModel):
+    user_query: Annotated[str, "Training data of user query"]
+    sql_query: Annotated[str, "Training data of sql query"]
+    source: Annotated[str, "metadata"]

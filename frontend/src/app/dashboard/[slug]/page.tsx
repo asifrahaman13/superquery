@@ -11,6 +11,7 @@ import RenderConversation from '@/app/components/RenderConversation';
 import { useDispatch } from 'react-redux';
 import { setHistory } from '@/lib/conversation/conversationSlice';
 import { TitleKeys, TITLE } from '@/constants/types/type.dashboard';
+import axios from 'axios';
 
 export default function Page({ params }: { params: { slug: TitleKeys } }) {
   const db = params.slug;
@@ -62,7 +63,6 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
         })
       );
       if (parsedData.sql_query !== null && parsedData.sql_query !== undefined) {
-        console.log('ljasdffffffffffffffff :', parsedData.sql_query);
         setRawQuery(parsedData.sql_query);
       }
     };
@@ -108,6 +108,34 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
     }
   }
 
+  const [trainValue, setTrainValue] = useState({
+    user_query: '',
+    sql_query: '',
+    source: 'source1',
+  });
+
+  function handleChange(e: any) {
+    console.log('The value is :', e.target.value);
+    setTrainValue({
+      ...trainValue,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function SubmitForTrain() {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/query/data`,
+        trainValue
+      );
+      if (response.status === 200) {
+        console.log('The response is :', response.data);
+      }
+    } catch (err) {
+      console.log('The error is :', err);
+    }
+  }
+
   return (
     <React.Fragment>
       {settingsBar && <ConnectionSettings dbType={db} key={key} />}
@@ -132,28 +160,59 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
             status={status}
             db={db}
           />
-          <div className="flex flex-col w-1/2  p-6 mb-12 bg-white rounded-2xl">
-            <div className="h-1/2 flex flex-col gap-2">
+          <div className="flex flex-col w-1/2  p-6  bg-white rounded-2xl">
+            <div className=" flex flex-col gap-2">
+              <div className="text-lg font-semibold text-Pri-Dark">
+                Train the syste
+              </div>
+              <div className="text-sm">
+                Enter user query and the corresponding correct SQL query and hit
+                enter. This will improve the accuracy of the model by very good
+                margin.
+              </div>
               <div className="flex  w-full justify-between">
-                <div className="text-3xl font-semibold text-Pri-Dark">
-                  Manual Query
+                <div className="text-lg font-semibold text-Pri-Dark">
+                  User Query
                 </div>
               </div>
               <textarea
                 id="comment"
-                name="comment"
+                name="user_query"
+                rows={4}
+                className="block w-full rounded-md border-s py-1.5 text-gray-900  p-2  border-2  border-Gray-Background outline-none no-scrollbar placeholder:text-gray-400 sm:text-base sm:leading-6"
+                defaultValue={''}
+                value={trainValue.user_query}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <div className="flex  w-full justify-between">
+                <div className="text-lg font-semibold text-Pri-Dark">
+                  SQL Query
+                </div>
+              </div>
+              <textarea
+                id="comment"
+                name="sql_query"
                 rows={4}
                 className="block w-full rounded-md border-s py-1.5 text-gray-900  p-2  border-2  border-Gray-Background outline-none no-scrollbar placeholder:text-gray-400 sm:text-base sm:leading-6"
                 defaultValue={''}
                 value={rawQuery}
                 onChange={handleRawQuery}
               />
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-4">
                 <button
-                  className="bg-gray-100 rounded-lg  p-3  px-5 font-semibold text-Pri-Dark"
+                  className="bg-gray-100 rounded-lg  p-2  px-3 font-semibold text-Pri-Dark"
                   onClick={handleRawQuerySubmit}
                 >
-                  Submit
+                  Query
+                </button>
+                <button
+                  className="bg-gray-100 rounded-lg  p-2  px-3 font-semibold text-Pri-Dark"
+                  onClick={SubmitForTrain}
+                >
+                  Train
                 </button>
               </div>
             </div>

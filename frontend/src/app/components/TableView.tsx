@@ -43,7 +43,7 @@ const TableView = ({ tableData }: TableViewProps) => {
           </div>
           <table className="min-w-full border-collapse">
             <thead>
-              <tr className="bg-gray-200 font-bold text-Pri-Dark">
+              <tr className="bg-gray-100 font-bold text-Pri-Dark">
                 {tableHeaders.map((header) => (
                   <th key={header} className="p-2 border">
                     {header}

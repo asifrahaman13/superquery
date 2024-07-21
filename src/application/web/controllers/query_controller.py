@@ -1,5 +1,6 @@
 import asyncio
-from fastapi import APIRouter, Depends, Header, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, Depends, Header, Response, WebSocket, WebSocketDisconnect
+from src.internal.entities.router_models import TrainData
 from src.internal.use_cases.auth_service import AuthService
 from src.internal.use_cases.query_service import QueryService
 from exports.exports import (
@@ -187,3 +188,18 @@ async def query_neo4j(
     except Exception as e:
         print(e)
         await manager.disconnect(websocket)
+
+
+@query_controller.post("/data")
+async def train_model(
+    train_data: TrainData,
+    query_service: QueryService = Depends(get_sqlite_query_database_service),
+):
+    try:
+        response = query_service.add_data_to_vector_db(
+            train_data.user_query, train_data.sql_query, train_data.source
+        )
+        if response == True:
+            return Response(status_code=200, content="Data added successfully")
+    except Exception as e:
+        return Response(status_code=500, content="Internal Server Error")

@@ -142,7 +142,7 @@ export default function DashboardLayout({
   };
   return (
     <React.Fragment>
-      <div className="w-screen flex flex-row h-screen overflow-y-hidden bg-gray-100">
+      <div className="w-screen flex flex-row h-screen overflow-y-hidden bg-[#f2f2f2]">
         <Dialog
           className="relative z-50 lg:hidden"
           open={sidebarOpen}

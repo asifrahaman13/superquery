@@ -8,6 +8,16 @@ import Skeleton from './ui/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuery, setHistory } from '@/lib/conversation/conversationSlice';
 import { RootState } from '@/lib/store';
+import { useState } from 'react';
+import {
+  Label,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from '@headlessui/react';
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+
 import {
   HistoryItem,
   IconComponentsProps,
@@ -16,6 +26,7 @@ import {
 } from '@/constants/types/type.dashboard';
 import TableView from './TableView';
 import SqlRender from './ui/sqlRender';
+import DynamicChart from './Charts/DynamicChart';
 
 const IconComponents: React.FC<IconComponentsProps> = ({ props }) => {
   const IconComponent = ICONS[props.slug];
@@ -60,35 +71,90 @@ const RenderConversation = ({
         })
       );
 
-      console.log(history);
+      console.log(
+        'history ############################33',
+        conversationSlice.history
+      );
     }
   };
+
+  const people = [
+    { id: 1, name: 'Line plot', type: 'line' },
+    { id: 2, name: 'Bar plot', type: 'bar' },
+    { id: 3, name: 'Pie plot', type: 'pie' },
+  ];
+
+  const [selected, setSelected] = useState(people[0]);
   return (
     <React.Fragment>
       <div className="w-1/2 flex flex-col gap-4  justify-between mb-12  p-6 bg-white rounded-2xl">
-        <div className="overflow-y-scroll no-scrollbar h-full flex flex-col gap-2 text-justify bg-white">
+        <div className="overflow-y-scroll no-scrollbar h-full flex flex-col  text-justify bg-white">
           {conversationSlice.history.length > 0 && (
-            <>
+            <div>
               {conversationSlice.history.map((item: HistoryItem, index) => (
-                <div key={index}>
+                <div key={index} className="flex flex-col gap-6">
                   {item?.messageFrom === 'chatbot' && (
-                    <div>
-                      {item.answer_type === 'bar_chart' && (
-                        <BarChart data={{ message: item.message }} />
+                    <div className="flex flex-col gap-8">
+                      {item.answer_type === 'sql_query' && (
+                        <SqlRender sqlQuery={item?.sql_query} />
                       )}
-                      {item.answer_type == 'line_chart' && (
-                        <LineChart data={{ message: item.message }} />
-                      )}
-                      {item.answer_type === 'pie_chart' && (
-                        <PieChart data={{ message: item.message }} />
-                      )}
+
                       {item.answer_type === 'table_response' && (
                         <TableView tableData={JSON.parse(item?.message)} />
                       )}
 
-                      {item.answer_type === 'sql_query' && (
-                        <SqlRender sqlQuery={item?.sql_query} />
-                      )}
+                      {item?.message !== null &&
+                        item?.message !== undefined && (
+                          <div>
+                            <Listbox value={selected} onChange={setSelected}>
+                              <Label className="block text-lg font-semibold leading-6 text-gray-900">
+                                Graph
+                              </Label>
+                              <div className="relative mt-2">
+                                <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                  <span className="block truncate">
+                                    {selected.name}
+                                  </span>
+                                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                    <ChevronUpDownIcon
+                                      aria-hidden="true"
+                                      className="h-5 w-5 text-gray-400"
+                                    />
+                                  </span>
+                                </ListboxButton>
+
+                                <ListboxOptions
+                                  transition
+                                  className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
+                                >
+                                  {people.map((person) => (
+                                    <ListboxOption
+                                      key={person.id}
+                                      value={person}
+                                      className="group relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
+                                    >
+                                      <span className="block truncate font-normal group-data-[selected]:font-semibold">
+                                        {person.name}
+                                      </span>
+
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-1.5 text-indigo-600 group-data-[focus]:text-white [.group:not([data-selected])_&]:hidden">
+                                        <CheckIcon
+                                          aria-hidden="true"
+                                          className="h-5 w-5"
+                                        />
+                                      </span>
+                                    </ListboxOption>
+                                  ))}
+                                </ListboxOptions>
+                              </div>
+                            </Listbox>
+
+                            <DynamicChart
+                              data={item?.message}
+                              type={selected?.type}
+                            />
+                          </div>
+                        )}
                     </div>
                   )}
 
@@ -101,7 +167,7 @@ const RenderConversation = ({
                   )}
                 </div>
               ))}
-            </>
+            </div>
           )}
 
           {status.status && <Skeleton />}
@@ -128,7 +194,7 @@ const RenderConversation = ({
             type="text"
             name="query"
             id="query"
-            className="block w-full rounded-md py-1.5 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400  px-2"
+            className="block w-full rounded-md py-1.5  border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400  px-2"
             placeholder="Enter your query"
             value={conversationSlice.query}
             onChange={(e) => dispatch(setQuery({ query: e.target.value }))}

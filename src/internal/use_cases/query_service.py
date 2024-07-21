@@ -1,14 +1,19 @@
+import asyncio
 from typing import Any, AsyncGenerator, Dict
+from src.internal.entities.router_models import QueryResponse
 from src.internal.interfaces.services.query_interface import QueryInterface
 from src.constants.databases.available_databases import DatabaseKeys
 
 
 class QueryService(QueryInterface):
 
-    def __init__(self, query_database, database) -> None:
+    def __init__(
+        self, query_database, database, semantic_search_repository=None
+    ) -> None:
         self.query_database = query_database
         self.database = database
         self.__db_keys = DatabaseKeys.get_keys()
+        self.semantic_search_repository = semantic_search_repository
 
     async def query_db(
         self, user: str, query: str, db: str
@@ -20,8 +25,13 @@ class QueryService(QueryInterface):
         available_client = self.database.find_single_entity_by_field_name(
             "configurations", "username", user
         )
+        await asyncio.sleep(0)
+        yield QueryResponse(message="Thinking...", status=True)
+        await asyncio.sleep(0)
         if available_client and db_key in available_client:
             configurations = available_client[db_key]
+            examples = self.semantic_search_repository.query_text(query, user)
+            configurations["examples"] = examples
             async for response in self.query_database.query_database(
                 query, **configurations
             ):

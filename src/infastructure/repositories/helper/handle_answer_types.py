@@ -18,12 +18,8 @@ class HandleAnswerTypes:
         await asyncio.sleep(0)
         yield QueryResponse(message="Querying the database", status=True)
         await asyncio.sleep(0)
-
-        print("Querying the database #########", connection_string)
-
-        conn = sqlite3.connect(connection_string[10:])
+        conn = sqlite3.connect(connection_string)
         cursor = conn.cursor()
-        print("Connection established", user_query)
         cursor.execute(user_query)
         results = cursor.fetchall()
         headers = (
@@ -33,7 +29,6 @@ class HandleAnswerTypes:
         )
         data = [dict(zip(headers, row)) for row in results]
         json_data = json.dumps(data)
-        print(json_data)
 
         if results:
             await asyncio.sleep(0)

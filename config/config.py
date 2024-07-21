@@ -118,3 +118,15 @@ logging.info("AWS access key is set")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 assert AWS_SECRET_ACCESS_KEY, "AWS secret access key is not set."
 logging.info("AWS secret access key is set")
+
+
+EMBEDDING_MODEL= os.getenv("EMBEDDING_MODEL")
+assert EMBEDDING_MODEL, "Embedding model is not set"
+logging.info("Embedding model is set")
+
+
+QDRANT_API_KEY=os.getenv("QDRANT_API_KEY")
+assert QDRANT_API_KEY, "Qdrant API key not set"
+
+QDRANT_API_ENDPOINT=os.getenv("QDRANT_API_ENDPOINT")
+assert QDRANT_API_ENDPOINT, "Qdrant api endpoint not set"

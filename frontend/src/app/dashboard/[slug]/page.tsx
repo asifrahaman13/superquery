@@ -111,7 +111,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
   return (
     <React.Fragment>
       {settingsBar && <ConnectionSettings dbType={db} key={key} />}
-      <div className="w-full my-6 mb-6 flex flex-col">
+      <div className="w-full my-6 mb-16 flex flex-col">
         <div className="flex w-full justify-between items-center py-2 px-4">
           <div className=" font-semibold text-4xl text-Pri-Dark">
             {TITLE[db]}

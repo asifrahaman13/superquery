@@ -1,4 +1,5 @@
 from openai import OpenAI
+from src.infastructure.repositories.semantic_search.semantic_search_repository import SemanticEmbeddingService, SemanticQdrantService, SemanticSearchRepository
 from src.internal.use_cases.file_service import FileService
 from src.infastructure.repositories.aws_repository import AWSRepository
 from src.infastructure.repositories.neo4j_query_repository import Neo4jQueryRepository
@@ -26,7 +27,12 @@ from src.infastructure.repositories.database_repository import (
 )
 from src.infastructure.repositories.helper.handle_answer_types import HandleAnswerTypes
 from pymongo import MongoClient
-from config.config import MONGO_DB_URI, OPEN_AI_API_KEY
+from config.config import (
+    MONGO_DB_URI,
+    OPEN_AI_API_KEY,
+    QDRANT_API_ENDPOINT,
+    QDRANT_API_KEY,
+)
 from config.config import REDIS_HOST, REDIS_PORT, REDIS_PASSWORD
 from src.infastructure.repositories.helper.llm_response import LlmResponse
 
@@ -55,6 +61,17 @@ class DIContainer:
                 mongodb_client, mongodb_database
             )
         return self.__instances["database_repository"]
+
+    def get_vector_db_repository(self):
+        if "vectordb_repoitory" not in self.__instances:
+            embedding_service = SemanticEmbeddingService()
+            qdrant_service = SemanticQdrantService(
+                url=QDRANT_API_ENDPOINT, api_key=QDRANT_API_KEY
+            )
+            self.__instances["vectordb_repoitory"] = SemanticSearchRepository(
+                embedding_service, qdrant_service
+            )
+        return self.__instances["vectordb_repoitory"]
 
     def get_mysql_query_repository(self):
         if "mysql_query_repository" not in self.__instances:
@@ -116,28 +133,36 @@ class DIContainer:
         if "mysql_query_service" not in self.__instances:
 
             self.__instances["mysql_query_service"] = QueryService(
-                self.get_mysql_query_repository(), self.get_database_repository()
+                self.get_mysql_query_repository(),
+                self.get_database_repository(),
+                self.get_vector_db_repository(),
             )
         return self.__instances["mysql_query_service"]
 
     def get_postgres_query_database_service(self):
         if "postgres_query_service" not in self.__instances:
             self.__instances["postgres_query_service"] = QueryService(
-                self.get_postgres_query_repository(), self.get_database_repository()
+                self.get_postgres_query_repository(),
+                self.get_database_repository(),
+                self.get_vector_db_repository(),
             )
         return self.__instances["postgres_query_service"]
 
     def get_sqlite_query_database_service(self):
         if "sqlite_query_service" not in self.__instances:
             self.__instances["sqlite_query_service"] = QueryService(
-                self.get_sqlite_query_repository(), self.get_database_repository()
+                self.get_sqlite_query_repository(),
+                self.get_database_repository(),
+                self.get_vector_db_repository(),
             )
         return self.__instances["sqlite_query_service"]
 
     def get_mongodb_query_database_service(self):
         if "mongodb_query_service" not in self.__instances:
             self.__instances["mongodb_query_service"] = QueryService(
-                self.get_mongodb_query_repository(), self.get_database_repository()
+                self.get_mongodb_query_repository(),
+                self.get_database_repository(),
+                self.get_vector_db_repository(),
             )
         return self.__instances["mongodb_query_service"]
 
@@ -158,7 +183,9 @@ class DIContainer:
     def get_neo4j_query_database_service(self):
         if "neo4j_query_service" not in self.__instances:
             self.__instances["neo4j_query_service"] = QueryService(
-                self.get_neo4j_query_repository(), self.get_database_repository()
+                self.get_neo4j_query_repository(),
+                self.get_database_repository(),
+                self.get_vector_db_repository(),
             )
         return self.__instances["neo4j_query_service"]
 

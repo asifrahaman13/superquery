@@ -15,12 +15,21 @@ class SqliteQueryRepository:
         connection_string: str = kwargs.get("connectionString")
         ddl_commands = kwargs.get("ddlCommands")
         examples = kwargs.get("examples")
+
+        print(
+            "######################################################################3",
+            examples,
+        )
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
         await asyncio.sleep(0)
 
         answer_type = FormatAssistant().run_answer_type_assistant(user_query)
 
+        """This is the main logic to handle the different answer types. 
+        They have the user query, the ddl commands with which the database was created, and the examples that the user has provided.
+        Examples are fetched through the semantic search repository.
+        """
         if answer_type["answer_type"] == "plain_answer":
             llm_generated_query = self.open_ai_client.bulk_llm_response(
                 user_query, ddl_commands, examples, "sqlite"
@@ -37,8 +46,11 @@ class SqliteQueryRepository:
                 yield response
 
         elif answer_type["answer_type"] == "line_chart":
-            async for response in self.handle_answer_type.handle_line_chart(
-                user_query, connection_string
+            llm_generated_query = self.open_ai_client.bulk_llm_response(
+                user_query, ddl_commands, examples, "sqlite"
+            )
+            async for response in self.handle_answer_type.handle_plain_answer(
+                llm_generated_query, connection_string
             ):
                 yield response
 

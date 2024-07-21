@@ -12,8 +12,10 @@
   "dependencies": {
     "@headlessui/react": "^2.1.1",
     "@heroicons/react": "^2.1.4",
+    "@mui/material": "^5.16.4",
     "@reduxjs/toolkit": "^2.2.6",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/react-table": "^7.7.20",
     "@types/uuid": "^10.0.0",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
@@ -28,6 +30,8 @@
     "react-markdown": "^9.0.1",
     "react-redux": "^9.1.2",
     "react-syntax-highlighter": "^15.5.0",
+    "react-table": "^7.8.0",
+    "recharts": "^2.12.7",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

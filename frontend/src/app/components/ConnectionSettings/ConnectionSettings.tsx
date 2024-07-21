@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { configuration_interface } from '@/exports/exports';
+import SuccessStatus from '../ui/SuccessStatus';
 
 interface DbSettings {
   dbType: string;
@@ -31,6 +32,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
   const [open, setOpen] = useState(true);
 
   const [configuration, setConfiguration] = useState<Configuration>({});
+  const [successMessage, setSuccessMessage] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchConfigurations(dbType: string) {
@@ -61,6 +63,10 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
     );
     if (response?.code === 200) {
       console.log(response.data);
+      setSuccessMessage(true);
+      setTimeout(() => {
+        setSuccessMessage(false);
+      }, 1500);
     }
     try {
     } catch (e) {
@@ -91,6 +97,8 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
 
   return (
     <Dialog className="relative z-50" open={open} onClose={setOpen}>
+      {successMessage && <SuccessStatus />}
+
       <div className="fixed inset-0" />
 
       <div className="fixed inset-0 overflow-hidden">
@@ -245,7 +253,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                     Cancel
                   </button>
                   <button
-                    className="ml-4 inline-flex justify-center rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                    className="ml-4 inline-flex justify-center rounded-md bg-gray-100 text-Pri-Dark px-3 py-2 text-sm font-semibold shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
                     onClick={updateConfigurations}
                   >
                     Save

@@ -30,7 +30,7 @@ const TableView = ({ tableData }: TableViewProps) => {
 
   return (
     <div className="overflow-x-auto text-Pri-Dark">
-      {tableData.length !== 0 && (
+      {tableData?.length !== 0 && (
         <div className="min-w-full">
           <button
             onClick={downloadCSV}

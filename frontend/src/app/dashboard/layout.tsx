@@ -354,7 +354,7 @@ export default function DashboardLayout({
           </div>
         </div>
 
-        <div className="w-[85%] overflow-y-hidden">
+        <div className="w-[85%] flex flex-col overflow-y-hidden">
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4   bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
@@ -457,7 +457,7 @@ export default function DashboardLayout({
               </div>
             </div>
           </div>
-          <div className="flex w-full h-full  overflow-y-hidden">
+          <div className="flex w-full flex-grow overflow-y-hidden">
             {children}
           </div>
         </div>

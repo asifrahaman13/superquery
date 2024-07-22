@@ -78,8 +78,8 @@ const RenderConversation = ({
   const [selected, setSelected] = useState(people[0]);
   return (
     <React.Fragment>
-      <div className="w-1/2 flex flex-col gap-4  justify-between   p-6 bg-white rounded-2xl">
-        <div className="overflow-y-scroll no-scrollbar h-full flex flex-col  text-justify bg-white">
+      <div className="w-1/2 flex flex-col gap-4   justify-between p-8 bg-white rounded-2xl">
+        <div className="overflow-y-scroll no-scrollbar flex flex-col  gap-4  text-justify bg-white">
           {conversationSlice.history.length > 0 && (
             <div>
               {conversationSlice.history.map((item: HistoryItem, index) => (
@@ -182,7 +182,7 @@ const RenderConversation = ({
             )}
           </div>
         </div>
-        <div className="mt-2 flex gap-2 ">
+        <div className="flex gap-2 ">
           <input
             type="text"
             name="query"

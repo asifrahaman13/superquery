@@ -3,14 +3,14 @@ import React from 'react';
 const FooterComponent = () => {
   return (
     <React.Fragment>
-      <footer className="bg-white dark:bg-Footer-Dark">
+      <footer className="bg-white border-t-2 border-gray-100 text-Pri-Dark  ">
         <div className="mx-auto w-full max-w-screen-xl">
-          <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 text-sm  md:grid-cols-4">
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-6 text-sm font-semibold  uppercase ">
                 Company
               </h2>
-              <ul className="text-gray-500 dark:text-gray-400 font-medium">
+              <ul className=" font-medium">
                 <li className="mb-4">
                   <a href="#" className=" hover:underline">
                     About
@@ -34,10 +34,10 @@ const FooterComponent = () => {
               </ul>
             </div>
             <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+              <h2 className="mb-6 text-sm font-semibold uppercase dark:text-white">
                 Help center
               </h2>
-              <ul className="text-gray-500 dark:text-gray-400 font-medium">
+              <ul className="  font-medium">
                 <li className="mb-4">
                   <a href="#" className="hover:underline">
                     Discord Server
@@ -64,7 +64,7 @@ const FooterComponent = () => {
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
                 Legal
               </h2>
-              <ul className="text-gray-500 dark:text-gray-400 font-medium">
+              <ul className="  font-medium">
                 <li className="mb-4">
                   <a href="#" className="hover:underline">
                     Privacy Policy
@@ -86,7 +86,7 @@ const FooterComponent = () => {
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
                 Download
               </h2>
-              <ul className="text-gray-500 dark:text-gray-400 font-medium">
+              <ul className="  font-medium">
                 <li className="mb-4">
                   <a href="#" className="hover:underline">
                     iOS
@@ -110,8 +110,8 @@ const FooterComponent = () => {
               </ul>
             </div>
           </div>
-          <div className="px-4 py-6 bg-Footer-Dark md:flex md:items-center md:justify-between">
-            <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
+          <div className="px-4 py-6 md:flex md:items-center md:justify-between">
+            <span className="text-sm  text-center">
               © 2025 <a href="https://flowbite.com/">Superquery</a>. All Rights
               Reserved.
             </span>

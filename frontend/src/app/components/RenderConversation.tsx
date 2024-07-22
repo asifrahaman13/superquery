@@ -196,7 +196,7 @@ const RenderConversation = ({
           {!status.status ? (
             <button
               onClick={handleSubmit}
-              className="bg-gray-100 rounded-lg  p-2 px-3 font-semibold text-Pri-Dark"
+              className="rounded-md  text-black px-3.5 py-2.5 text-sm font-semibold  shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Submit
             </button>

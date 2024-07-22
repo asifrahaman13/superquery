@@ -21,11 +21,15 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
     status: false,
   });
   const { settingsBar, toggleSettingsBar, key } = useSettingsToggle(false);
-  const [rawQuery, setRawQuery] = useState<string>('');
   const dispatch = useDispatch();
   const [tableData, setTableData] = useState([]);
   const [resultType, setResultType] = useState<string>('');
   const [rawQueryResponse, setRawQueryResponse] = useState<any>();
+  const [trainValue, setTrainValue] = useState({
+    user_query: '',
+    sql_query: '',
+    source: 'source1',
+  });
 
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SOCKET || '';
@@ -53,7 +57,6 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
           status: false,
         });
       }
-      console.log('##########################', status);
       dispatch(
         setHistory({
           message: parsedData.message,
@@ -63,7 +66,10 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
         })
       );
       if (parsedData.sql_query !== null && parsedData.sql_query !== undefined) {
-        setRawQuery(parsedData.sql_query);
+        setTrainValue((prev) => ({
+          ...prev,
+          sql_query: parsedData.sql_query,
+        }));
       }
     };
 
@@ -77,19 +83,11 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleRawQuery = (e: {
-    target: {
-      value: React.SetStateAction<string>;
-    };
-  }) => {
-    setRawQuery(e.target.value);
-  };
-
   async function handleRawQuerySubmit() {
     try {
       const accessToken = localStorage.getItem('accessToken') || '';
       const response = await raw_query_interface.rawQuery(
-        rawQuery,
+        trainValue.sql_query,
         accessToken,
         db
       );
@@ -107,12 +105,6 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
       throw new Error("Couldn't get raw query");
     }
   }
-
-  const [trainValue, setTrainValue] = useState({
-    user_query: '',
-    sql_query: '',
-    source: 'source1',
-  });
 
   function handleChange(e: any) {
     console.log('The value is :', e.target.value);
@@ -198,8 +190,8 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
                 rows={4}
                 className="block w-full rounded-md border-s py-1.5 text-gray-900  p-2  border-2  border-Gray-Background outline-none no-scrollbar placeholder:text-gray-400 sm:text-base sm:leading-6"
                 defaultValue={''}
-                value={rawQuery}
-                onChange={handleRawQuery}
+                value={trainValue.sql_query}
+                onChange={(e) => handleChange(e)}
               />
               <div className="flex justify-end gap-4">
                 <button

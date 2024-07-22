@@ -1,5 +1,9 @@
 from openai import OpenAI
-from src.infastructure.repositories.semantic_search.semantic_search_repository import SemanticEmbeddingService, SemanticQdrantService, SemanticSearchRepository
+from src.infastructure.repositories.semantic_search.semantic_search_repository import (
+    SemanticEmbeddingService,
+    SemanticQdrantService,
+    SemanticSearchRepository,
+)
 from src.internal.use_cases.file_service import FileService
 from src.infastructure.repositories.aws_repository import AWSRepository
 from src.infastructure.repositories.neo4j_query_repository import Neo4jQueryRepository

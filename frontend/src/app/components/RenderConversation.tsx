@@ -79,7 +79,7 @@ const RenderConversation = ({
   return (
     <React.Fragment>
       <div className="w-1/2 flex flex-col gap-4   justify-between p-8 bg-white rounded-2xl">
-        <div className="overflow-y-scroll no-scrollbar flex flex-col  gap-4  text-justify bg-white">
+        <div className="overflow-y-scroll no-scrollbar justify-center items-center flex flex-col flex-grow gap-4  text-justify bg-white">
           {conversationSlice.history.length > 0 && (
             <div>
               {conversationSlice.history.map((item: HistoryItem, index) => (
@@ -164,20 +164,10 @@ const RenderConversation = ({
           )}
 
           {status.status && <Skeleton />}
-          <div className=" w-full flex justify-center flex-col gap-2 h-full items-center">
+          <div className=" w-full  flex justify-center flex-col gap-2 h-full items-center">
             {conversationSlice.history.length === 0 && (
               <>
                 <IconComponents props={{ slug: db }} />
-                <div className="flex gap-4  ">
-                  {texts.map((text, index) => (
-                    <div
-                      className="bg-[#f2f2f2] w-1/4 p-4 rounded-lg"
-                      key={index}
-                    >
-                      {text}
-                    </div>
-                  ))}
-                </div>
               </>
             )}
           </div>

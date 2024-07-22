@@ -132,13 +132,13 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
     <React.Fragment>
       {settingsBar && <ConnectionSettings dbType={db} key={key} />}
       <div className="w-full h-full flex py-4 flex-col">
-        <div className="flex w-full justify-between items-center  px-4">
+        <div className="flex w-full justify-between items-center font-medium  px-4">
           <div className=" font-semibold text-4xl text-Pri-Dark">
             {TITLE[db]}
           </div>
           <div>
             <button
-              className=" bg-white p-2 rounded-md px-4 text-Pri-Dark"
+              className=" bg-white p-2 rounded-md px-4 font-medium text-Pri-Dark"
               onClick={toggleSettingsBar}
             >
               Settings
@@ -155,9 +155,9 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
           <div className="flex flex-col w-1/2  p-6  bg-white rounded-2xl">
             <div className=" flex flex-col gap-2">
               <div className="text-lg font-semibold text-Pri-Dark">
-                Train the syste
+                Train the system
               </div>
-              <div className="text-sm">
+              <div className="text-sm font-medium">
                 Enter user query and the corresponding correct SQL query and hit
                 enter. This will improve the accuracy of the model by very good
                 margin.

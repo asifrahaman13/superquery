@@ -1,6 +1,6 @@
 # 🎉 AI-powered query on databases.
 
-### 🌟🌟🌟 If you like the repository, don't forget to give it a star 🌟🌟🌟
+### If you like the repository, don't forget to give it a star 🌟
 
 The primary focus for upcoming weeks will be :
 - Fix the bugs

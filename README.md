@@ -9,7 +9,7 @@ The primary focus for upcoming weeks will be :
 - Add cool features to it.
 - Add documentation for the developers.
 
-### About the application
+### **About the application**
 
 🐍 AI-powered query on databases to automate the process of query, visualization, etc. Organizations can analyze their data and make decisions much faster. Leverages the use of AI and LLM.
 The application is user-friendly. The user only needs to enter the API keys, connection strings, etc., from the databases' settings section. They should be good to explore their databases!
@@ -25,12 +25,12 @@ Users can interact in natural languages without much technical knowledge. Howeve
 
 ## How to run the code:
 
-The guidelines for running the application can be found in the CONTRIBUTING.md file.
+The guidelines for running the application can be found in the [CONTRIBUTING.md](https://github.com/asifrahaman13/superquery/blob/main/CONTRIBUTING.md) file.
 
 
 ## Contribution
 
-If you want to contribute to this repository, please follow the CONTRIBUTING.md guidelines.
+If you want to contribute to this repository, please follow the [CONTRIBUTING.md](https://github.com/asifrahaman13/superquery/blob/main/CONTRIBUTING.md) guidelines.
 
 For discussions or queries, please join the discord server:
 

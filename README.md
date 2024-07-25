@@ -2,13 +2,6 @@
 
 ### If you like the repository, don't forget to give it a star 🌟
 
-The primary focus for upcoming weeks will be :
-- Fix the bugs
-- Fault tolerance and fix the edge cases of various errors.
-- Better code quality.
-- Add cool features to it.
-- Add documentation for the developers.
-
 ### **About the application**
 
 🐍 AI-powered query on databases to automate the process of query, visualization, etc. Organizations can analyze their data and make decisions much faster. Leverages the use of AI and LLM.

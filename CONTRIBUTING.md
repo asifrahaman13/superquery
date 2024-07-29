@@ -4,7 +4,7 @@
 
 - First, fork the repository. 
 
-- Next pull the forked repository. `git clone https://github.com/<your_username>/superquery.git`
+- Next, pull the forked repository. `git clone https://github.com/<your_username>/superquery.git`
   
 - Upstream with the original repo `git remote add upstream https://github.com/asifrahaman13/superquery.git`
 
@@ -18,7 +18,11 @@
 
 ## Install precommit hooks.
 
-You must install the pre-commit hooks to ensure that your code follows the proper guidelines and linting.
+You must install the pre-commit hooks to ensure that your code follows the proper guidelines and lining.
+
+`pre-commit install`
+
+Before committing please run the following commands:
 
  `poetry run pre-commit install`
 

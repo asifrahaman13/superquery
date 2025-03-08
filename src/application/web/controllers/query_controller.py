@@ -198,5 +198,6 @@ async def train_model(
         )
         if response is True:
             return Response(status_code=200, content="Data added successfully")
-    except Exception:
+    except Exception as e:
+        print(e)
         return Response(status_code=500, content="Internal Server Error")

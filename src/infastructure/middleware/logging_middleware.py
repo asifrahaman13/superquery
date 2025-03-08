@@ -17,19 +17,11 @@ class PrefixMiddleware(BaseHTTPMiddleware):
         auth_interface: AuthService = get_auth_service()
         logging.info("############################# authenticating")
         try:
-            """
-            For the post requests, the token is made in the form of authorization headers and hence we
-            need to extract the data from the authorization header.
-            """
             print("###################### method", request.method)
             if request.method == "POST":
                 token = request.headers.get("Authorization").split(" ")[1]
                 print("######################", token)
             elif request.method == "GET":
-                """
-                In the routes, the token for other requests are usually taken in the form of params.
-                So the token is extracted from the params.
-                """
                 token = request.url.path.split("/")[-1]
                 logging.info("The token is: {}".format(token))
             elif request.method == "PUT":
@@ -47,22 +39,15 @@ class PrefixMiddleware(BaseHTTPMiddleware):
             raise HTTPException(status_code=401, detail="Unauthorized")
 
     async def dispatch(self, request, call_next):
-        # Extract out the prefix from the URL.
         self.prefix = request.url.path.split("/")[1]
-
         logging.info(f"Request with prefix {self.prefix}")
-
-        # Allow OPTIONS requests without authentication for CORS preflight
         if request.method == "OPTIONS":
             response = await call_next(request)
             return response
-
-        # If the prefix is among the protected routes then check the token of the routes.
         if self.prefix in self.protected_routes:
             logging.info(f"Protected route {self.protected_routes}")
             try:
                 await self.authenticate(request)
-                # If no exception occurred then allow the further steps.
                 response = await call_next(request)
                 return response
             except HTTPException as e:

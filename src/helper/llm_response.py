@@ -8,9 +8,6 @@ class LlmResponse:
         self.model = model
 
     def embed_text(self, text, model_name):
-        # response = self.client.embeddings.create(model=model_name, input=text)
-        # return response.data[0].embedding
-
         response = ollama.embed(
             model=model_name,
             input=text,
@@ -23,10 +20,7 @@ class LlmResponse:
         if db_type == "mysql":
             ddl_commands_str = "\n".join(ddl_commands)
             examples_str = "\n".join(
-                [
-                    f"{i + 1}. User prompt: {example['query']}\nSQL query: ```sql\n{example['sqlQuery']}\n```"
-                    for i, example in enumerate(examples)
-                ]
+                [f"{i + 1}. {example['text']}\n" for i, example in enumerate(examples)]
             )
 
             system_message = f"""You are a master in mysql query. You are going to help me with generating mysql query from the natural language. I will provide you the natural language query and you will convert it into mysql query. Take care of all the details of the user query. Each small information of the user query matters. Depending upon that generate accurate sql query for mysql.\n
@@ -54,10 +48,7 @@ class LlmResponse:
         if db_type == "postgres":
             ddl_commands_str = "\n".join(ddl_commands)
             examples_str = "\n".join(
-                [
-                    f"{i + 1}. User prompt: {example['query']}\nSQL query: ```sql\n{example['sqlQuery']}\n```"
-                    for i, example in enumerate(examples)
-                ]
+                [f"{i + 1}. {example['text']}\n" for i, example in enumerate(examples)]
             )
 
             system_message = f"""You are a master in postgres query. You are going to help me with generating postgres query from the natural language. I will provide you the natural language query and you will convert it into postgres query. Take care of all the details of the user query. Each small information of the user query matters. Depending upon that generate accurate sql query for postgres.\n
@@ -84,11 +75,9 @@ class LlmResponse:
 
         if db_type == "sqlite":
             ddl_commands_str = "\n".join(ddl_commands)
-            if examples is not None:
-                examples_str = "\n".join(
-                    [f"{i + 1}. {example}```" for i, example in enumerate(examples)]
-                )
-            print("sql queries sample #############", examples_str)
+            examples_str = "\n".join(
+                [f"{i + 1}. {example['text']}\n" for i, example in enumerate(examples)]
+            )
             system_message = f"""You are a master in sqlite query. You are going to help me with generating sqlite query from the natural language. I will provide you the natural language query and you will convert it into sqlite query. Take care of all the details of the user query. Each small information of the user query matters. Depending upon that generate accurate sql query for sqlite.\n
             We have three tables. They are created with the following SQL commands:\n
             {ddl_commands_str}\n

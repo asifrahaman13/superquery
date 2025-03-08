@@ -2,6 +2,9 @@ import asyncio
 from typing import Any, AsyncGenerator, Dict, List
 from src.entities.router_models import QueryResponse
 from src.constants.databases.available_databases import DatabaseKeys
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 class QueryService:
@@ -29,6 +32,8 @@ class QueryService:
         if available_client and db_key in available_client:
             configurations = available_client[db_key]
             examples = self.semantic_search_repository.query_text(query, user)
+
+            logging.info(f"Querying database with configurations: {configurations}")
             configurations["examples"] = examples
             async for response in self.query_database.query_database(
                 query, **configurations
@@ -57,7 +62,6 @@ class QueryService:
                 "source": source,
             }
         ]
-        # Separate texts and metadata for initialization
         texts = [item["text"] for item in data]
         metadata = [{k: v for k, v in item.items() if k != "text"} for item in data]
         return self.semantic_search_repository.initialize_qdrant(texts, metadata)

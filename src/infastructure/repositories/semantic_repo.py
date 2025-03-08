@@ -4,11 +4,16 @@ from qdrant_client import QdrantClient
 
 # from qdrant_client.models import PointStruct, VectorParams, Distance
 from qdrant_client.models import PointStruct
+from qdrant_client import QdrantClient, models
 from qdrant_client.http.models import (
     VectorParams,
     Distance,
 )
 import ollama
+
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 class SemanticEmbeddingService:
@@ -20,7 +25,8 @@ class SemanticEmbeddingService:
             return self.embeddings_cache[text]
         else:
             response = ollama.embed(model="mxbai-embed-large", input=text)
-            self.embeddings_cache[text] = response["embedding"]
+            self.embeddings_cache[text] = response.embeddings[0]
+            logging.info(f"Embedding for {text} is {str(response.embeddings[0])}")
             return self.embeddings_cache[text]
 
 
@@ -44,7 +50,7 @@ class SemanticQdrantService:
         else:
             self.client.create_collection(
                 collection_name=collection_name,
-                vectors_config=VectorParams(size=1536, distance=Distance.COSINE),
+                vectors_config=VectorParams(size=1024, distance=Distance.COSINE),
             )
 
     def upsert_points(self, collection_name, points):
@@ -85,9 +91,20 @@ class SemanticSearchRepo:
             for idx, (text, meta) in enumerate(zip(texts, metadata))
         ]
 
+    async def create_collection(self, collection_name: str):
+        collection_exists = self.qdrant_service.client.collection_exists(
+            collection_name=collection_name
+        )
+        if collection_exists is False:
+            self.qdrant_service.client.create_collection(
+                collection_name,
+                vectors_config=models.VectorParams(
+                    size=1024, distance=models.Distance.COSINE
+                ),
+            )
+
     def initialize_qdrant(self, texts: List[str], metadata: List[Dict]):
         points = self.prepare_points(texts, metadata)
-        # self.qdrant_service.create_collection("superquery")
         self.qdrant_service.upsert_points("superquery", points)
         return True
 

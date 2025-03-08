@@ -3,7 +3,7 @@ import redis
 
 
 class ConnectionManager:
-    def __init__(self, redis_host, redis_port, redis_password):
+    def __init__(self, redis_host: str, redis_port: str, redis_password: str):
         self.redis_client = redis.Redis(
             host=redis_host, port=redis_port, password=redis_password
         )

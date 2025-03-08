@@ -1,7 +1,7 @@
 from typing import Dict
 from fastapi import Depends, HTTPException, Header
-from exports.exports import get_auth_service
-from src.internal.use_cases.auth_service import AuthService
+from exports.index import get_auth_service
+from src.use_cases.auth_service import AuthService
 
 
 def get_current_user(

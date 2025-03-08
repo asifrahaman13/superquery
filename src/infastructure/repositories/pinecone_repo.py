@@ -1,11 +1,11 @@
 import asyncio
 from openai import OpenAI
 from pinecone import Pinecone
-from src.infastructure.repositories.helper.llm_response import LlmResponse
-from src.internal.entities.router_models import QueryResponse
+from src.helper.llm_response import LlmResponse
+from src.entities.router_models import QueryResponse
 
 
-class PineconeQueryRepository:
+class PineconeQueryRepo:
     @staticmethod
     async def query_database(
         query: str,
@@ -36,7 +36,9 @@ class PineconeQueryRepository:
             message="Framing answer", status=True, answer_type="plain_answer"
         )
         await asyncio.sleep(0)
-        response = anthropic_client.bulk_llm_response(query, data_source, "pinecone")
+        response = await anthropic_client.bulk_llm_response(
+            query, data_source, "pinecone"
+        )
         await asyncio.sleep(0)
         yield QueryResponse(message=response, status=False, answer_type="plain_answer")
         await asyncio.sleep(0)

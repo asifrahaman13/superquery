@@ -1,35 +1,31 @@
 from anthropic import AsyncAnthropicBedrock
-from src.infastructure.repositories.semantic_search.semantic_search_repository import (
+from src.infastructure.repositories.semantic_repo import (
     SemanticEmbeddingService,
     SemanticQdrantService,
-    SemanticSearchRepository,
+    SemanticSearchRepo,
 )
-from src.internal.use_cases.file_service import FileService
-from src.infastructure.repositories.aws_repository import AWSRepository
-from src.infastructure.repositories.neo4j_query_repository import Neo4jQueryRepository
-from src.infastructure.repositories.helper.embeddings_assistant import EmbeddingService
-from src.infastructure.repositories.helper.qdrant_service_assistant import QdrantService
-from src.infastructure.repositories.qdrant_query_repository import QdrantQueryRepository
-from src.infastructure.repositories.sqlite_query_repository import SqliteQueryRepository
-from src.internal.use_cases.configurations_service import ConfigurationService
-from src.internal.use_cases.auth_service import AuthService
-from src.infastructure.repositories.auth_repository import AuthRepository
-from src.infastructure.repositories.mongodb_query_repository import (
-    MongodbQueryRepository,
+from src.use_cases.file_service import FileService
+from src.infastructure.repositories.aws_repository import AWSRepo
+from src.infastructure.repositories.neo4j_repo import Neo4jQueryRepo
+from src.helper.embeddings_assistant import EmbeddingService
+from src.helper.qdrant_service_assistant import QdrantService
+from src.infastructure.repositories.qdrant_repo import QdrantQueryRepo
+from src.infastructure.repositories.sqlite_repos import SqliteQueryRepo
+from src.use_cases.configurations_service import ConfigurationService
+from src.use_cases.auth_service import AuthService
+from src.infastructure.repositories.auth_repository import AuthRepo
+from src.infastructure.repositories.mysql_repo import MySqlQueryRepo
+from src.infastructure.repositories.postgres_repo import (
+    PostgresQueryRepo,
 )
-from src.infastructure.repositories.mysql_query_repository import MySqlQueryRepository
-from src.infastructure.repositories.postgres_query_repository import (
-    PostgresQueryRepository,
+from src.infastructure.repositories.pinecone_repo import (
+    PineconeQueryRepo,
 )
-from src.infastructure.repositories.pinecone_query_repository import (
-    PineconeQueryRepository,
+from src.use_cases.query_service import QueryService
+from src.infastructure.repositories.database_repo import (
+    MongodbRepo,
 )
-from src.internal.use_cases.query_service import QueryService
-from src.ConnectionManager.ConnectionManager import ConnectionManager
-from src.infastructure.repositories.database_repository import (
-    MongodbRepository,
-)
-from src.infastructure.repositories.helper.handle_answer_types import HandleAnswerTypes
+from src.helper.handle_answer_types import HandleAnswerTypes
 from pymongo import MongoClient
 from src.config.config import (
     MONGO_DB_URI,
@@ -37,14 +33,11 @@ from src.config.config import (
     QDRANT_API_KEY,
 )
 from src.config.config import (
-    REDIS_HOST,
-    REDIS_PORT,
-    REDIS_PASSWORD,
     AWS_ACCESS_KEY_ID,
     AWS_BUCKET_NAME,
     AWS_SECRET_ACCESS_KEY,
 )
-from src.infastructure.repositories.helper.llm_response import LlmResponse
+from src.helper.llm_response import LlmResponse
 from src.config.config import ANTHROPIC_MODEL
 
 
@@ -54,7 +47,7 @@ class DIContainer:
 
     def get_auth_repository(self):
         if "auth_repository" not in self.__instances:
-            self.__instances["auth_repository"] = AuthRepository()
+            self.__instances["auth_repository"] = AuthRepo()
         return self.__instances["auth_repository"]
 
     def get_auth_service(self):
@@ -68,7 +61,7 @@ class DIContainer:
         if "database_repository" not in self.__instances:
             mongodb_client = MongoClient(MONGO_DB_URI)
             mongodb_database = "octo"
-            self.__instances["database_repository"] = MongodbRepository(
+            self.__instances["database_repository"] = MongodbRepo(
                 mongodb_client, mongodb_database
             )
         return self.__instances["database_repository"]
@@ -79,7 +72,7 @@ class DIContainer:
             qdrant_service = SemanticQdrantService(
                 url=QDRANT_API_ENDPOINT, api_key=QDRANT_API_KEY
             )
-            self.__instances["vectordb_repoitory"] = SemanticSearchRepository(
+            self.__instances["vectordb_repoitory"] = SemanticSearchRepo(
                 embedding_service, qdrant_service
             )
         return self.__instances["vectordb_repoitory"]
@@ -87,7 +80,7 @@ class DIContainer:
     def get_mysql_query_repository(self):
         if "mysql_query_repository" not in self.__instances:
             AsyncAnthropicBedrock_client = AsyncAnthropicBedrock()
-            self.__instances["mysql_query_repository"] = MySqlQueryRepository(
+            self.__instances["mysql_query_repository"] = MySqlQueryRepo(
                 HandleAnswerTypes(),
                 LlmResponse(
                     AsyncAnthropicBedrock_client,
@@ -99,11 +92,11 @@ class DIContainer:
     def get_postgres_query_repository(self):
         if "postgres_query_repository" not in self.__instances:
             AsyncAnthropicBedrock_client = AsyncAnthropicBedrock()
-            self.__instances["postgres_query_repository"] = PostgresQueryRepository(
+            self.__instances["postgres_query_repository"] = PostgresQueryRepo(
                 HandleAnswerTypes(),
                 LlmResponse(
                     AsyncAnthropicBedrock_client,
-                   ANTHROPIC_MODEL,
+                    ANTHROPIC_MODEL,
                 ),
             )
         return self.__instances["postgres_query_repository"]
@@ -111,7 +104,7 @@ class DIContainer:
     def get_sqlite_query_repository(self):
         if "sqlite_query_repository" not in self.__instances:
             AsyncAnthropicBedrock_client = AsyncAnthropicBedrock()
-            self.__instances["sqlite_query_repository"] = SqliteQueryRepository(
+            self.__instances["sqlite_query_repository"] = SqliteQueryRepo(
                 HandleAnswerTypes(),
                 LlmResponse(
                     AsyncAnthropicBedrock_client,
@@ -120,36 +113,29 @@ class DIContainer:
             )
         return self.__instances["sqlite_query_repository"]
 
-    def get_mongodb_query_repository(self):
-        if "mongodb_query_repository" not in self.__instances:
-            self.__instances["mongodb_query_repository"] = MongodbQueryRepository(
-                MongoClient(MONGO_DB_URI), "test"
-            )
-        return self.__instances["mongodb_query_repository"]
-
     def get_pinecone_query_repository(self):
         if "pinecone_query_repository" not in self.__instances:
-            self.__instances["pinecone_query_repository"] = PineconeQueryRepository()
+            self.__instances["pinecone_query_repository"] = PineconeQueryRepo()
         return self.__instances["pinecone_query_repository"]
 
     def get_qdrant_query_repository(self):
         if "qdrant_query_repository" not in self.__instances:
             embedding_service: EmbeddingService = EmbeddingService()
             qdrant_service: QdrantService = QdrantService()
-            self.__instances["qdrant_query_repository"] = QdrantQueryRepository(
+            self.__instances["qdrant_query_repository"] = QdrantQueryRepo(
                 embedding_service, qdrant_service
             )
         return self.__instances["qdrant_query_repository"]
 
     def get_neo4j_query_repository(self):
         if "neo4j_query_repository" not in self.__instances:
-            self.__instances["neo4j_query_repository"] = Neo4jQueryRepository()
+            self.__instances["neo4j_query_repository"] = Neo4jQueryRepo()
         return self.__instances["neo4j_query_repository"]
 
     def get_aws_repository(self):
         if "aws_repository" not in self.__instances:
             print(AWS_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-            self.__instances["aws_repository"] = AWSRepository(
+            self.__instances["aws_repository"] = AWSRepo(
                 AWS_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
             )
         return self.__instances["aws_repository"]
@@ -226,47 +212,3 @@ class DIContainer:
                 self.get_database_repository(), self.get_aws_repository()
             )
         return self.__instances["aws_service"]
-
-
-container = DIContainer()
-websocket_manager = ConnectionManager(REDIS_HOST, REDIS_PORT, REDIS_PASSWORD)
-
-
-def get_mysql_query_database_service():
-    return container.get_mysql_query_database_service()
-
-
-def get_postgres_query_database_service():
-    return container.get_postgres_query_database_service()
-
-
-def get_sqlite_query_database_service():
-    return container.get_sqlite_query_database_service()
-
-
-def get_mongodb_query_database_service():
-    return container.get_mongodb_query_database_service()
-
-
-def get_pinecone_query_database_service():
-    return container.get_pinecone_query_database_service()
-
-
-def get_qdrant_query_database_service():
-    return container.get_qdrant_query_database_service()
-
-
-def get_neo4j_query_database_service():
-    return container.get_neo4j_query_database_service()
-
-
-def get_auth_service():
-    return container.get_auth_service()
-
-
-def get_configuration_service():
-    return container.get_configuration_service()
-
-
-def get_aws_service():
-    return container.get_aws_service()

@@ -2,16 +2,16 @@ import logging
 from typing import Any, Dict
 
 
-class MongodbRepository:
+class MongodbRepo:
     def __init__(self, mongodb_client, mongodb_database) -> None:
-        self.__client = mongodb_client
-        self.__database = self.__client[mongodb_database]
+        self.client = mongodb_client
+        self.database = self.client[mongodb_database]
 
     def find_single_entity_by_field_name(
         self, collection_name: str, field_name: str, field_value: str
     ):
         try:
-            collection = self.__database[collection_name]
+            collection = self.database[collection_name]
             result = collection.find_one({field_name: field_value})
             result["_id"] = str(result["_id"])
             return result
@@ -22,7 +22,7 @@ class MongodbRepository:
         self, collection_name: str, file_name: str, field_value: str
     ):
         try:
-            collection = self.__database[collection_name]
+            collection = self.database[collection_name]
             results = collection.find({file_name: field_value})
             all_documents = []
             for item in results:
@@ -34,7 +34,7 @@ class MongodbRepository:
 
     def save_entity(self, collection_name: str, entity: Dict[str, Any]):
         try:
-            collection = self.__database[collection_name]
+            collection = self.database[collection_name]
             result = collection.insert_one(entity).inserted_id
             return result
         except Exception:
@@ -48,7 +48,7 @@ class MongodbRepository:
         collection_name: str,
     ):
         try:
-            collection = self.__database[collection_name]
+            collection = self.database[collection_name]
             collection.update_one({filter_key: filter_value}, {"$set": update_data})
             return update_data
         except Exception as e:

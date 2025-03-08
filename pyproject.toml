@@ -17,6 +17,7 @@ dependencies = [
     "ollama>=0.4.7",
     "openai>=1.65.4",
     "pinecone>=6.0.1",
+    "psycopg2>=2.9.10",
     "python-dotenv>=1.0.1",
     "python-jose>=3.4.0",
     "python-multipart>=0.0.20",

@@ -1,11 +1,8 @@
 from typing import Any, Dict
 from src.constants.databases.available_databases import DatabaseKeys
-from src.internal.interfaces.services.configuration_interface import (
-    ConfigurationInterface,
-)
 
 
-class ConfigurationService(ConfigurationInterface):
+class ConfigurationService:
     def __init__(self, database_repository):
         self.__database_repository = database_repository
         self.__db_keys = DatabaseKeys.get_keys()

@@ -2,14 +2,14 @@ import asyncio
 import logging
 from typing import Dict, List
 from qdrant_client.models import PointStruct
-from src.infastructure.repositories.helper.llm_response import LlmResponse
-from src.internal.entities.router_models import QueryResponse
-from src.infastructure.repositories.helper.embeddings_assistant import EmbeddingService
-from src.infastructure.repositories.helper.qdrant_service_assistant import QdrantService
+from src.helper.llm_response import LlmResponse
+from src.entities.router_models import QueryResponse
+from src.helper.embeddings_assistant import EmbeddingService
+from src.helper.qdrant_service_assistant import QdrantService
 from openai import Client
 
 
-class QdrantQueryRepository:
+class QdrantQueryRepo:
     def __init__(
         self,
         embedding_service: EmbeddingService,
@@ -61,7 +61,7 @@ class QdrantQueryRepository:
             )
             logging.info(f"qdrant service response: {response}")
             anthropic_client = LlmResponse(Client(api_key=anthropic_api_key))
-            llm_response = anthropic_client.bulk_llm_response(
+            llm_response = await anthropic_client.bulk_llm_response(
                 query_text, response, "qdrant"
             )
             await asyncio.sleep(0)

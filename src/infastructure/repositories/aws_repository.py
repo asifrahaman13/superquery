@@ -2,7 +2,7 @@ import logging
 import boto3
 
 
-class AWSRepository:
+class AWSRepo:
     def __init__(
         self, aws_bucket_name: str, aws_access_key_id: str, aws_secret_access_key: str
     ):

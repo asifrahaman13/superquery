@@ -37,7 +37,7 @@ class LlmResponse:
             Give only the sql command. Do not give any other text or information. Remember to take care of all the details of the user query. Each small information of the user query matters. Depending upon that generate accurate sql query for mysql.
             """
 
-            completion = self.client.messages.create(
+            completion = await self.client.messages.create(
                 model=self.model,
                 max_tokens=self.max_tokens,
                 messages=[
@@ -48,7 +48,8 @@ class LlmResponse:
                     {"role": "user", "content": query},
                 ],
             )
-            return completion.content[0].text.strip("```sql\n").strip("```")
+            response = completion.content[0].text.strip("```sql\n").strip("```")
+            return response
 
         if db_type == "postgres":
             ddl_commands_str = "\n".join(ddl_commands)
@@ -67,7 +68,7 @@ class LlmResponse:
             Give only the sql command. Do not give any other text or information. Remember to take care of all the details of the user query. Each small information of the user query matters. Depending upon that generate accurate sql query for postgres.
             """
 
-            completion = self.client.messages.create(
+            completion = await self.client.messages.create(
                 model=self.model,
                 max_tokens=self.max_tokens,
                 messages=[
@@ -78,7 +79,8 @@ class LlmResponse:
                     {"role": "user", "content": query},
                 ],
             )
-            return completion.content[0].text.strip("```sql\n").strip("```")
+            response = completion.content[0].text.strip("```sql\n").strip("```")
+            return response
 
         if db_type == "sqlite":
             ddl_commands_str = "\n".join(ddl_commands)
@@ -110,7 +112,7 @@ class LlmResponse:
             return response
 
         if db_type == "pinecone":
-            completion = self.client.messages.create(
+            completion = await self.client.messages.create(
                 model=self.model,
                 max_tokens=self.max_tokens,
                 messages=[
@@ -123,10 +125,12 @@ class LlmResponse:
                     {"role": "user", "content": query},
                 ],
             )
-            return completion.content[0].text
+
+            response = completion.content[0].text
+            return response
 
         elif db_type == "qdrant":
-            completion = self.client.messages.create(
+            completion = await self.client.messages.create(
                 model=self.model,
                 max_tokens=self.max_tokens,
                 messages=[
@@ -139,6 +143,8 @@ class LlmResponse:
                     {"role": "user", "content": query},
                 ],
             )
-            return completion.content[0].text
+
+            response = completion.content[0].text
+            return response
         else:
             return "No response"

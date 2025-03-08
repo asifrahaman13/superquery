@@ -1,10 +1,10 @@
 import asyncio
-from src.internal.entities.router_models import QueryResponse
+from src.entities.router_models import QueryResponse
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy import text
 
 
-class PostgresQueryRepository:
+class SqliteQueryRepo:
     def __init__(self, handle_answer_type, llm_response) -> None:
         self.handle_answer_type = handle_answer_type
         self.anthropic_client = llm_response
@@ -16,9 +16,10 @@ class PostgresQueryRepository:
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
         await asyncio.sleep(0)
-        llm_generated_query = self.anthropic_client.bulk_llm_response(
-            user_query, ddl_commands, examples, "postgres"
+        llm_generated_query = await self.anthropic_client.bulk_llm_response(
+            user_query, ddl_commands, examples, "sqlite"
         )
+        print(f"The generated query is....{llm_generated_query}")
         async for response in self.handle_answer_type.handle_plain_answer(
             llm_generated_query, connection_string
         ):

@@ -3,7 +3,7 @@ from neo4j import GraphDatabase
 from langchain.chains import GraphCypherQAChain
 from langchain_community.graphs import Neo4jGraph
 from langchain_openai import ChatOpenAI
-from src.internal.entities.router_models import QueryResponse
+from src.entities.router_models import QueryResponse
 
 
 class Neo4jDriver:
@@ -27,7 +27,7 @@ class Neo4jDriver:
             return result.data()
 
 
-class Neo4jQueryRepository:
+class Neo4jQueryRepo:
     @staticmethod
     async def query_database(query: str, *args, **kwargs):
         username = kwargs.get("username")

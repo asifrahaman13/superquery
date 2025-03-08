@@ -1,8 +1,7 @@
-from src.internal.interfaces.services.auth_interface import AuthInterface
 from src.constants.databases.available_databases import INITIAL_DASHBOARD
 
 
-class AuthService(AuthInterface):
+class AuthService:
     def __init__(self, auth_reposiotry, database_repository):
         self.auth_reposiotry = auth_reposiotry
         self.database_repository = database_repository

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Header
-from src.exports.exports import get_auth_service
-from src.internal.use_cases.auth_service import AuthService
-from src.internal.entities.router_models import UserBase
+from src.exports.index import get_auth_service
+from src.use_cases.auth_service import AuthService
+from src.entities.router_models import UserBase
 
 auth_controller = APIRouter()
 

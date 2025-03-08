@@ -1,4 +1,4 @@
-from src.internal.use_cases.query_service import QueryService
+from src.use_cases.query_service import QueryService
 
 
 class QueryServiceMapping:

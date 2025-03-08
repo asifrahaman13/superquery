@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Header
-from src.exports.exports import get_auth_service, get_configuration_service
-from src.internal.entities.router_models import ConfigurationBase, UpdateConfig
-from src.internal.use_cases.auth_service import AuthService
-from src.internal.use_cases.configurations_service import ConfigurationService
+from src.exports.index import get_auth_service, get_configuration_service
+from src.entities.router_models import ConfigurationBase, UpdateConfig
+from src.use_cases.auth_service import AuthService
+from src.use_cases.configurations_service import ConfigurationService
 
 configuration_controller = APIRouter()
 

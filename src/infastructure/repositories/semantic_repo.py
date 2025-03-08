@@ -62,7 +62,7 @@ class SemanticQdrantService:
         )
 
 
-class SemanticSearchRepository:
+class SemanticSearchRepo:
     def __init__(
         self,
         embedding_service: SemanticEmbeddingService,

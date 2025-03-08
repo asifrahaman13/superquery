@@ -1,8 +1,7 @@
 from typing import Any
-from src.internal.interfaces.services.file_interface import FileInterface
 
 
-class FileService(FileInterface):
+class FileService:
     def __init__(self, database_repository, aws_repository) -> None:
         self.database_repository = database_repository
         self.aws_repository = aws_repository
@@ -16,7 +15,7 @@ class FileService(FileInterface):
             return True
         return False
 
-    def all_aws_files(self, username: str):
+    def all_aws_files(self, username: str) -> list[str]:
         all_aws_file_names = self.database_repository.find_all_entities_by_field_name(
             "aws", "username", username
         )

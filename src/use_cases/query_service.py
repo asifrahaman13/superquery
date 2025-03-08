@@ -1,11 +1,10 @@
 import asyncio
 from typing import Any, AsyncGenerator, Dict, List
-from src.internal.entities.router_models import QueryResponse
-from src.internal.interfaces.services.query_interface import QueryInterface
+from src.entities.router_models import QueryResponse
 from src.constants.databases.available_databases import DatabaseKeys
 
 
-class QueryService(QueryInterface):
+class QueryService:
     def __init__(
         self, query_database, database, semantic_search_repository=None
     ) -> None:

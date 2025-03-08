@@ -4,7 +4,7 @@ from src.config.config import SECRET_KEY
 from datetime import UTC
 
 
-class AuthRepository:
+class AuthRepo:
     def __init__(self) -> None:
         self.secret_key = SECRET_KEY
         self.expires_delta = timedelta(hours=100)

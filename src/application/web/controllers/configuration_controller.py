@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Header
-from exports.exports import get_auth_service, get_configuration_service
+from src.exports.exports import get_auth_service, get_configuration_service
 from src.internal.entities.router_models import ConfigurationBase, UpdateConfig
 from src.internal.use_cases.auth_service import AuthService
 from src.internal.use_cases.configurations_service import ConfigurationService
@@ -24,7 +24,7 @@ async def get_mysql_configurations(
             user["sub"], db_type.db_type
         )
         return response
-    except Exception as e:
+    except Exception:
         return {"error": "Some error occured."}
 
 
@@ -45,5 +45,5 @@ async def update_mysql_configurations(
             user["sub"], db_type.db_type, db_type.model_dump()
         )
         return response
-    except Exception as e:
+    except Exception:
         return {"error": "Some error occured in server."}

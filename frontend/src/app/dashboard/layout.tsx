@@ -92,12 +92,12 @@ export default function DashboardLayout({
       icon: SiSqlite,
       current: false,
     },
-    {
-      name: 'MongoDB',
-      href: '/dashboard/mongodb',
-      icon: SiMongodb,
-      current: false,
-    },
+    // {
+    //   name: 'MongoDB',
+    //   href: '/dashboard/mongodb',
+    //   icon: SiMongodb,
+    //   current: false,
+    // },
     {
       name: 'Pinecone',
       href: '/dashboard/pinecone',

@@ -10,9 +10,11 @@
 
 - Go to the root directory. `cd superquery`
 
-- Enable virtual environment for the poetry. `poetry config virtualenvs.in-project true`
+- Enable virtual environment for the poetry. `uv venv`
 
-- Now install the dependencies. `poetry install`
+- Now activate virtual environment `source .venv/bin/activate`
+
+- Now install the dependencies. `uv sync`
 
 - Now rename the .env.example. `mv .env.example .env`.  Give the proper configuration by giving the API keys. For example set the open ai key etc. Also set the configuration data in the config.yaml file.
 

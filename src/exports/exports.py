@@ -1,4 +1,4 @@
-from openai import OpenAI
+from anthropic import AsyncAnthropicBedrock
 from src.infastructure.repositories.semantic_search.semantic_search_repository import (
     SemanticEmbeddingService,
     SemanticQdrantService,
@@ -31,14 +31,21 @@ from src.infastructure.repositories.database_repository import (
 )
 from src.infastructure.repositories.helper.handle_answer_types import HandleAnswerTypes
 from pymongo import MongoClient
-from config.config import (
+from src.config.config import (
     MONGO_DB_URI,
-    OPEN_AI_API_KEY,
     QDRANT_API_ENDPOINT,
     QDRANT_API_KEY,
 )
-from config.config import REDIS_HOST, REDIS_PORT, REDIS_PASSWORD
+from src.config.config import (
+    REDIS_HOST,
+    REDIS_PORT,
+    REDIS_PASSWORD,
+    AWS_ACCESS_KEY_ID,
+    AWS_BUCKET_NAME,
+    AWS_SECRET_ACCESS_KEY,
+)
 from src.infastructure.repositories.helper.llm_response import LlmResponse
+from src.config.config import ANTHROPIC_MODEL
 
 
 class DIContainer:
@@ -79,25 +86,37 @@ class DIContainer:
 
     def get_mysql_query_repository(self):
         if "mysql_query_repository" not in self.__instances:
-            openai_client = OpenAI(api_key=OPEN_AI_API_KEY)
+            AsyncAnthropicBedrock_client = AsyncAnthropicBedrock()
             self.__instances["mysql_query_repository"] = MySqlQueryRepository(
-                HandleAnswerTypes(), LlmResponse(openai_client)
+                HandleAnswerTypes(),
+                LlmResponse(
+                    AsyncAnthropicBedrock_client,
+                    ANTHROPIC_MODEL,
+                ),
             )
         return self.__instances["mysql_query_repository"]
 
     def get_postgres_query_repository(self):
         if "postgres_query_repository" not in self.__instances:
-            openai_client = OpenAI(api_key=OPEN_AI_API_KEY)
+            AsyncAnthropicBedrock_client = AsyncAnthropicBedrock()
             self.__instances["postgres_query_repository"] = PostgresQueryRepository(
-                HandleAnswerTypes(), LlmResponse(openai_client)
+                HandleAnswerTypes(),
+                LlmResponse(
+                    AsyncAnthropicBedrock_client,
+                   ANTHROPIC_MODEL,
+                ),
             )
         return self.__instances["postgres_query_repository"]
 
     def get_sqlite_query_repository(self):
         if "sqlite_query_repository" not in self.__instances:
-            openai_client = OpenAI(api_key=OPEN_AI_API_KEY)
+            AsyncAnthropicBedrock_client = AsyncAnthropicBedrock()
             self.__instances["sqlite_query_repository"] = SqliteQueryRepository(
-                HandleAnswerTypes(), LlmResponse(openai_client)
+                HandleAnswerTypes(),
+                LlmResponse(
+                    AsyncAnthropicBedrock_client,
+                    ANTHROPIC_MODEL,
+                ),
             )
         return self.__instances["sqlite_query_repository"]
 
@@ -115,7 +134,6 @@ class DIContainer:
 
     def get_qdrant_query_repository(self):
         if "qdrant_query_repository" not in self.__instances:
-
             embedding_service: EmbeddingService = EmbeddingService()
             qdrant_service: QdrantService = QdrantService()
             self.__instances["qdrant_query_repository"] = QdrantQueryRepository(
@@ -130,12 +148,14 @@ class DIContainer:
 
     def get_aws_repository(self):
         if "aws_repository" not in self.__instances:
-            self.__instances["aws_repository"] = AWSRepository()
+            print(AWS_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+            self.__instances["aws_repository"] = AWSRepository(
+                AWS_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+            )
         return self.__instances["aws_repository"]
 
     def get_mysql_query_database_service(self):
         if "mysql_query_service" not in self.__instances:
-
             self.__instances["mysql_query_service"] = QueryService(
                 self.get_mysql_query_repository(),
                 self.get_database_repository(),

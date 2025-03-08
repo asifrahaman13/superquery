@@ -1,33 +1,29 @@
-[tool.poetry]
+[project]
 name = "superquery"
 version = "0.1.0"
-description = "AI powered query on databases to automate the process of query, visualize etc. Organizations can analyze their data and take decisions much faster. Leverages the use AI, LLM. The project is under development"
-authors = ["asifrahaman13 <asifrahaman162@gmail.com>"]
+description = "Add your description here"
 readme = "README.md"
-package-mode = false
-
-[tool.poetry.dependencies]
-python = "^3.12"
-langchain-community = "^0.2.6"
-uvicorn = "^0.30.1"
-fastapi = "^0.111.0"
-schedule = "^1.2.2"
-python-jose = "^3.3.0"
-langchain-openai = "^0.1.14"
-sqlmodel = "^0.0.19"
-redis = "^5.0.7"
-pymongo = "^4.8.0"
-fastapi-limiter = "^0.1.6"
-pre-commit = "^3.7.1"
-pytest = "^8.2.2"
-black = "^24.4.2"
-mysql-connector-python = "9.0.0"
-psycopg2 = "2.9.9"
-pinecone = "^4.0.0"
-qdrant-client = "^1.10.1"
-neo4j = "^5.22.0"
-boto3 = "^1.34.143"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=0.49.0",
+    "boto3>=1.37.7",
+    "fastapi-limiter>=0.1.6",
+    "fastapi>=0.115.11",
+    "langchain-community>=0.3.19",
+    "langchain-openai>=0.3.7",
+    "langchain>=0.3.20",
+    "motor>=3.7.0",
+    "neo4j>=5.28.1",
+    "ollama>=0.4.7",
+    "openai>=1.65.4",
+    "pinecone>=6.0.1",
+    "python-dotenv>=1.0.1",
+    "python-jose>=3.4.0",
+    "python-multipart>=0.0.20",
+    "pyyaml>=6.0.2",
+    "qdrant-client>=1.13.3",
+    "redis>=5.2.1",
+    "schedule>=1.2.2",
+    "sqlmodel>=0.0.23",
+    "uvicorn[standard]>=0.34.0",
+]

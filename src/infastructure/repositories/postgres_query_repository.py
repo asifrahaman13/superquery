@@ -7,7 +7,7 @@ from sqlalchemy import text
 class PostgresQueryRepository:
     def __init__(self, handle_answer_type, llm_response) -> None:
         self.handle_answer_type = handle_answer_type
-        self.open_ai_client = llm_response
+        self.anthropic_client = llm_response
 
     async def query_database(self, user_query: str, *args, **kwargs):
         connection_string: str = kwargs.get("connectionString")
@@ -16,7 +16,7 @@ class PostgresQueryRepository:
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
         await asyncio.sleep(0)
-        llm_generated_query = self.open_ai_client.bulk_llm_response(
+        llm_generated_query = self.anthropic_client.bulk_llm_response(
             user_query, ddl_commands, examples, "postgres"
         )
         async for response in self.handle_answer_type.handle_plain_answer(

@@ -1,9 +1,9 @@
 import asyncio
-from fastapi import APIRouter, Depends, Header, Response, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, Depends, Response, WebSocket, WebSocketDisconnect
 from src.internal.entities.router_models import TrainData
 from src.internal.use_cases.auth_service import AuthService
 from src.internal.use_cases.query_service import QueryService
-from exports.exports import (
+from src.exports.exports import (
     get_auth_service,
     get_mysql_query_database_service,
     get_neo4j_query_database_service,
@@ -25,7 +25,6 @@ async def query_mysql(
     query_service: QueryService = Depends(get_mysql_query_database_service),
     auth_service: AuthService = Depends(get_auth_service),
 ):
-
     user = auth_service.user_info(client_id)
     if user is None:
         await websocket.close()
@@ -43,13 +42,12 @@ async def query_mysql(
 
 
 @query_controller.websocket("/postgres-query/{client_id}")
-async def query_mysql(
+async def query_postgres(
     websocket: WebSocket,
     client_id: str,
     query_service: QueryService = Depends(get_postgres_query_database_service),
     auth_service: AuthService = Depends(get_auth_service),
 ):
-
     user = auth_service.user_info(client_id)
     if user is None:
         await websocket.close()
@@ -75,7 +73,6 @@ async def query_sqlite(
     query_service: QueryService = Depends(get_sqlite_query_database_service),
     auth_service: AuthService = Depends(get_auth_service),
 ):
-
     user = auth_service.user_info(client_id)
     if user is None:
         await websocket.close()
@@ -199,7 +196,7 @@ async def train_model(
         response = query_service.add_data_to_vector_db(
             train_data.user_query, train_data.sql_query, train_data.source
         )
-        if response == True:
+        if response is True:
             return Response(status_code=200, content="Data added successfully")
-    except Exception as e:
+    except Exception:
         return Response(status_code=500, content="Internal Server Error")

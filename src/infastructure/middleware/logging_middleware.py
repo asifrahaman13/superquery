@@ -3,17 +3,10 @@ from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from src.internal.use_cases.auth_service import AuthService
 from starlette.middleware.base import BaseHTTPMiddleware
-from exports.exports import get_auth_service
+from src.exports.exports import get_auth_service
 
 
 class PrefixMiddleware(BaseHTTPMiddleware):
-    """
-    Middleware to check the prefix of the request being made and authenticate the user based on that.
-    If token is not provided for protected routes then unauthorized message is sent.
-    However, if token is provided then decoding is attempted. If the decoding shows that the user is actually an
-    authenticated user and the token is not expired yet then the user is allowed to make the request.
-    """
-
     def __init__(self, app, prefix=""):
         super().__init__(app)
         self.app = app
@@ -50,7 +43,7 @@ class PrefixMiddleware(BaseHTTPMiddleware):
             logging.info(result)
             if "error" in result:
                 raise HTTPException(status_code=401, detail="Unauthorized")
-        except Exception as e:
+        except Exception:
             raise HTTPException(status_code=401, detail="Unauthorized")
 
     async def dispatch(self, request, call_next):

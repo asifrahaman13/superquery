@@ -1,16 +1,18 @@
 import logging
 import boto3
-from config.config import AWS_BUCKET_NAME
 
 
 class AWSRepository:
-    """
-    Initialize the AWSRepository class with the required configuration.
-    """
-
-    def __init__(self):
-        self.__aws_bucket_name = AWS_BUCKET_NAME
-        self.__s3_client = boto3.client("s3")
+    def __init__(
+        self, aws_bucket_name: str, aws_access_key_id: str, aws_secret_access_key: str
+    ):
+        self.__aws_bucket_name = aws_bucket_name
+        self.__s3_client = boto3.client(
+            "s3",
+            region_name="us-east-1",
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+        )
         self.expiration_time = 60
 
     def upload_file(self, file_name: str, file_content: str):

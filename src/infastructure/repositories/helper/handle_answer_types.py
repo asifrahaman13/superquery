@@ -9,6 +9,7 @@ class HandleAnswerTypes:
         await asyncio.sleep(0)
         yield QueryResponse(message="Querying the database", status=True)
         await asyncio.sleep(0)
+        print(f"The connecting string is....{ connection_string}")
         conn = sqlite3.connect(connection_string)
         cursor = conn.cursor()
         cursor.execute(user_query)

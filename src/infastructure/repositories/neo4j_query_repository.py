@@ -28,7 +28,6 @@ class Neo4jDriver:
 
 
 class Neo4jQueryRepository:
-
     @staticmethod
     async def query_database(query: str, *args, **kwargs):
         username = kwargs.get("username")

@@ -27,7 +27,7 @@ class AuthService(AuthInterface):
             if save_user is None or save_initial_dashboard is None:
                 return None
             return save_user
-        except Exception as e:
+        except Exception:
             return None
 
     def login(self, username: str, password: str):
@@ -40,11 +40,11 @@ class AuthService(AuthInterface):
             access_token = self.auth_reposiotry.create_access_token({"sub": username})
             return access_token
 
-        except Exception as e:
+        except Exception:
             return None
 
     def user_info(self, token: str):
         try:
             return self.auth_reposiotry.get_current_user(token)
-        except Exception as e:
+        except Exception:
             return None

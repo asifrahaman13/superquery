@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
 from src.constants.databases.database_service_mapping import QueryServiceMapping
-from exports.exports import (
+from src.exports.exports import (
     get_auth_service,
     get_mysql_query_database_service,
     get_neo4j_query_database_service,

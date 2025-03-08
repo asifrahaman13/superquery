@@ -6,7 +6,6 @@ from src.constants.databases.available_databases import DatabaseKeys
 
 
 class QueryService(QueryInterface):
-
     def __init__(
         self, query_database, database, semantic_search_repository=None
     ) -> None:

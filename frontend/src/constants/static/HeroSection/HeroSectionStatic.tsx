@@ -68,12 +68,12 @@ const products = [
     href: '/dashboard/sqlite',
     icon: SiSqlite,
   },
-  {
-    name: 'mongodb',
-    description: 'Chat with your MongoDB database',
-    href: '/dashboard/mongodb',
-    icon: SiMongodb,
-  },
+  // {
+  //   name: 'mongodb',
+  //   description: 'Chat with your MongoDB database',
+  //   href: '/dashboard/mongodb',
+  //   icon: SiMongodb,
+  // },
   {
     name: 'pinecone',
     description: 'Chat with Pinecone vector database',

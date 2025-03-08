@@ -1,14 +1,11 @@
 from fastapi import APIRouter
 from fastapi import File, UploadFile
-import boto3
 from botocore.exceptions import NoCredentialsError
 from fastapi import Depends, HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from exports.exports import get_auth_service, get_aws_service
+from src.exports.exports import get_auth_service, get_aws_service
 from src.internal.use_cases.file_service import FileService
 from src.internal.use_cases.auth_service import AuthService
-from src.internal.entities.router_models import Files
-
 
 security = HTTPBearer()
 

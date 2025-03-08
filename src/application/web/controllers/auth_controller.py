@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Header
-from exports.exports import get_auth_service
+from src.exports.exports import get_auth_service
 from src.internal.use_cases.auth_service import AuthService
 from src.internal.entities.router_models import UserBase
 
@@ -15,7 +15,7 @@ async def register(
         if response is None:
             return {"error": "Some error occured."}
         return {"message": "User registered successfully."}
-    except Exception as e:
+    except Exception:
         return {"error": "Some error occured."}
 
 
@@ -25,7 +25,7 @@ async def login(user: UserBase, auth_service: AuthService = Depends(get_auth_ser
         response = auth_service.login(user.username, user.password)
         return {"access_token": response, "token_type": "bearer"}
 
-    except Exception as e:
+    except Exception:
         return {"error": "Some error occured."}
 
 
@@ -39,5 +39,5 @@ async def get_user(
         response = auth_service.user_info(token)
         return response
 
-    except Exception as e:
+    except Exception:
         return {"error": "Some error occured."}

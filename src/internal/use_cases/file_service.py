@@ -3,7 +3,6 @@ from src.internal.interfaces.services.file_interface import FileInterface
 
 
 class FileService(FileInterface):
-
     def __init__(self, database_repository, aws_repository) -> None:
         self.database_repository = database_repository
         self.aws_repository = aws_repository

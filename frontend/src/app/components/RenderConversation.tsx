@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ButtonStatus from './ui/ButtonStatus';
 import Skeleton from './ui/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuery, setHistory } from '@/lib/conversation/conversationSlice';
 import { RootState } from '@/lib/store';
-import { useState } from 'react';
 import {
   Label,
   Listbox,
@@ -75,14 +74,21 @@ const RenderConversation = ({
     { id: 3, name: 'Pie plot', type: 'pie' },
   ];
 
-  const [selected, setSelected] = useState(plotMapping[0]);
+  const [selectedPlots, setSelectedPlots] = useState<{ [key: number]: any }>({});
+
+  const handlePlotChange = (index: number, plot: any) => {
+    setSelectedPlots((prev) => ({
+      ...prev,
+      [index]: plot,
+    }));
+  };
+
   return (
     <React.Fragment>
-      <div className="w-1/2 flex flex-col gap-4 py-20   justify-between p-8 bg-white rounded-2xl">
-        <div className="overflow-y-scroll   items-center flex flex-col flex-grow gap-4  text-justify bg-white">
-       
+      <div className="w-1/2 flex flex-col gap-4 py-20 justify-between p-8 bg-white rounded-2xl">
+        <div className="overflow-y-scroll items-center flex flex-col flex-grow gap-4 text-justify bg-white">
           {conversationSlice.history.length > 0 && (
-            <div className='w-full'>
+            <div className="w-full">
               {conversationSlice.history.map((item: HistoryItem, index) => (
                 <div key={index} className="flex flex-col gap-6">
                   {item?.messageFrom === 'chatbot' && (
@@ -100,14 +106,17 @@ const RenderConversation = ({
                       {item?.message !== null &&
                         item?.message !== undefined && (
                           <div>
-                            <Listbox value={selected} onChange={setSelected}>
+                            <Listbox
+                              value={selectedPlots[index] || plotMapping[0]}
+                              onChange={(plot) => handlePlotChange(index, plot)}
+                            >
                               <Label className="block text-lg font-semibold leading-6 text-gray-900">
                                 Graph (Choose your graph)
                               </Label>
                               <div className="relative mt-2">
-                                <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm  focus:outline-none  sm:text-sm sm:leading-6">
+                                <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm focus:outline-none sm:text-sm sm:leading-6">
                                   <span className="block truncate">
-                                    {selected.name}
+                                    {selectedPlots[index]?.name || plotMapping[0].name}
                                   </span>
                                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                     <ChevronUpDownIcon
@@ -121,14 +130,14 @@ const RenderConversation = ({
                                   transition
                                   className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
                                 >
-                                  {plotMapping.map((person) => (
+                                  {plotMapping.map((plot) => (
                                     <ListboxOption
-                                      key={person.id}
-                                      value={person}
+                                      key={plot.id}
+                                      value={plot}
                                       className="group relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
                                     >
                                       <span className="block truncate font-normal group-data-[selected]:font-semibold">
-                                        {person.name}
+                                        {plot.name}
                                       </span>
 
                                       <span className="absolute inset-y-0 left-0 flex items-center pl-1.5 text-indigo-600 group-data-[focus]:text-white [.group:not([data-selected])_&]:hidden">
@@ -145,7 +154,7 @@ const RenderConversation = ({
 
                             <DynamicChart
                               data={item?.message}
-                              type={selected?.type}
+                              type={selectedPlots[index]?.type || plotMapping[0].type}
                             />
                           </div>
                         )}
@@ -153,7 +162,7 @@ const RenderConversation = ({
                   )}
 
                   {item?.messageFrom === 'user' && (
-                    <div className=" w-3/4 max-w-3/4  ml-auto flex justify-end ">
+                    <div className="w-3/4 max-w-3/4 ml-auto flex justify-end">
                       <p className="bg-[#f2f2f2] rounded-md p-2">
                         {item.message}
                       </p>
@@ -165,21 +174,20 @@ const RenderConversation = ({
           )}
 
           {status.status && <Skeleton />}
-          <div className=" w-full  flex justify-center flex-col gap-2 h-full items-center">
+          <div className="w-full flex justify-center flex-col gap-2 h-full items-center">
             {conversationSlice.history.length === 0 && (
               <>
                 <IconComponents props={{ slug: db }} />
               </>
             )}
           </div>
-         
         </div>
-        <div className="flex gap-2 ">
+        <div className="flex gap-2">
           <input
             type="text"
             name="query"
             id="query"
-            className="block w-full rounded-md py-1.5  border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400  px-2"
+            className="block w-full rounded-md py-1.5 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 px-2"
             placeholder="Enter your query"
             value={conversationSlice.query}
             onChange={(e) => dispatch(setQuery({ query: e.target.value }))}
@@ -188,7 +196,7 @@ const RenderConversation = ({
           {!status.status ? (
             <button
               onClick={handleSubmit}
-              className="rounded-md  text-black px-3.5 py-2.5 text-sm font-semibold  shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md text-black px-3.5 py-2.5 text-sm font-semibold shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Submit
             </button>

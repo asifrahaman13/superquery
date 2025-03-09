@@ -69,19 +69,20 @@ const RenderConversation = ({
     }
   };
 
-  const people = [
+  const plotMapping = [
     { id: 1, name: 'Line plot', type: 'line' },
     { id: 2, name: 'Bar plot', type: 'bar' },
     { id: 3, name: 'Pie plot', type: 'pie' },
   ];
 
-  const [selected, setSelected] = useState(people[0]);
+  const [selected, setSelected] = useState(plotMapping[0]);
   return (
     <React.Fragment>
-      <div className="w-1/2 flex flex-col gap-4   justify-between p-8 bg-white rounded-2xl">
-        <div className="overflow-y-scroll no-scrollbar justify-center items-center flex flex-col flex-grow gap-4  text-justify bg-white">
+      <div className="w-1/2 flex flex-col gap-4 py-20   justify-between p-8 bg-white rounded-2xl">
+        <div className="overflow-y-scroll   items-center flex flex-col flex-grow gap-4  text-justify bg-white">
+       
           {conversationSlice.history.length > 0 && (
-            <div>
+            <div className='w-full'>
               {conversationSlice.history.map((item: HistoryItem, index) => (
                 <div key={index} className="flex flex-col gap-6">
                   {item?.messageFrom === 'chatbot' && (
@@ -120,7 +121,7 @@ const RenderConversation = ({
                                   transition
                                   className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
                                 >
-                                  {people.map((person) => (
+                                  {plotMapping.map((person) => (
                                     <ListboxOption
                                       key={person.id}
                                       value={person}
@@ -171,6 +172,7 @@ const RenderConversation = ({
               </>
             )}
           </div>
+         
         </div>
         <div className="flex gap-2 ">
           <input

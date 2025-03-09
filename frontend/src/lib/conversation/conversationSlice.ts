@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Define the state and action types
 interface ConversationState {
   query: string;
   history: Array<{ message: string; messageFrom: string }>;
@@ -17,7 +16,6 @@ interface SetHistoryActionPayload {
   answer_type: string | null;
 }
 
-// Create the conversation slice with typed state and actions
 export const conversationSlice = createSlice({
   name: 'conversation',
   initialState: {

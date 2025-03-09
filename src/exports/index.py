@@ -18,14 +18,6 @@ def get_sqlite_query_database_service():
     return container.get_sqlite_query_database_service()
 
 
-def get_pinecone_query_database_service():
-    return container.get_pinecone_query_database_service()
-
-
-def get_qdrant_query_database_service():
-    return container.get_qdrant_query_database_service()
-
-
 def get_neo4j_query_database_service():
     return container.get_neo4j_query_database_service()
 

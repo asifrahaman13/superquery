@@ -125,7 +125,7 @@ const RenderConversation: React.FC<RenderConversationProps> = ({
   return (
     <React.Fragment>
       <div className="w-1/2 flex flex-col gap-4 py-20 justify-between p-8 bg-white rounded-2xl">
-        <div className="overflow-y-scroll items-center flex flex-col flex-grow gap-4 text-justify bg-white">
+        <div className="overflow-y-scroll no-scrollbar items-center flex flex-col flex-grow gap-4 text-justify bg-white">
           {conversationSlice.history.length > 0 ? (
             <div className="w-full">
               {conversationSlice.history.map((item: HistoryItem, index) => (

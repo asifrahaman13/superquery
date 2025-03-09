@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
 export default function SuccessStatus() {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState<boolean>(true);
 
   return (
     <>
@@ -30,9 +30,6 @@ export default function SuccessStatus() {
                   <div className="ml-3 w-0 flex-1 pt-0.5">
                     <p className="text-sm font-medium text-gray-900">
                       Successfully saved!
-                    </p>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Anyone with a link can now view this file.
                     </p>
                   </div>
                   <div className="ml-4 flex flex-shrink-0">

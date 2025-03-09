@@ -7,9 +7,6 @@ from src.infastructure.repositories.semantic_repo import (
 from src.use_cases.file_service import FileService
 from src.infastructure.repositories.aws_repo import AWSRepo
 from src.infastructure.repositories.neo4j_repo import Neo4jQueryRepo
-from src.helper.embeddings_assistant import EmbeddingService
-from src.helper.qdrant_service_assistant import QdrantService
-from src.infastructure.repositories.qdrant_repo import QdrantQueryRepo
 from src.infastructure.repositories.sqlite_repos import SqliteQueryRepo
 from src.use_cases.configurations_service import ConfigurationService
 from src.use_cases.auth_service import AuthService
@@ -17,9 +14,6 @@ from src.infastructure.repositories.auth_repo import AuthRepo
 from src.infastructure.repositories.mysql_repo import MySqlQueryRepo
 from src.infastructure.repositories.postgres_repo import (
     PostgresQueryRepo,
-)
-from src.infastructure.repositories.pinecone_repo import (
-    PineconeQueryRepo,
 )
 from src.use_cases.query_service import QueryService
 from src.infastructure.repositories.database_repo import (
@@ -113,23 +107,16 @@ class DIContainer:
             )
         return self.__instances["sqlite_query_repo"]
 
-    def get_pinecone_query_repo(self):
-        if "pinecone_query_repo" not in self.__instances:
-            self.__instances["pinecone_query_repo"] = PineconeQueryRepo()
-        return self.__instances["pinecone_query_repo"]
-
-    def get_qdrant_query_repo(self):
-        if "qdrant_query_repo" not in self.__instances:
-            embedding_service: EmbeddingService = EmbeddingService()
-            qdrant_service: QdrantService = QdrantService()
-            self.__instances["qdrant_query_repo"] = QdrantQueryRepo(
-                embedding_service, qdrant_service
-            )
-        return self.__instances["qdrant_query_repo"]
-
     def get_neo4j_query_repo(self):
         if "neo4j_query_repo" not in self.__instances:
-            self.__instances["neo4j_query_repo"] = Neo4jQueryRepo()
+            AsyncAnthropicBedrock_client = AsyncAnthropicBedrock()
+            self.__instances["neo4j_query_repo"] = Neo4jQueryRepo(
+                HandleAnswerTypes(),
+                LlmResponse(
+                    AsyncAnthropicBedrock_client,
+                    ANTHROPIC_MODEL,
+                ),
+            )
         return self.__instances["neo4j_query_repo"]
 
     def get_aws_repo(self):
@@ -166,29 +153,6 @@ class DIContainer:
                 self.get_vector_db_repo(),
             )
         return self.__instances["sqlite_query_service"]
-
-    def get_mongodb_query_database_service(self):
-        if "mongodb_query_service" not in self.__instances:
-            self.__instances["mongodb_query_service"] = QueryService(
-                self.get_mongodb_query_repo(),
-                self.get_database_repo(),
-                self.get_vector_db_repo(),
-            )
-        return self.__instances["mongodb_query_service"]
-
-    def get_pinecone_query_database_service(self):
-        if "pinecone_query_service" not in self.__instances:
-            self.__instances["pinecone_query_service"] = QueryService(
-                self.get_pinecone_query_repo(), self.get_database_repo()
-            )
-        return self.__instances["pinecone_query_service"]
-
-    def get_qdrant_query_database_service(self):
-        if "qdrant_query_service" not in self.__instances:
-            self.__instances["qdrant_query_service"] = QueryService(
-                self.get_qdrant_query_repo(), self.get_database_repo()
-            )
-        return self.__instances["qdrant_query_service"]
 
     def get_neo4j_query_database_service(self):
         if "neo4j_query_service" not in self.__instances:

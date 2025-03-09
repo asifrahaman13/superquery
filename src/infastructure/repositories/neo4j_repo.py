@@ -1,8 +1,5 @@
 import asyncio
 from neo4j import GraphDatabase
-from langchain.chains import GraphCypherQAChain
-from langchain_community.graphs import Neo4jGraph
-from langchain_openai import ChatOpenAI
 from src.entities.router_models import QueryResponse
 
 
@@ -28,38 +25,28 @@ class Neo4jDriver:
 
 
 class Neo4jQueryRepo:
-    @staticmethod
-    async def query_database(query: str, *args, **kwargs):
-        username = kwargs.get("username")
-        password = kwargs.get("neo4j_password")
-        connection_string = kwargs.get("api_endpoint")
-        graph = Neo4jGraph(
-            url=connection_string,
-            username=username,
-            password=password,
-        )
+    def __init__(self, handle_answer_type, llm_response) -> None:
+        self.handle_answer_type = handle_answer_type
+        self.anthropic_client = llm_response
 
+    async def query_database(self, user_query: str, *args, **kwargs):
+        connection_string: str = kwargs.get("connectionString")
+        ddl_commands = kwargs.get("ddlCommands")
+        examples = kwargs.get("examples")
         await asyncio.sleep(0)
-        yield QueryResponse(
-            message="Querying Neo4j", status=True, answer_type="plain_answer"
+        yield QueryResponse(message="Thinking of the answer", status=True)
+        llm_generated_query = await self.anthropic_client.bulk_llm_response(
+            user_query, ddl_commands, examples, "neo4j"
         )
-        await asyncio.sleep(0)
+        async for response in self.handle_answer_type.handle_neo4j_query(
+            llm_generated_query, connection_string
+        ):
+            await asyncio.sleep(0)
+            yield response
 
-        chain = GraphCypherQAChain.from_llm(
-            ChatOpenAI(temperature=0, model="gpt-4o"), graph=graph, verbose=True
-        )
-
-        response = chain.invoke({"query": query})
-        await asyncio.sleep(0)
-        yield QueryResponse(
-            message=response["result"], status=False, answer_type="plain_answer"
-        )
-        await asyncio.sleep(0)
-
-    @staticmethod
-    def general_raw_query(query: str, *args, **kwargs):
+    def general_raw_query(self, user_query: str, *args, **kwargs):
         auth = (kwargs.get("username"), kwargs.get("neo4j_password"))
         connection_string = kwargs.get("api_endpoint")
         with Neo4jDriver(connection_string, auth) as driver:
-            result = driver.query(query)
+            result = driver.query(user_query)
             return result

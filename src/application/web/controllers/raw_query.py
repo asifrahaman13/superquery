@@ -5,9 +5,7 @@ from src.exports.index import (
     get_auth_service,
     get_mysql_query_database_service,
     get_neo4j_query_database_service,
-    get_pinecone_query_database_service,
     get_postgres_query_database_service,
-    get_qdrant_query_database_service,
     get_sqlite_query_database_service,
 )
 from src.entities.router_models import QueryBase
@@ -25,16 +23,12 @@ async def raw_query(
     mysql_query_service: QueryService = Depends(get_mysql_query_database_service),
     postgres_query_service: QueryService = Depends(get_postgres_query_database_service),
     sqlite_query_service: QueryService = Depends(get_sqlite_query_database_service),
-    pinecone_query_service: QueryService = Depends(get_pinecone_query_database_service),
-    qdrant_query_service: QueryService = Depends(get_qdrant_query_database_service),
     neo4j_query_service: QueryService = Depends(get_neo4j_query_database_service),
 ):
     db_service_mapping = QueryServiceMapping.get_mapping(
         mysql_query_service,
         postgres_query_service,
         sqlite_query_service,
-        pinecone_query_service,
-        qdrant_query_service,
         neo4j_query_service,
     )
 

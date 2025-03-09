@@ -4,12 +4,9 @@ import { useEffect, useState } from 'react';
 import {
   SiMysql,
   SiPostgresql,
-  SiMongodb,
   SiSqlite,
   SiNeo4J,
-  SiPinescript,
 } from 'react-icons/si';
-import { MdOutlineEco } from 'react-icons/md';
 import {
   Dialog,
   DialogBackdrop,
@@ -33,6 +30,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { clearHistory } from '@/lib/conversation/conversationSlice';
+
 const userNavigation = [
   { name: 'Your profile', href: '#' },
   { name: 'Sign out', href: 'signout' },
@@ -53,13 +51,6 @@ const teams = [
     initial: 'T',
     current: false,
   },
-  // {
-  //   id: 3,
-  //   name: 'Workcation',
-  //   href: '#',
-  //   initial: 'W',
-  //   current: false,
-  // },
 ];
 
 function classNames(...classes: string[]) {
@@ -90,24 +81,6 @@ export default function DashboardLayout({
       name: 'SQLite',
       href: '/dashboard/sqlite',
       icon: SiSqlite,
-      current: false,
-    },
-    // {
-    //   name: 'MongoDB',
-    //   href: '/dashboard/mongodb',
-    //   icon: SiMongodb,
-    //   current: false,
-    // },
-    {
-      name: 'Pinecone',
-      href: '/dashboard/pinecone',
-      icon: SiPinescript,
-      current: false,
-    },
-    {
-      name: 'Qdrant',
-      href: '/dashboard/qdrant',
-      icon: MdOutlineEco,
       current: false,
     },
     {

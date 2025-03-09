@@ -74,18 +74,18 @@ const products = [
   //   href: '/dashboard/mongodb',
   //   icon: SiMongodb,
   // },
-  {
-    name: 'pinecone',
-    description: 'Chat with Pinecone vector database',
-    href: '/dashboard/pinecone',
-    icon: SiPinescript,
-  },
-  {
-    name: 'qdrant',
-    description: 'Chat with Qdrant vector database',
-    href: '/dashboard/qdrant',
-    icon: MdOutlineEco,
-  },
+  // {
+  //   name: 'pinecone',
+  //   description: 'Chat with Pinecone vector database',
+  //   href: '/dashboard/pinecone',
+  //   icon: SiPinescript,
+  // },
+  // {
+  //   name: 'qdrant',
+  //   description: 'Chat with Qdrant vector database',
+  //   href: '/dashboard/qdrant',
+  //   icon: MdOutlineEco,
+  // },
   {
     name: 'neo4j',
     description: 'Chat with your Neo4j database',

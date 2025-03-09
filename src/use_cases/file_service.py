@@ -6,8 +6,10 @@ class FileService:
         self.database_repository = database_repository
         self.aws_repository = aws_repository
 
-    def upload_file(self, username: str, file_name: str, file_content: Any) -> None:
-        mongodb_upload = self.database_repository.save_entity(
+    async def upload_file(
+        self, username: str, file_name: str, file_content: Any
+    ) -> None:
+        mongodb_upload = await self.database_repository.save_entity(
             "aws", {"username": username, "file_name": file_name}
         )
         aws_upload = self.aws_repository.upload_file(file_name, file_content)
@@ -15,15 +17,19 @@ class FileService:
             return True
         return False
 
-    def all_aws_files(self, username: str) -> list[str]:
-        all_aws_file_names = self.database_repository.find_all_entities_by_field_name(
-            "aws", "username", username
+    async def all_aws_files(self, username: str) -> list[str]:
+        all_aws_file_names = (
+            await self.database_repository.find_all_entities_by_field_name(
+                "aws", "username", username
+            )
         )
         return all_aws_file_names
 
-    def get_presigned_urls(self, username: str) -> str:
-        all_aws_file_names = self.database_repository.find_all_entities_by_field_name(
-            "aws", "username", username
+    async def get_presigned_urls(self, username: str) -> str:
+        all_aws_file_names = (
+            await self.database_repository.find_all_entities_by_field_name(
+                "aws", "username", username
+            )
         )
         all_presigned_urls = []
         for index, item in enumerate(all_aws_file_names):

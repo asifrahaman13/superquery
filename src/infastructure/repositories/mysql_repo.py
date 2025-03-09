@@ -20,7 +20,7 @@ class MySqlQueryRepo:
         llm_generated_query = await self.anthropic_client.bulk_llm_response(
             user_query, ddl_commands, examples, "mysql"
         )
-        async for response in self.handle_answer_type.handle_plain_answer(
+        async for response in self.handle_answer_type.handle_mysql_query(
             llm_generated_query, connection_string
         ):
             yield response

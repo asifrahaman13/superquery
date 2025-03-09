@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Header
+from fastapi import APIRouter, Depends, HTTPException, Header
 from src.exports.index import get_auth_service, get_configuration_service
 from src.entities.router_models import ConfigurationBase, UpdateConfig
 from src.use_cases.auth_service import AuthService
@@ -20,12 +20,12 @@ async def get_mysql_configurations(
         user = auth_service.user_info(token)
         if user is None:
             return {"error": "Some error occured."}
-        response = configuration_service.get_project_configurations(
+        response = await configuration_service.get_project_configurations(
             user["sub"], db_type.db_type
         )
         return response
     except Exception:
-        return {"error": "Some error occured."}
+        return HTTPException(status_code=400, detail="Some error occured.")
 
 
 @configuration_controller.put("/configurations", response_model=dict)
@@ -41,9 +41,9 @@ async def update_mysql_configurations(
         user = auth_service.user_info(token)
         if user is None:
             return {"error": "Not authenticated"}
-        response = configuration_service.update_project_configurations(
+        response = await configuration_service.update_project_configurations(
             user["sub"], db_type.db_type, db_type.model_dump()
         )
         return response
     except Exception:
-        return {"error": "Some error occured in server."}
+        return HTTPException(status_code=400, detail="Some error occured.")

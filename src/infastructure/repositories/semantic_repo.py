@@ -10,7 +10,6 @@ from qdrant_client.http.models import (
     Distance,
 )
 import ollama
-
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -88,7 +87,7 @@ class SemanticSearchRepo:
                 vector=self.embedding_service.get_embeddings(text),
                 payload={"text": text, **meta},
             )
-            for idx, (text, meta) in enumerate(zip(texts, metadata))
+            for _, (text, meta) in enumerate(zip(texts, metadata))
         ]
 
     async def create_collection(self, collection_name: str):

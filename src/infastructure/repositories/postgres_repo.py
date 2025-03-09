@@ -15,13 +15,13 @@ class PostgresQueryRepo:
         examples = kwargs.get("examples")
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
-        await asyncio.sleep(0)
         llm_generated_query = await self.anthropic_client.bulk_llm_response(
             user_query, ddl_commands, examples, "postgres"
         )
         async for response in self.handle_answer_type.handle_postgres_query(
             llm_generated_query, connection_string
         ):
+            await asyncio.sleep(0)
             yield response
 
     def general_raw_query(self, query: str, *args, **kwargs):

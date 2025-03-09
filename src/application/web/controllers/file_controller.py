@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi import File, UploadFile
 from botocore.exceptions import NoCredentialsError
 from fastapi import Depends, HTTPException, Security
@@ -25,14 +25,14 @@ async def upload_file(
     if user is None:
         raise HTTPException(status_code=401, detail="Authentication failed")
     try:
-        response = file_service.upload_file(
+        response = await file_service.upload_file(
             user["sub"], f"{user["sub"]}_{file.filename}", file.file
         )
         return {"message": response}
     except NoCredentialsError:
-        return {"message": "Credentials not available"}
+        return HTTPException(status_code=400, detail="Credentials not available")
     except Exception as e:
-        return {"message": f"An error occurred: {str(e)}"}
+        return HTTPException(status_code=400, detail=f"An error occurred: {str(e)}")
 
 
 @upload_controller.get("/aws-file-url", response_model=dict)
@@ -46,9 +46,9 @@ async def get_presigned_url(
     if user is None:
         raise HTTPException(status_code=401, detail="Authentication failed")
     try:
-        url = file_service.get_presigned_urls(user["sub"])
+        url = await file_service.get_presigned_urls(user["sub"])
         return {"url": url}
     except NoCredentialsError:
-        return {"message": "Credentials not available"}
+        return HTTPException(status_code=400, detail="Credentials not available")
     except Exception as e:
-        return {"message": f"An error occurred: {str(e)}"}
+        return HTTPException(status_code=400, detail=f"An error occurred: {str(e)}")

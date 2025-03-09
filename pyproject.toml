@@ -13,6 +13,7 @@ dependencies = [
     "langchain-openai>=0.3.7",
     "langchain>=0.3.20",
     "motor>=3.7.0",
+    "mysql-connector-python>=9.2.0",
     "neo4j>=5.28.1",
     "ollama>=0.4.7",
     "openai>=1.65.4",

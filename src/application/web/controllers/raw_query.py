@@ -48,7 +48,7 @@ async def raw_query(
                 status_code=400, detail=f"Unsupported database type: {query.db_type}"
             )
 
-        response = service.general_raw_query(
+        response = await service.general_raw_query(
             user["sub"], query.raw_query, query.db_type
         )
         return {"response": response, "response_type": response_type}

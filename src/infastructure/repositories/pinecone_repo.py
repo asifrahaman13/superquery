@@ -3,6 +3,11 @@ from openai import OpenAI
 from pinecone import Pinecone
 from src.helper.llm_response import LlmResponse
 from src.entities.router_models import QueryResponse
+import logging
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class PineconeQueryRepo:
@@ -22,7 +27,6 @@ class PineconeQueryRepo:
         yield QueryResponse(
             message="Querying Pinecone", status=True, answer_type="plain_answer"
         )
-        await asyncio.sleep(0)
         anthropic_client = LlmResponse(OpenAI(api_key=anthropic_api_key))
         query_embedding = anthropic_client.embed_text(query, model_name)
         result = index.query(
@@ -35,17 +39,15 @@ class PineconeQueryRepo:
         yield QueryResponse(
             message="Framing answer", status=True, answer_type="plain_answer"
         )
-        await asyncio.sleep(0)
         response = await anthropic_client.bulk_llm_response(
             query, data_source, "pinecone"
         )
         await asyncio.sleep(0)
         yield QueryResponse(message=response, status=False, answer_type="plain_answer")
-        await asyncio.sleep(0)
 
     @staticmethod
     def general_raw_query(query: str, *args, **kwargs):
-        print("Querying Pinecone", query, kwargs)
+        logging.info("Querying Pinecone", query, kwargs)
         index_name = kwargs.get("index_name")
         model_name = kwargs.get("model_name")
         pinecone_api_key = kwargs.get("pinecone_api_key")

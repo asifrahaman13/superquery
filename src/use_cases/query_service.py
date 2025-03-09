@@ -4,7 +4,9 @@ from src.entities.router_models import QueryResponse
 from src.constants.databases.available_databases import DatabaseKeys
 import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class QueryService:
@@ -23,12 +25,13 @@ class QueryService:
         if not db_key:
             return
 
-        available_client = self.database.find_single_entity_by_field_name(
+        logging.info(f"Querying database with user: {user}, query: {query}, db: {db}")
+
+        available_client = await self.database.find_single_entity_by_field_name(
             "configurations", "username", user
         )
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking...", status=True)
-        await asyncio.sleep(0)
         if available_client and db_key in available_client:
             configurations = available_client[db_key]
             examples = self.semantic_search_repository.query_text(query, user)
@@ -38,14 +41,15 @@ class QueryService:
             async for response in self.query_database.query_database(
                 query, **configurations
             ):
+                await asyncio.sleep(0)
                 yield response
 
-    def general_raw_query(self, user: str, query: str, db: str):
+    async def general_raw_query(self, user: str, query: str, db: str):
         db_key = self.__db_keys.get(db)
         if not db_key:
             return None
 
-        available_client = self.database.find_single_entity_by_field_name(
+        available_client = await self.database.find_single_entity_by_field_name(
             "configurations", "username", user
         )
         if available_client and db_key in available_client:
@@ -53,7 +57,7 @@ class QueryService:
             return self.query_database.general_raw_query(query, **connection_string)
         return None
 
-    def add_data_to_vector_db(
+    async def add_data_to_vector_db(
         self, user_query: str, sql_query: str, source: List[Dict[str, Any]]
     ):
         data = [

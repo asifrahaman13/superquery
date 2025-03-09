@@ -9,7 +9,6 @@ from src.exports.index import (
     get_neo4j_query_database_service,
     get_pinecone_query_database_service,
     get_postgres_query_database_service,
-    get_mongodb_query_database_service,
     get_qdrant_query_database_service,
     get_sqlite_query_database_service,
     websocket_manager as manager,
@@ -36,7 +35,6 @@ async def query_mysql(
             async for response in query_service.query_db(user["sub"], query, "mysql"):
                 await asyncio.sleep(0)
                 await manager.send_personal_message(response.model_dump(), websocket)
-                await asyncio.sleep(0)
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
 
@@ -61,7 +59,6 @@ async def query_postgres(
             ):
                 await asyncio.sleep(0)
                 await manager.send_personal_message(response.model_dump(), websocket)
-                await asyncio.sleep(0)
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
 
@@ -84,30 +81,6 @@ async def query_sqlite(
             async for response in query_service.query_db(user["sub"], query, "sqlite"):
                 await asyncio.sleep(0)
                 await manager.send_personal_message(response.model_dump(), websocket)
-                await asyncio.sleep(0)
-    except WebSocketDisconnect:
-        await manager.disconnect(websocket)
-
-
-@query_controller.websocket("/mongodb-query/{client_id}")
-async def query_mongodb(
-    websocket: WebSocket,
-    client_id: str,
-    query_service: QueryService = Depends(get_mongodb_query_database_service),
-    auth_service: AuthService = Depends(get_auth_service),
-):
-    user = auth_service.user_info(client_id)
-    if user is None:
-        await websocket.close()
-    await manager.connect(websocket, client_id)
-    try:
-        while True:
-            user_input = await websocket.receive_json()
-            query = user_input["query"]
-            response = query_service.query_db(user["sub"], query, "mongodb")
-            await asyncio.sleep(0)
-            await manager.send_personal_message(response, websocket)
-            await asyncio.sleep(0)
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
 
@@ -132,7 +105,6 @@ async def query_pinecone(
             ):
                 await asyncio.sleep(0)
                 await manager.send_personal_message(response.model_dump(), websocket)
-                await asyncio.sleep(0)
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
 
@@ -155,7 +127,6 @@ async def query_qdrant(
             async for response in query_service.query_db(user["sub"], query, "qdrant"):
                 await asyncio.sleep(0)
                 await manager.send_personal_message(response.model_dump(), websocket)
-                await asyncio.sleep(0)
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
 
@@ -179,11 +150,9 @@ async def query_neo4j(
                 print("Response:", response)
                 await asyncio.sleep(0)
                 await manager.send_personal_message(response.model_dump(), websocket)
-                await asyncio.sleep(0)
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
     except Exception as e:
-        print(e)
         await manager.disconnect(websocket)
 
 
@@ -199,5 +168,4 @@ async def train_model(
         if response is True:
             return Response(status_code=200, content="Data added successfully")
     except Exception as e:
-        print(e)
         return Response(status_code=500, content="Internal Server Error")

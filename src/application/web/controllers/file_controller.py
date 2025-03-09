@@ -6,6 +6,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from src.exports.index import get_auth_service, get_aws_service
 from src.use_cases.file_service import FileService
 from src.use_cases.auth_service import AuthService
+from fastapi.responses import JSONResponse
 
 security = HTTPBearer()
 
@@ -20,19 +21,18 @@ async def upload_file(
     file_service: FileService = Depends(get_aws_service),
 ):
     token = credentials.credentials
-    print(token)
     user = auth_service.user_info(token)
     if user is None:
         raise HTTPException(status_code=401, detail="Authentication failed")
     try:
         response = await file_service.upload_file(
-            user["sub"], f"{user["sub"]}_{file.filename}", file.file
+            user["sub"], f"{user['sub']}_{file.filename}", file.file
         )
-        return {"message": response}
+        return JSONResponse(content={"message": response})
     except NoCredentialsError:
-        return HTTPException(status_code=400, detail="Credentials not available")
+        raise HTTPException(status_code=400, detail="Credentials not available")
     except Exception as e:
-        return HTTPException(status_code=400, detail=f"An error occurred: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"An error occurred: {str(e)}")
 
 
 @upload_controller.get("/aws-file-url", response_model=dict)
@@ -47,8 +47,8 @@ async def get_presigned_url(
         raise HTTPException(status_code=401, detail="Authentication failed")
     try:
         url = await file_service.get_presigned_urls(user["sub"])
-        return {"url": url}
+        return JSONResponse(content={"url": url})
     except NoCredentialsError:
-        return HTTPException(status_code=400, detail="Credentials not available")
+        raise HTTPException(status_code=400, detail="Credentials not available")
     except Exception as e:
-        return HTTPException(status_code=400, detail=f"An error occurred: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"An error occurred: {str(e)}")

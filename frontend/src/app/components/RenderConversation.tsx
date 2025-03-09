@@ -2,14 +2,25 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setQuery, setHistory } from '@/lib/conversation/conversationSlice';
 import { RootState } from '@/lib/store';
-import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
+import {
+  Label,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import TableView from './TableView';
 import SqlRender from './ui/sqlRender';
 import DynamicChart from './Charts/DynamicChart';
 import ButtonStatus from './ui/ButtonStatus';
 import Skeleton from './ui/Skeleton';
-import { HistoryItem, IconComponentsProps, ICONS, RenderConversationProps } from '@/constants/types/type.dashboard';
+import {
+  HistoryItem,
+  IconComponentsProps,
+  ICONS,
+  RenderConversationProps,
+} from '@/constants/types/type.dashboard';
 
 const IconComponents: React.FC<IconComponentsProps> = ({ props }) => {
   const IconComponent = ICONS[props.slug];
@@ -24,7 +35,11 @@ const IconComponents: React.FC<IconComponentsProps> = ({ props }) => {
   );
 };
 
-const PlotSelector: React.FC<{ index: number, selectedPlot: any, onPlotChange: (index: number, plot: any) => void }> = ({ index, selectedPlot, onPlotChange }) => {
+const PlotSelector: React.FC<{
+  index: number;
+  selectedPlot: any;
+  onPlotChange: (index: number, plot: any) => void;
+}> = ({ index, selectedPlot, onPlotChange }) => {
   const plotMapping = [
     { id: 1, name: 'Line plot', type: 'line' },
     { id: 2, name: 'Bar plot', type: 'bar' },
@@ -32,19 +47,35 @@ const PlotSelector: React.FC<{ index: number, selectedPlot: any, onPlotChange: (
   ];
 
   return (
-    <Listbox value={selectedPlot || plotMapping[0]} onChange={(plot) => onPlotChange(index, plot)}>
-      <Label className="block text-lg font-semibold leading-6 text-gray-900">Graph (Choose your graph)</Label>
+    <Listbox
+      value={selectedPlot || plotMapping[0]}
+      onChange={(plot) => onPlotChange(index, plot)}
+    >
+      <Label className="block text-lg font-semibold leading-6 text-gray-900">
+        Graph (Choose your graph)
+      </Label>
       <div className="relative mt-2">
         <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm focus:outline-none sm:text-sm sm:leading-6">
-          <span className="block truncate">{selectedPlot?.name || plotMapping[0].name}</span>
+          <span className="block truncate">
+            {selectedPlot?.name || plotMapping[0].name}
+          </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon aria-hidden="true" className="h-5 w-5 text-gray-400" />
+            <ChevronUpDownIcon
+              aria-hidden="true"
+              className="h-5 w-5 text-gray-400"
+            />
           </span>
         </ListboxButton>
         <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           {plotMapping.map((plot) => (
-            <ListboxOption key={plot.id} value={plot} className="group relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white">
-              <span className="block truncate font-normal group-data-[selected]:font-semibold">{plot.name}</span>
+            <ListboxOption
+              key={plot.id}
+              value={plot}
+              className="group relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
+            >
+              <span className="block truncate font-normal group-data-[selected]:font-semibold">
+                {plot.name}
+              </span>
               <span className="absolute inset-y-0 left-0 flex items-center pl-1.5 text-indigo-600 group-data-[focus]:text-white [.group:not([data-selected])_&]:hidden">
                 <CheckIcon aria-hidden="true" className="h-5 w-5" />
               </span>
@@ -56,10 +87,19 @@ const PlotSelector: React.FC<{ index: number, selectedPlot: any, onPlotChange: (
   );
 };
 
-const RenderConversation: React.FC<RenderConversationProps> = ({ websocketRef, texts, status, db }) => {
+const RenderConversation: React.FC<RenderConversationProps> = ({
+  websocketRef,
+  texts,
+  status,
+  db,
+}) => {
   const dispatch = useDispatch();
-  const conversationSlice = useSelector((state: RootState) => state.conversation);
-  const [selectedPlots, setSelectedPlots] = useState<{ [key: number]: any }>({});
+  const conversationSlice = useSelector(
+    (state: RootState) => state.conversation
+  );
+  const [selectedPlots, setSelectedPlots] = useState<{ [key: number]: any }>(
+    {}
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,7 +107,14 @@ const RenderConversation: React.FC<RenderConversationProps> = ({ websocketRef, t
       const queryJson = JSON.stringify({ query: conversationSlice.query });
       websocketRef.current.send(queryJson);
       dispatch(setQuery({ query: '' }));
-      dispatch(setHistory({ message: conversationSlice.query, messageFrom: 'user', sql_query: '', answer_type: null }));
+      dispatch(
+        setHistory({
+          message: conversationSlice.query,
+          messageFrom: 'user',
+          sql_query: '',
+          answer_type: null,
+        })
+      );
     }
   };
 
@@ -86,20 +133,33 @@ const RenderConversation: React.FC<RenderConversationProps> = ({ websocketRef, t
                   {item?.messageFrom === 'chatbot' && (
                     <div className="flex flex-col gap-8">
                       <div className="mt-6">
-                        {item?.answer_type === 'sql_query' && <SqlRender sqlQuery={item?.sql_query} />}
+                        {item?.answer_type === 'sql_query' && (
+                          <SqlRender sqlQuery={item?.sql_query} />
+                        )}
                       </div>
-                      {item.answer_type === 'table_response' && <TableView tableData={JSON.parse(item?.message)} />}
+                      {item.answer_type === 'table_response' && (
+                        <TableView tableData={JSON.parse(item?.message)} />
+                      )}
                       {item?.message && (
                         <div>
-                          <PlotSelector index={index} selectedPlot={selectedPlots[index]} onPlotChange={handlePlotChange} />
-                          <DynamicChart data={item?.message} type={selectedPlots[index]?.type || 'line'} />
+                          <PlotSelector
+                            index={index}
+                            selectedPlot={selectedPlots[index]}
+                            onPlotChange={handlePlotChange}
+                          />
+                          <DynamicChart
+                            data={item?.message}
+                            type={selectedPlots[index]?.type || 'line'}
+                          />
                         </div>
                       )}
                     </div>
                   )}
                   {item?.messageFrom === 'user' && (
                     <div className="w-3/4 max-w-3/4 ml-auto flex justify-end">
-                      <p className="bg-[#f2f2f2] rounded-md p-2">{item.message}</p>
+                      <p className="bg-[#f2f2f2] rounded-md p-2">
+                        {item.message}
+                      </p>
                     </div>
                   )}
                 </div>

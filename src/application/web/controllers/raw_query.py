@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi.responses import JSONResponse
 from src.constants.databases.database_service_mapping import QueryServiceMapping
 from src.exports.index import (
     get_auth_service,
@@ -51,7 +52,9 @@ async def raw_query(
         response = await service.general_raw_query(
             user["sub"], query.raw_query, query.db_type
         )
-        return {"response": response, "response_type": response_type}
+        return JSONResponse(
+            content={"response": response, "response_type": response_type}
+        )
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")

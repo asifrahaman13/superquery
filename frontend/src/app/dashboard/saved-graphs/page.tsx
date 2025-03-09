@@ -10,7 +10,7 @@ const Page = () => {
       const token = localStorage.getItem('accessToken') || '';
       const response = await file_interface.presignedUrls(token);
       if (response?.code === 200) {
-        console.log(response.data.url)
+        console.log(response.data.url);
         setPresignedUrls(response.data.url);
       }
     }
@@ -25,7 +25,7 @@ const Page = () => {
           <div className="flex flex-wrap px-4 gap-4">
             {presignedUrls.map((item, index) => (
               <div key={index} className="p-2 ">
-                <img src={item} alt="" className='w-64 h-64'/>
+                <img src={item} alt="" className="w-64 h-64" />
               </div>
             ))}
           </div>

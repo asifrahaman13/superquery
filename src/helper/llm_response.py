@@ -1,20 +1,10 @@
 from typing import Awaitable
 
-import ollama
-
-
 class LlmResponse:
     def __init__(self, anthropic_client, model: str) -> None:
         self.client = anthropic_client
         self.max_tokens = 5000
         self.model = model
-
-    def embed_text(self, text: str, model_name: str) -> dict:
-        response = ollama.embed(
-            model=model_name,
-            input=text,
-        )
-        return response.embeddings[0]
 
     async def bulk_llm_response(
         self,

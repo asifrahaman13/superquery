@@ -3,7 +3,7 @@ name = "superquery"
 version = "0.1.0"
 description = "AI powered query on databases to automate the process of query, visualization etc. Organizations can analyze their data and take decisions much faster. Leverages the use AI, LLM. The project is under development"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<4.0"
 dependencies = [
     "anthropic-bedrock>=0.8.0",
     "anthropic>=0.49.0",

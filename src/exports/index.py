@@ -1,9 +1,6 @@
 from src.exports.exports import DIContainer
 from src.ConnectionManager.ConnectionManager import ConnectionManager
-from src.config.config import REDIS_HOST, REDIS_PORT, REDIS_PASSWORD
-
-container = DIContainer()
-websocket_manager = ConnectionManager(REDIS_HOST, REDIS_PORT, REDIS_PASSWORD)
+from src.config.config import config
 
 
 def get_mysql_query_database_service():
@@ -32,3 +29,10 @@ def get_configuration_service():
 
 def get_aws_service():
     return container.get_aws_service()
+
+
+container = DIContainer()
+
+websocket_manager = ConnectionManager(
+    config.redis_host, config.redis_port, config.redis_password
+)

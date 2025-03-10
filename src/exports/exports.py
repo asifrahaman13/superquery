@@ -1,15 +1,5 @@
 from anthropic import AsyncAnthropicBedrock
 from motor.motor_asyncio import AsyncIOMotorClient
-
-from src.config.config import (
-    ANTHROPIC_MODEL,
-    AWS_ACCESS_KEY_ID,
-    AWS_BUCKET_NAME,
-    AWS_SECRET_ACCESS_KEY,
-    MONGO_DB_URI,
-    QDRANT_API_ENDPOINT,
-    QDRANT_API_KEY,
-)
 from src.helper.handle_answer_types import HandleAnswerTypes
 from src.helper.llm_response import LlmResponse
 from src.repositories.auth_repo import AuthRepo
@@ -28,6 +18,7 @@ from src.use_cases.auth_service import AuthService
 from src.use_cases.configurations_service import ConfigurationService
 from src.use_cases.file_service import FileService
 from src.use_cases.query_service import QueryService
+from src.config.config import config
 
 
 class DIContainer:
@@ -36,7 +27,7 @@ class DIContainer:
 
     def get_auth_repo(self):
         if "auth_repo" not in self.__instances:
-            self.__instances["auth_repo"] = AuthRepo()
+            self.__instances["auth_repo"] = AuthRepo(config.secret_key)
         return self.__instances["auth_repo"]
 
     def get_auth_service(self):
@@ -48,8 +39,8 @@ class DIContainer:
 
     def get_database_repo(self):
         if "database_repo" not in self.__instances:
-            mongodb_client = AsyncIOMotorClient(MONGO_DB_URI)
-            mongodb_database = "octo"
+            mongodb_client = AsyncIOMotorClient(config.mongo_db_uri)
+            mongodb_database = "superquery"
             self.__instances["database_repo"] = MongodbRepo(
                 mongodb_client, mongodb_database
             )
@@ -59,7 +50,7 @@ class DIContainer:
         if "vectordb_repoitory" not in self.__instances:
             embedding_service = SemanticEmbeddingService()
             qdrant_service = SemanticQdrantService(
-                url=QDRANT_API_ENDPOINT, api_key=QDRANT_API_KEY
+                url=config.qdrant_api_endpoint, api_key=config.qdrant_api_key
             )
             self.__instances["vectordb_repoitory"] = SemanticSearchRepo(
                 embedding_service, qdrant_service
@@ -73,7 +64,7 @@ class DIContainer:
                 HandleAnswerTypes(),
                 LlmResponse(
                     AsyncAnthropicBedrock_client,
-                    ANTHROPIC_MODEL,
+                    config.anthropic_model,
                 ),
             )
         return self.__instances["mysql_query_repo"]
@@ -85,7 +76,7 @@ class DIContainer:
                 HandleAnswerTypes(),
                 LlmResponse(
                     AsyncAnthropicBedrock_client,
-                    ANTHROPIC_MODEL,
+                    config.anthropic_model,
                 ),
             )
         return self.__instances["postgres_query_repo"]
@@ -97,7 +88,7 @@ class DIContainer:
                 HandleAnswerTypes(),
                 LlmResponse(
                     AsyncAnthropicBedrock_client,
-                    ANTHROPIC_MODEL,
+                    config.anthropic_model,
                 ),
             )
         return self.__instances["sqlite_query_repo"]
@@ -109,16 +100,22 @@ class DIContainer:
                 HandleAnswerTypes(),
                 LlmResponse(
                     AsyncAnthropicBedrock_client,
-                    ANTHROPIC_MODEL,
+                    config.anthropic_model,
                 ),
             )
         return self.__instances["neo4j_query_repo"]
 
     def get_aws_repo(self):
         if "aws_repo" not in self.__instances:
-            print(AWS_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+            print(
+                config.aws_bucket_name,
+                config.aws_access_key_id,
+                config.aws_secret_access_key,
+            )
             self.__instances["aws_repo"] = AWSRepo(
-                AWS_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+                config.aws_bucket_name,
+                config.aws_access_key_id,
+                config.aws_secret_access_key,
             )
         return self.__instances["aws_repo"]
 

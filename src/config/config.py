@@ -1,8 +1,10 @@
 import yaml
-from pydantic import BaseModel
 import os
 import logging
 from dotenv import load_dotenv
+from dataclasses import dataclass
+from functools import lru_cache
+from pydantic import BaseModel
 
 load_dotenv()
 
@@ -31,11 +33,6 @@ class SecurityConfig(BaseModel):
     algorithm: str
     access_token_expire_minutes: int
 
-
-class RedisConfig(BaseModel):
-    url: str
-
-
 class VectorizerConfig(BaseModel):
     embedding_model: str
 
@@ -51,66 +48,120 @@ class Config(BaseModel):
     server: ServerConfig
     database: DatabaseConfig
     security: SecurityConfig
-    redis: RedisConfig
     vector_db: VectorizerConfig
     email_service: EmailConfig
 
 
-def load_config(file_path: str) -> Config:
-    with open(file_path, "r") as file:
-        config_dict = yaml.safe_load(file)
-    return Config(**config_dict)
+@dataclass
+class ConfigData:
+    config: dict
+    secret_key: str
+    algorithm: str
+    access_token_expire_minutes: int
+    anthropic_api_key: str
+    mongo_db_uri: str
+    redis_url: str
+    redis_port: str
+    redis_host: str
+    redis_password: str
+    aws_bucket_name: str
+    aws_access_key_id: str
+    aws_secret_access_key: str
+    embedding_model: str
+    qdrant_api_key: str
+    qdrant_api_endpoint: str
+    anthropic_model: str
 
 
-config = load_config("config.yaml")
+class ConfigManager:
+    def __init__(self, config_path: str):
+        self.config = self.load_config(config_path)
+        self.load_env_variables()
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-assert SECRET_KEY, "Secret key is not set"
+    def load_config(self, file_path: str) -> Config:
+        with open(file_path, "r") as file:
+            config_dict = yaml.safe_load(file)
+        return Config(**config_dict)
 
-ALGORITHM = config.security.algorithm
-assert ALGORITHM, "Algorithm is not set"
+    def load_env_variables(self):
+        self.SECRET_KEY = os.getenv("SECRET_KEY")
+        assert self.SECRET_KEY, "Secret key is not set"
 
-ACCESS_TOKEN_EXPIRE_MINUTES = config.security.access_token_expire_minutes
-assert ACCESS_TOKEN_EXPIRE_MINUTES, "Access token expire minutes is not set"
+        self.ALGORITHM = self.config.security.algorithm
+        assert self.ALGORITHM, "Algorithm is not set"
 
-anthropic_API_KEY = os.getenv("OPENAI_API_KEY")
-assert anthropic_API_KEY, "OpenAI client is not set"
+        self.ACCESS_TOKEN_EXPIRE_MINUTES = (
+            self.config.security.access_token_expire_minutes
+        )
+        assert (
+            self.ACCESS_TOKEN_EXPIRE_MINUTES
+        ), "Access token expire minutes is not set"
 
-MONGO_DB_URI = os.getenv("MONGO_DB_URI")
-assert MONGO_DB_URI, "Mongo URI is not set"
+        self.ANTHROPIC_API_KEY = os.getenv("OPENAI_API_KEY")
+        assert self.ANTHROPIC_API_KEY, "OpenAI client is not set"
 
-REDIS_URL = config.redis.url
-assert REDIS_URL, "Redis URL is not set."
+        self.MONGO_DB_URI = os.getenv("MONGO_DB_URI")
+        assert self.MONGO_DB_URI, "Mongo URI is not set"
 
-REDIS_PORT = os.getenv("REDIS_PORT")
-assert REDIS_PORT, "Redis port is not set."
+        self.REDIS_URL = os.getenv("REDIS_URL") 
+        assert self.REDIS_URL, "Redis URL is not set."
 
-REDIS_HOST = os.getenv("REDIS_HOST")
-assert REDIS_HOST, "Redis host is not set."
+        self.REDIS_PORT = os.getenv("REDIS_PORT")
+        assert self.REDIS_PORT, "Redis port is not set."
 
-REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
-assert REDIS_PASSWORD, "Redis password is not set."
+        self.REDIS_HOST = os.getenv("REDIS_HOST")
+        assert self.REDIS_HOST, "Redis host is not set."
 
-AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME")
-assert AWS_BUCKET_NAME, "AWS bucket name is not set."
+        self.REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
+        assert self.REDIS_PASSWORD, "Redis password is not set."
 
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY")
-assert AWS_ACCESS_KEY_ID, "AWS access key is not set."
+        self.AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME")
+        assert self.AWS_BUCKET_NAME, "AWS bucket name is not set."
 
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS")
-assert AWS_SECRET_ACCESS_KEY, "AWS secret access key is not set."
+        self.AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY")
+        assert self.AWS_ACCESS_KEY_ID, "AWS access key is not set."
+
+        self.AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS")
+        assert self.AWS_SECRET_ACCESS_KEY, "AWS secret access key is not set."
+
+        self.EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
+        assert self.EMBEDDING_MODEL, "Embedding model is not set"
+
+        self.QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+        assert self.QDRANT_API_KEY, "Qdrant API key not set"
+
+        self.QDRANT_API_ENDPOINT = os.getenv("QDRANT_API_ENDPOINT")
+        assert self.QDRANT_API_ENDPOINT, "Qdrant api endpoint not set"
+
+        self.ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL")
+        assert self.ANTHROPIC_MODEL, "Anthropic model is not set"
+
+    def to_config_data(self) -> ConfigData:
+        return ConfigData(
+            config=self.config.model_dump(),
+            secret_key=self.SECRET_KEY,
+            algorithm=self.ALGORITHM,
+            access_token_expire_minutes=self.ACCESS_TOKEN_EXPIRE_MINUTES,
+            anthropic_api_key=self.ANTHROPIC_API_KEY,
+            mongo_db_uri=self.MONGO_DB_URI,
+            redis_url=self.REDIS_URL,
+            redis_port=self.REDIS_PORT,
+            redis_host=self.REDIS_HOST,
+            redis_password=self.REDIS_PASSWORD,
+            aws_bucket_name=self.AWS_BUCKET_NAME,
+            aws_access_key_id=self.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=self.AWS_SECRET_ACCESS_KEY,
+            embedding_model=self.EMBEDDING_MODEL,
+            qdrant_api_key=self.QDRANT_API_KEY,
+            qdrant_api_endpoint=self.QDRANT_API_ENDPOINT,
+            anthropic_model=self.ANTHROPIC_MODEL,
+        )
 
 
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
-assert EMBEDDING_MODEL, "Embedding model is not set"
+@lru_cache()
+def get_config():
+    config_manager = ConfigManager("config.yaml")
+    return config_manager.to_config_data()
 
 
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
-assert QDRANT_API_KEY, "Qdrant API key not set"
-
-QDRANT_API_ENDPOINT = os.getenv("QDRANT_API_ENDPOINT")
-assert QDRANT_API_ENDPOINT, "Qdrant api endpoint not set"
-
-
-ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL")
-assert ANTHROPIC_MODEL, "Anthropic model is not set"
+config = get_config()

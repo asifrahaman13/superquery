@@ -1,12 +1,11 @@
 from datetime import datetime, timedelta, timezone
 from jose import ExpiredSignatureError, JWTError, jwt
-from src.config.config import SECRET_KEY
 from datetime import UTC
 
 
 class AuthRepo:
-    def __init__(self) -> None:
-        self.secret_key = SECRET_KEY
+    def __init__(self, secret_key: str) -> None:
+        self.secret_key = secret_key
         self.expires_delta = timedelta(hours=100)
 
     def create_refresh_token(self, data: dict) -> str:

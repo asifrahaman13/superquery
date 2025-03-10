@@ -18,13 +18,13 @@ from src.application.web.controllers.configuration_controller import (
 from src.application.web.controllers.file_controller import upload_controller
 from src.application.web.controllers.query_controller import query_controller
 from src.application.web.controllers.raw_query import raw_query_controller
-from src.config.config import QDRANT_API_ENDPOINT, QDRANT_API_KEY, REDIS_URL
 from src.middleware.logging_middleware import PrefixMiddleware
 from src.repositories.semantic_repo import (
     SemanticEmbeddingService,
     SemanticQdrantService,
     SemanticSearchRepo,
 )
+from src.exports.index import config
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -50,7 +50,7 @@ async def lifespan(_: FastAPI):
 
     semantic_embedding_service = SemanticEmbeddingService()
     semantic_qdrant_service = SemanticQdrantService(
-        url=QDRANT_API_ENDPOINT, api_key=QDRANT_API_KEY
+        url=config.qdrant_api_endpoint, api_key=config.qdrant_api_key
     )
     semantic_search_repo = SemanticSearchRepo(
         embedding_service=semantic_embedding_service,
@@ -58,7 +58,7 @@ async def lifespan(_: FastAPI):
     )
     await semantic_search_repo.create_collection("superquery")
 
-    redis_connection = redis.from_url(REDIS_URL, encoding="utf8")
+    redis_connection = redis.from_url(config.redis_url, encoding="utf8")
     await FastAPILimiter.init(
         redis=redis_connection,
         identifier=client_identifier,

@@ -1,8 +1,10 @@
 import asyncio
-from src.model.router_models import QueryResponse
 from typing import Any, AsyncGenerator, Optional
+
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy import text
+
+from src.model.router_models import QueryResponse
 
 
 class MySqlQueryRepo:

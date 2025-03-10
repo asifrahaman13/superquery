@@ -8,25 +8,18 @@
   
 - Upstream with the original repo `git remote add upstream https://github.com/asifrahaman13/superquery.git`
 
-- Go to the root directory. `cd superquery`
 
-- Enable virtual environment for the poetry. `uv venv`
+## Backend
 
-- Now activate virtual environment `source .venv/bin/activate`
+Go to the root directory. `cd superquery`
 
-- Now install the dependencies. `uv sync`
+Enable virtual environment for the poetry. `uv venv`
 
-- Now rename the .env.example. `mv .env.example .env`.  Give the proper configuration by giving the API keys. For example set the open ai key etc. Also set the configuration data in the config.yaml file.
+Now activate virtual environment `source .venv/bin/activate`
 
-## Install precommit hooks.
+Now install the dependencies. `uv sync`
 
-You must install the pre-commit hooks to ensure that your code follows the proper guidelines and lining.
-
-`pre-commit install`
-
-Before committing please run the following commands:
-
- `poetry run pre-commit install`
+Now rename the .env.example. `mv .env.example .env`.  Give the proper configuration by giving the API keys. For example set the open ai key etc. Also set the configuration data in the config.yaml file.
 
 # Run the server 🚀
 You need to run the application using the following script: `poetry run uvicorn src.main:app --reload`
@@ -54,10 +47,38 @@ Next, you can run the front-end application.
 
 The best way to utilize the docker is through the docker compose file.
 
-`docker compose up -d`
+`docker compose up`
 
+
+## Formatting
+
+For backend:
+
+For linting run the following:
+
+```bash
+ruff check --fix
+```
+
+For formatting run the following script:
+
+```bash
+ruff format
+```
+
+For linting run the following:
+
+```bash
+bun run lint
+```
+
+For the format run the following:
+
+```bash
+bun run format
+```
 
 ## PORT 👨🏻‍🚀
 
-- Backend: 8000
-- Frontend: 3000
+- Backend: `8000`
+- Frontend: `3000`

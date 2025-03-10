@@ -1,5 +1,7 @@
 import asyncio
+
 from fastapi import APIRouter, Depends, Response, WebSocket, WebSocketDisconnect
+
 from src.model.router_models import TrainData
 from src.use_cases import QueryService, AuthService
 from src.exports import (

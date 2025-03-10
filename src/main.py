@@ -1,7 +1,8 @@
 import logging
 import os
-from contextlib import asynccontextmanager
 from math import ceil
+
+from contextlib import asynccontextmanager
 import redis.asyncio as redis
 import uvicorn
 from fastapi.responses import JSONResponse
@@ -10,6 +11,7 @@ from fastapi_limiter.depends import RateLimiter
 from starlette.middleware.cors import CORSMiddleware
 from src.middleware.logging_middleware import PrefixMiddleware
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, status
+
 from src.application.web.controllers import (
     auth_controller,
     query_controller,

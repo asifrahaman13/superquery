@@ -1,17 +1,13 @@
 import logging
-from qdrant_client import QdrantClient
 
-# from qdrant_client.models import PointStruct, VectorParams, Distance
-from qdrant_client.models import PointStruct
 from qdrant_client import QdrantClient, models
-from qdrant_client.http.models import (
-    VectorParams,
-    Distance,
-)
+from qdrant_client.models import PointStruct
+from qdrant_client.http.models import VectorParams, Distance
 import ollama
-import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class SemanticEmbeddingService:

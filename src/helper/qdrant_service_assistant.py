@@ -1,11 +1,10 @@
 from typing import Optional
 from qdrant_client import QdrantClient
-from openai import Client
 
 
 class QdrantService:
     @staticmethod
-    def collection_exists(client: Client, collection_name: str) -> bool:
+    def collection_exists(client: QdrantClient, collection_name: str) -> bool:
         try:
             response = client.get_collection(collection_name)
             return response is not None

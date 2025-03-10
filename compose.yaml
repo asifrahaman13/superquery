@@ -16,6 +16,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
+      - mongodb
       - redis
     command: >
       sh -c "     

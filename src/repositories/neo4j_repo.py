@@ -1,7 +1,15 @@
 import asyncio
+import logging
 from typing import Any, AsyncGenerator, Optional
+
 from neo4j import GraphDatabase
+
 from src.model.router_models import QueryResponse
+
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class Neo4jDriver:
@@ -19,7 +27,7 @@ class Neo4jDriver:
     def query(self, query: str, parameters=None):
         if parameters is None:
             parameters = {}
-        print("Querying Neo4j:", query, parameters)
+        logging.info("Querying Neo4j:", query, parameters)
         with self.session.begin_transaction() as tx:
             result = tx.run(query, parameters)
             return result.data()

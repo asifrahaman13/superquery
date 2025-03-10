@@ -24,7 +24,3 @@ The guidelines for running the application can be found in the [CONTRIBUTING.md]
 ## Contribution
 
 If you want to contribute to this repository, please follow the [CONTRIBUTING.md](https://github.com/asifrahaman13/superquery/blob/main/CONTRIBUTING.md) guidelines.
-
-For discussions or queries, please join the discord server:
-
-[Join our Discord Server](https://discord.gg/bQBqdA6NsU)

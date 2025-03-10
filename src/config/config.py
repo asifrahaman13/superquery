@@ -1,9 +1,10 @@
-import yaml
 import os
 import logging
 from dotenv import load_dotenv
 from dataclasses import dataclass
 from functools import lru_cache
+
+import yaml
 from pydantic import BaseModel
 
 load_dotenv()
@@ -25,7 +26,6 @@ class ServerConfig(BaseModel):
 
 
 class DatabaseConfig(BaseModel):
-    # url: str
     pool_size: int
 
 

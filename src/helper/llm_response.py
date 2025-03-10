@@ -1,5 +1,6 @@
-import ollama
 from typing import Awaitable
+
+import ollama
 
 
 class LlmResponse:

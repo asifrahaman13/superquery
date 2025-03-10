@@ -1,6 +1,7 @@
 from fastapi import Depends, HTTPException, Header
+
 from exports import get_auth_service
-from src.use_cases.auth_service import AuthService
+from src.use_cases import AuthService
 
 
 def get_current_user(

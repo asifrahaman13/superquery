@@ -1,7 +1,7 @@
 [project]
 name = "superquery"
 version = "0.1.0"
-description = "Add your description here"
+description = "AI powered query on databases to automate the process of query, visualization etc. Organizations can analyze their data and take decisions much faster. Leverages the use AI, LLM. The project is under development"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -22,7 +22,7 @@ dependencies = [
     "ollama>=0.4.7",
     "openai>=1.65.4",
     "pinecone>=6.0.1",
-    "psycopg2>=2.9.10",
+    "psycopg2-binary>=2.9.10",
     "python-dotenv>=1.0.1",
     "python-jose>=3.4.0",
     "python-multipart>=0.0.20",

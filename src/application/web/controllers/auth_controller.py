@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
 from fastapi.responses import JSONResponse
+
 from src.exports import get_auth_service
 from src.use_cases import AuthService
 from src.model.router_models import UserBase

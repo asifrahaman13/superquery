@@ -1,8 +1,9 @@
 import asyncio
+import logging
 from typing import Any, AsyncGenerator
+
 from src.model.router_models import QueryResponse
 from src.constants.databases.available_databases import DatabaseKeys
-import logging
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"

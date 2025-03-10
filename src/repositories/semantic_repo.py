@@ -1,4 +1,5 @@
 import logging
+from collections import OrderedDict
 
 from qdrant_client import QdrantClient, models
 from qdrant_client.models import PointStruct
@@ -11,34 +12,36 @@ logging.basicConfig(
 
 
 class SemanticEmbeddingService:
-    def __init__(self):
-        self.embeddings_cache: dict[str, list[float]] = {}
+    def __init__(self, cache_size: int = 1000) -> None:
+        self.embeddings_cache: OrderedDict[str, list[float]] = OrderedDict()
+        self.cache_size = cache_size
 
     def get_embeddings(self, text: str) -> list[float]:
         if text in self.embeddings_cache:
+            self.embeddings_cache.move_to_end(text)
             return self.embeddings_cache[text]
         else:
             response = ollama.embed(model="mxbai-embed-large", input=text)
             self.embeddings_cache[text] = response.embeddings[0]
             logging.info(f"Embedding for {text} is {str(response.embeddings[0])}")
+            if len(self.embeddings_cache) > self.cache_size:
+                self.embeddings_cache.popitem(last=False)
+
             return self.embeddings_cache[text]
 
 
 class SemanticQdrantService:
-    def __init__(self, url, api_key):
+    def __init__(self, url: str, api_key: str) -> None:
         self.client = QdrantClient(url=url, api_key=api_key)
 
     def collection_exists(self, collection_name):
         try:
             response = self.client.get_collection(collection_name)
             return response is not None
-        except Exception as e:
-            if "404" in str(e):
-                return False
-            else:
-                raise e
+        except Exception:
+            raise
 
-    def create_collection(self, collection_name):
+    def create_collection(self, collection_name: str) -> None:
         if self.collection_exists:
             pass
         else:
@@ -47,10 +50,12 @@ class SemanticQdrantService:
                 vectors_config=VectorParams(size=1024, distance=Distance.COSINE),
             )
 
-    def upsert_points(self, collection_name, points):
+    def upsert_points(self, collection_name: str, points: list[PointStruct]) -> None:
         self.client.upsert(collection_name=collection_name, points=points)
 
-    def search(self, query_embedding, id, limit=5):
+    def search(
+        self, query_embedding: list[float], id: str, limit: int = 5
+    ) -> list[PointStruct]:
         # filter_condition = Filter(
         #     must=[FieldCondition(key="id", match=MatchValue(value=id))]
         # )

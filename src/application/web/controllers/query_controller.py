@@ -115,7 +115,7 @@ async def train_model(
     query_service: QueryService = Depends(get_sqlite_query_database_service),
 ):
     try:
-        response = query_service.add_data_to_vector_db(
+        response = await query_service.add_data_to_vector_db(
             train_data.user_query, train_data.sql_query, train_data.source
         )
         if response is True:

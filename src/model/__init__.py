@@ -10,6 +10,8 @@ from .router_models import (
     Files,
     TrainData,
 )
+from .database import Collections
+from .products import Databases
 
 __all__ = [
     "AIResponse",
@@ -22,4 +24,6 @@ __all__ = [
     "UpdateConfig",
     "Files",
     "TrainData",
+    "Collections",
+    "Databases",
 ]

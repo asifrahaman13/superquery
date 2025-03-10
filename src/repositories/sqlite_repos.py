@@ -5,7 +5,7 @@ from typing import Any, AsyncGenerator, Optional
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy import text
 
-from src.model.router_models import QueryResponse
+from src.model import QueryResponse, Databases
 
 
 logging.basicConfig(
@@ -27,12 +27,12 @@ class SqliteQueryRepo:
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
         raw_response, sql_query = await self.anthropic_client.bulk_llm_response(
-            user_query, ddl_commands, examples, "sqlite"
+            user_query, ddl_commands, examples, Databases.SQLITE.value
         )
 
         await asyncio.sleep(0)
         yield QueryResponse(message=raw_response, status=False, answer_type="plain")
-        
+
         if sql_query is not None:
             async for response in self.handle_answer_type.handle_sqlite_query(
                 sql_query, connection_string

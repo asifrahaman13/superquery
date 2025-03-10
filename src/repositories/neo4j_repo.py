@@ -4,7 +4,7 @@ from typing import Any, AsyncGenerator, Optional
 
 from neo4j import GraphDatabase
 
-from src.model.router_models import QueryResponse
+from src.model import QueryResponse, Databases
 
 
 logging.basicConfig(
@@ -46,7 +46,7 @@ class Neo4jQueryRepo:
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
         raw_response, sql_query = await self.anthropic_client.bulk_llm_response(
-            user_query, ddl_commands, examples, "neo4j"
+            user_query, ddl_commands, examples, Databases.NEO4J.value
         )
 
         await asyncio.sleep(0)

@@ -1,8 +1,10 @@
 from typing import Awaitable
+
+import instructor
+
 from src.constants.prompts.prompts import PromptTemplates
 from src.helper import Utils
-import instructor
-from src.model import AIResponse
+from src.model import AIResponse, Databases
 
 
 class LlmResponse:
@@ -18,19 +20,19 @@ class LlmResponse:
         examples: list[dict[str, str]],
         db_type: str,
     ) -> Awaitable[str]:
-        if db_type == "mysql":
+        if db_type == Databases.MYSQL.value:
             return await self._generate_response(
                 query, ddl_commands, examples, PromptTemplates.MYSQL
             )
-        elif db_type == "postgres":
+        elif db_type == Databases.POSTGRES.value:
             return await self._generate_response(
                 query, ddl_commands, examples, PromptTemplates.POSTGRES
             )
-        elif db_type == "sqlite":
+        elif db_type == Databases.SQLITE.value:
             return await self._generate_response(
                 query, ddl_commands, examples, PromptTemplates.SQLITE
             )
-        elif db_type == "neo4j":
+        elif db_type == Databases.NEO4J.value:
             return await self._generate_response(
                 query, ddl_commands, examples, PromptTemplates.NEO4J
             )
@@ -66,7 +68,7 @@ class LlmResponse:
 
         assert isinstance(completion, AIResponse)
         raw_response = completion.raw_response
-        
+
         sql_query = None
         if completion.sql_query is not None:
             sql_query = completion.sql_query.strip("```sql\n").strip("```")

@@ -4,7 +4,7 @@ from typing import AsyncGenerator, Optional, Any
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy import text
 
-from src.model.router_models import QueryResponse
+from src.model import QueryResponse, Databases
 
 
 class PostgresQueryRepo:
@@ -21,7 +21,7 @@ class PostgresQueryRepo:
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
         raw_response, sql_query = await self.anthropic_client.bulk_llm_response(
-            user_query, ddl_commands, examples, "postgres"
+            user_query, ddl_commands, examples, Databases.POSTGRES.value
         )
 
         await asyncio.sleep(0)

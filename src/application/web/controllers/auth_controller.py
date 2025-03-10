@@ -39,5 +39,5 @@ async def get_user(
         token = token.split(" ")[1]
         response = auth_service.user_info(token)
         return JSONResponse(content=response)
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=400, detail="Invalid token")

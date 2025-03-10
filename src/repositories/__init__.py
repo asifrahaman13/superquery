@@ -10,6 +10,7 @@ from .semantic_repo import (
     SemanticSearchRepo,
 )
 from .sqlite_repos import SqliteQueryRepo
+from .llm_response import LlmResponse
 
 __all__ = [
     "AuthRepo",
@@ -22,4 +23,5 @@ __all__ = [
     "SemanticQdrantService",
     "SemanticSearchRepo",
     "SqliteQueryRepo",
+    "LlmResponse",
 ]

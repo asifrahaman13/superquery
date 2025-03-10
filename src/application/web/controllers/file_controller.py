@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi import File, UploadFile
 from botocore.exceptions import NoCredentialsError
-from fastapi import Depends, HTTPException, Security
+from fastapi import Depends, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse
 

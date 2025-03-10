@@ -22,7 +22,7 @@ class PrefixMiddleware(BaseHTTPMiddleware):
 
     async def authenticate(self, request):
         auth_interface: AuthService = get_auth_service()
-        logging.info(f"Authenticating")
+        logging.info("Authenticating")
         try:
             logging.info(f"Method: {request.method}")
             if request.method == "POST":

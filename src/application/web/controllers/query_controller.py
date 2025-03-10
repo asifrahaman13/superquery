@@ -105,7 +105,7 @@ async def query_neo4j(
                 await manager.send_personal_message(response.model_dump(), websocket)
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
-    except Exception as e:
+    except Exception:
         await manager.disconnect(websocket)
 
 
@@ -120,5 +120,5 @@ async def train_model(
         )
         if response is True:
             return Response(status_code=200, content="Data added successfully")
-    except Exception as e:
+    except Exception:
         return Response(status_code=500, content="Internal Server Error")

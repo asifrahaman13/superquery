@@ -1,7 +1,7 @@
 from anthropic import AsyncAnthropicBedrock
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from src.helper import HandleAnswerTypes, LlmResponse
+from src.helper import HandleAnswerTypes
 from src.repositories import (
     AuthRepo,
     AWSRepo,
@@ -13,6 +13,7 @@ from src.repositories import (
     SemanticQdrantService,
     SemanticSearchRepo,
     SqliteQueryRepo,
+    LlmResponse,
 )
 from src.use_cases import AuthService, ConfigurationService, FileService, QueryService
 from src.config.config import config

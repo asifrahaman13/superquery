@@ -6,6 +6,11 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from src.exports.index import get_auth_service
 
 
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+
 class PrefixMiddleware(BaseHTTPMiddleware):
     def __init__(self, app, prefix=""):
         super().__init__(app)
@@ -15,15 +20,15 @@ class PrefixMiddleware(BaseHTTPMiddleware):
 
     async def authenticate(self, request):
         auth_interface: AuthService = get_auth_service()
-        logging.info("############################# authenticating")
+        logging.info(f"Authenticating")
         try:
-            print("###################### method", request.method)
+            logging.info(f"Method: {request.method}")
             if request.method == "POST":
                 token = request.headers.get("Authorization").split(" ")[1]
-                print("######################", token)
+                logging.info(f"Token: {token}")
             elif request.method == "GET":
                 token = request.url.path.split("/")[-1]
-                logging.info("The token is: {}".format(token))
+                logging.info(f"The token is: {token}")
             elif request.method == "PUT":
                 token = request.headers.get("Authorization").split(" ")[1]
 

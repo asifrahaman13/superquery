@@ -5,7 +5,6 @@ import psycopg2
 import logging
 import mysql.connector
 from neo4j import GraphDatabase
-from langchain_neo4j import Neo4jGraph
 from typing import AsyncGenerator, Callable, Any
 from src.entities.router_models import QueryResponse
 
@@ -30,7 +29,6 @@ class Neo4jDriver:
     def query(self, query: str, parameters=None):
         if parameters is None:
             parameters = {}
-        print("Querying Neo4j:", query, parameters)
         with self.session.begin_transaction() as tx:
             result = tx.run(query, parameters)
             return result.data()
@@ -95,13 +93,17 @@ class HandleAnswerTypes:
             yield response
 
     async def handle_neo4j_query(
-        self, user_query: str, connection_string: str
+        self, user_query: str, *args, **kwargs
     ) -> AsyncGenerator[QueryResponse, None]:
         await asyncio.sleep(0)
         yield QueryResponse(message="Querying the database", status=True)
-        logging.info(f"The connecting string is....{connection_string}")
+        logging.info(f"The connecting string is....{kwargs}")
 
-        with Neo4jDriver(connection_string, ("neo4j", "password")) as driver:
+        api_endpoint: str = kwargs.get("api_endpoint")
+        username: str = kwargs.get("username")
+        neo4j_password: str = kwargs.get("neo4j_password")
+
+        with Neo4jDriver(api_endpoint, (username, neo4j_password)) as driver:
             result = driver.query(user_query)
             json_data = json.dumps(result)
             await asyncio.sleep(0)

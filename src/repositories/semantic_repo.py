@@ -1,5 +1,4 @@
 import logging
-from typing import Dict, List
 from qdrant_client import QdrantClient
 
 # from qdrant_client.models import PointStruct, VectorParams, Distance
@@ -17,9 +16,9 @@ logging.basicConfig(level=logging.INFO)
 
 class SemanticEmbeddingService:
     def __init__(self):
-        self.embeddings_cache: Dict[str, List[float]] = {}
+        self.embeddings_cache: dict[str, list[float]] = {}
 
-    def get_embeddings(self, text: str) -> List[float]:
+    def get_embeddings(self, text: str) -> list[float]:
         if text in self.embeddings_cache:
             return self.embeddings_cache[text]
         else:
@@ -77,8 +76,8 @@ class SemanticSearchRepo:
         self.qdrant_service = qdrant_service
 
     def prepare_points(
-        self, texts: List[str], metadata: List[Dict]
-    ) -> List[PointStruct]:
+        self, texts: list[str], metadata: list[dict]
+    ) -> list[PointStruct]:
         import uuid
 
         return [
@@ -102,7 +101,7 @@ class SemanticSearchRepo:
                 ),
             )
 
-    def initialize_qdrant(self, texts: List[str], metadata: List[Dict]):
+    def initialize_qdrant(self, texts: list[str], metadata: list[dict]):
         points = self.prepare_points(texts, metadata)
         self.qdrant_service.upsert_points("superquery", points)
         return True

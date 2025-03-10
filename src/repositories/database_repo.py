@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Awaitable
+from typing import Any, Awaitable, Optional
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
@@ -12,7 +12,7 @@ class MongodbRepo:
 
     async def find_single_entity_by_field_name(
         self, collection_name: str, field_name: str, field_value: str
-    ) -> dict | None:
+    ) -> Awaitable[Optional[dict]]:
         try:
             collection = self.database[collection_name]
             result = await collection.find_one({field_name: field_value})
@@ -24,7 +24,7 @@ class MongodbRepo:
 
     async def find_all_entities_by_field_name(
         self, collection_name: str, field_name: str, field_value: str
-    ) -> list[dict] | None:
+    ) -> Awaitable[Optional[list[dict]]]:
         try:
             collection = self.database[collection_name]
             cursor = collection.find({field_name: field_value})
@@ -38,7 +38,7 @@ class MongodbRepo:
 
     async def save_entity(
         self, collection_name: str, entity: dict[str, Any]
-    ) -> str | None:
+    ) -> Awaitable[Optional[str]]:
         try:
             collection = self.database[collection_name]
             result = await collection.insert_one(entity)
@@ -52,7 +52,7 @@ class MongodbRepo:
         filter_value: str,
         update_data: dict[str, Any],
         collection_name: str,
-    ) -> dict[str, Any] | None:
+    ) -> Awaitable[Optional[dict[str, Any]]]:
         try:
             collection = self.database[collection_name]
             await collection.update_one(

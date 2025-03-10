@@ -1,32 +1,30 @@
 import logging
-from fastapi import FastAPI
-from fastapi.responses import JSONResponse
-from starlette.middleware.cors import CORSMiddleware
-from src.infastructure.middleware.logging_middleware import PrefixMiddleware
+import os
+from contextlib import asynccontextmanager
 from math import ceil
+
 import redis.asyncio as redis
 import uvicorn
-from contextlib import asynccontextmanager
-from fastapi import Depends, HTTPException, Request, Response
-from fastapi import status
+from fastapi import Depends, FastAPI, HTTPException, Request, Response, status
+from fastapi.responses import JSONResponse
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
-import os
-from src.config.config import REDIS_URL
-from src.application.web.controllers.query_controller import query_controller
+from starlette.middleware.cors import CORSMiddleware
+
 from src.application.web.controllers.auth_controller import auth_controller
 from src.application.web.controllers.configuration_controller import (
     configuration_controller,
 )
-from src.application.web.controllers.raw_query import raw_query_controller
 from src.application.web.controllers.file_controller import upload_controller
-
-from src.infastructure.repositories.semantic_repo import (
-    SemanticSearchRepo,
+from src.application.web.controllers.query_controller import query_controller
+from src.application.web.controllers.raw_query import raw_query_controller
+from src.config.config import QDRANT_API_ENDPOINT, QDRANT_API_KEY, REDIS_URL
+from src.middleware.logging_middleware import PrefixMiddleware
+from src.repositories.semantic_repo import (
     SemanticEmbeddingService,
     SemanticQdrantService,
+    SemanticSearchRepo,
 )
-from src.config.config import QDRANT_API_ENDPOINT, QDRANT_API_KEY
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"

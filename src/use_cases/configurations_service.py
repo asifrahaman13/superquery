@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 from src.constants.databases.available_databases import DatabaseKeys
 
 
@@ -14,7 +14,7 @@ class ConfigurationService:
         return configurations.get(self.__db_keys.get(db_type))
 
     async def update_project_configurations(
-        self, user: str, db_type: str, field_value: Dict[str, Any]
+        self, user: str, db_type: str, field_value: dict[str, Any]
     ) -> str:
         db_key = self.__db_keys.get(db_type)
         if not db_key:

@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 import boto3
 
 
@@ -15,7 +16,7 @@ class AWSRepo:
         )
         self.expiration_time = 60
 
-    def upload_file(self, file_name: str, file_content: str):
+    def upload_file(self, file_name: str, file_content: str) -> bool:
         try:
             self.s3_client.upload_fileobj(file_content, self.aws_bucket_name, file_name)
             return True
@@ -23,7 +24,7 @@ class AWSRepo:
             logging.error(f"An error occurred: {e}")
             return False
 
-    def get_presigned_urls(self, file_name: str):
+    def get_presigned_urls(self, file_name: str) -> Optional[str]:
         try:
             url = self.s3_client.generate_presigned_url(
                 ClientMethod="get_object",

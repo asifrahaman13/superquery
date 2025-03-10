@@ -1,5 +1,5 @@
 import asyncio
-from typing import Any, AsyncGenerator, Dict, List
+from typing import Any, AsyncGenerator
 from src.entities.router_models import QueryResponse
 from src.constants.databases.available_databases import DatabaseKeys
 import logging
@@ -20,7 +20,7 @@ class QueryService:
 
     async def query_db(
         self, user: str, query: str, db: str
-    ) -> AsyncGenerator[Dict[str, Any], None]:
+    ) -> AsyncGenerator[dict[str, Any], None]:
         db_key = self.__db_keys.get(db)
         if not db_key:
             return
@@ -44,7 +44,7 @@ class QueryService:
                 await asyncio.sleep(0)
                 yield response
 
-    async def general_raw_query(self, user: str, query: str, db: str):
+    async def general_raw_query(self, user: str, query: str, db: str) -> Any:
         db_key = self.__db_keys.get(db)
         if not db_key:
             return None
@@ -58,7 +58,7 @@ class QueryService:
         return None
 
     async def add_data_to_vector_db(
-        self, user_query: str, sql_query: str, source: List[Dict[str, Any]]
+        self, user_query: str, sql_query: str, source: list[dict[str, Any]]
     ):
         data = [
             {

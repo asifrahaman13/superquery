@@ -1,3 +1,4 @@
+from typing import Optional
 from qdrant_client import QdrantClient
 from openai import Client
 
@@ -16,7 +17,10 @@ class QdrantService:
 
     @staticmethod
     def search(
-        query_embedding, collection_name, api_endpoint=None, qdrant_api_key=None
+        query_embedding: list[float],
+        collection_name: str,
+        api_endpoint: Optional[str] = None,
+        qdrant_api_key: Optional[str] = None,
     ):
         client = QdrantClient(url=api_endpoint, api_key=qdrant_api_key)
         # filter_condition = Filter(

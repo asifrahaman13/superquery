@@ -1,4 +1,5 @@
 import asyncio
+from typing import Any, AsyncGenerator, Optional
 from neo4j import GraphDatabase
 from src.entities.router_models import QueryResponse
 
@@ -29,8 +30,9 @@ class Neo4jQueryRepo:
         self.handle_answer_type = handle_answer_type
         self.anthropic_client = llm_response
 
-    async def query_database(self, user_query: str, *args, **kwargs):
-        connection_string: str = kwargs.get("connectionString")
+    async def query_database(
+        self, user_query: str, *args, **kwargs
+    ) -> AsyncGenerator[Optional[QueryResponse], None]:
         ddl_commands = kwargs.get("ddlCommands")
         examples = kwargs.get("examples")
         await asyncio.sleep(0)
@@ -39,12 +41,14 @@ class Neo4jQueryRepo:
             user_query, ddl_commands, examples, "neo4j"
         )
         async for response in self.handle_answer_type.handle_neo4j_query(
-            llm_generated_query, connection_string
+            llm_generated_query, **kwargs
         ):
             await asyncio.sleep(0)
             yield response
 
-    def general_raw_query(self, user_query: str, *args, **kwargs):
+    def general_raw_query(
+        self, user_query: str, *args, **kwargs
+    ) -> list[dict[str, Any]]:
         auth = (kwargs.get("username"), kwargs.get("neo4j_password"))
         connection_string = kwargs.get("api_endpoint")
         with Neo4jDriver(connection_string, auth) as driver:

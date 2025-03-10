@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import dict
 from fastapi import Depends, HTTPException, Header
 from exports.index import get_auth_service
 from src.use_cases.auth_service import AuthService
@@ -7,7 +7,7 @@ from src.use_cases.auth_service import AuthService
 def get_current_user(
     token: str = Header(..., alias="Authorization"),
     auth_service: AuthService = Depends(get_auth_service),
-) -> Dict:
+) -> dict:
     try:
         user = auth_service.user_info(token.split(" ")[1])
         if user is None:

@@ -21,7 +21,7 @@ class LlmResponse:
         ddl_commands: list[str],
         examples: list[dict[str, str]],
         db_type: str,
-    ) -> str:
+    ) -> Awaitable[str]:
         if db_type == "mysql":
             return await self._mysql_response(query, ddl_commands, examples)
         elif db_type == "postgres":

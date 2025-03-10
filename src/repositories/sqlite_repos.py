@@ -1,6 +1,6 @@
 import asyncio
 from typing import Any, AsyncGenerator, Optional
-from src.entities.router_models import QueryResponse
+from src.model.router_models import QueryResponse
 from sqlmodel import SQLModel, Session, create_engine
 from sqlalchemy import text
 import logging

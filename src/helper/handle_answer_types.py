@@ -6,7 +6,7 @@ import logging
 import mysql.connector
 from neo4j import GraphDatabase
 from typing import AsyncGenerator, Callable, Any
-from src.entities.router_models import QueryResponse
+from src.model.router_models import QueryResponse
 
 
 logging.basicConfig(

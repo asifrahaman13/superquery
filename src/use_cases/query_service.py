@@ -1,6 +1,6 @@
 import asyncio
 from typing import Any, AsyncGenerator
-from src.entities.router_models import QueryResponse
+from src.model.router_models import QueryResponse
 from src.constants.databases.available_databases import DatabaseKeys
 import logging
 

@@ -22,7 +22,7 @@ class MongodbRepo:
         except Exception:
             return None
 
-    async def find_all_entities_by_field_name(
+    async def find_all_model_by_field_name(
         self, collection_name: str, field_name: str, field_value: str
     ) -> Awaitable[Optional[list[dict]]]:
         try:

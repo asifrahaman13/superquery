@@ -19,7 +19,7 @@ class FileService:
 
     async def all_aws_files(self, username: str) -> list[str]:
         all_aws_file_names = (
-            await self.database_repository.find_all_entities_by_field_name(
+            await self.database_repository.find_all_model_by_field_name(
                 "aws", "username", username
             )
         )
@@ -27,7 +27,7 @@ class FileService:
 
     async def get_presigned_urls(self, username: str) -> str:
         all_aws_file_names = (
-            await self.database_repository.find_all_entities_by_field_name(
+            await self.database_repository.find_all_model_by_field_name(
                 "aws", "username", username
             )
         )

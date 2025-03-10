@@ -1,7 +1,7 @@
 import asyncio
 from typing import Any, AsyncGenerator, Optional
 from neo4j import GraphDatabase
-from src.entities.router_models import QueryResponse
+from src.model.router_models import QueryResponse
 
 
 class Neo4jDriver:

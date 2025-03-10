@@ -8,7 +8,7 @@ from src.exports.index import (
     get_postgres_query_database_service,
     get_sqlite_query_database_service,
 )
-from src.entities.router_models import QueryBase
+from src.model.router_models import QueryBase
 from src.use_cases.auth_service import AuthService
 from src.use_cases.query_service import QueryService
 

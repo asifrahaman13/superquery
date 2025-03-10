@@ -1,12 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import { useEffect, useState } from 'react';
-import {
-  SiMysql,
-  SiPostgresql,
-  SiSqlite,
-  SiNeo4J,
-} from 'react-icons/si';
+import { SiMysql, SiPostgresql, SiSqlite, SiNeo4J } from 'react-icons/si';
 import {
   Dialog,
   DialogBackdrop,

@@ -4,10 +4,8 @@ import os
 import logging
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
-# Set up logging configuration
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -64,65 +62,47 @@ def load_config(file_path: str) -> Config:
     return Config(**config_dict)
 
 
-# Load the configuration
 config = load_config("config.yaml")
-
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 assert SECRET_KEY, "Secret key is not set"
-logging.info("Secret key is set")
 
 ALGORITHM = config.security.algorithm
 assert ALGORITHM, "Algorithm is not set"
-logging.info("Algorithm is set")
 
 ACCESS_TOKEN_EXPIRE_MINUTES = config.security.access_token_expire_minutes
 assert ACCESS_TOKEN_EXPIRE_MINUTES, "Access token expire minutes is not set"
-logging.info("Access token expire minutes is set")
-
 
 anthropic_API_KEY = os.getenv("OPENAI_API_KEY")
 assert anthropic_API_KEY, "OpenAI client is not set"
-logging.info("OpenAI client is set")
 
 MONGO_DB_URI = os.getenv("MONGO_DB_URI")
 assert MONGO_DB_URI, "Mongo URI is not set"
-logging.info("Mongo URI is set")
-
 
 REDIS_URL = config.redis.url
 assert REDIS_URL, "Redis URL is not set."
-logging.info("Redis URL is set")
 
 REDIS_PORT = os.getenv("REDIS_PORT")
 assert REDIS_PORT, "Redis port is not set."
-logging.info("Redis port is set")
 
 REDIS_HOST = os.getenv("REDIS_HOST")
 assert REDIS_HOST, "Redis host is not set."
-logging.info("Redis host is set")
 
 REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 assert REDIS_PASSWORD, "Redis password is not set."
-logging.info("Redis password is set")
-
 
 AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME")
 assert AWS_BUCKET_NAME, "AWS bucket name is not set."
-logging.info("AWS bucket name is set")
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY")
 assert AWS_ACCESS_KEY_ID, "AWS access key is not set."
-logging.info("AWS access key is set")
 
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS")
 assert AWS_SECRET_ACCESS_KEY, "AWS secret access key is not set."
-logging.info("AWS secret access key is set")
 
 
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 assert EMBEDDING_MODEL, "Embedding model is not set"
-logging.info("Embedding model is set")
 
 
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")

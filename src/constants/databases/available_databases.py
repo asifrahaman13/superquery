@@ -21,37 +21,37 @@ class DatabaseKeys:
 INITIAL_DASHBOARD = {
     "mysql": {
         "db_type": "mysql",
-        "projectName": "",
+        "project_name": "",
         "username": "",
         "description": "",
-        "connectionString": "",
-        "ddlCommands": [""],
+        "connection_string": "",
+        "ddl_commands": [""],
     },
     "postgres": {
         "db_type": "postgres",
-        "projectName": "",
+        "project_name": "",
         "username": "",
         "description": ".",
-        "connectionString": "",
-        "ddlCommands": [
+        "connection_string": "",
+        "ddl_commands": [
             "",
         ],
     },
     "sqlite": {
         "db_type": "sqlite",
-        "projectName": "",
+        "project_name": "",
         "username": "",
         "description": "",
-        "connectionString": "",
-        "ddlCommands": [""],
+        "connection_string": "",
+        "ddl_commands": [""],
     },
     "neo4j": {
         "db_type": "neo4j",
-        "projectName": "",
+        "project_name": "",
         "username": "",
         "description": "",
         "neo4j_password": "",
         "api_endpoint": "",
-        "ddlCommands": [""],
+        "ddl_commands": [""],
     },
 }

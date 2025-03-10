@@ -18,8 +18,8 @@ class SqliteQueryRepo:
     async def query_database(
         self, user_query: str, *args, **kwargs
     ) -> AsyncGenerator[Optional[QueryResponse], None]:
-        connection_string: str = kwargs.get("connectionString")
-        ddl_commands = kwargs.get("ddlCommands")
+        connection_string: str = kwargs.get("connection_string")
+        ddl_commands = kwargs.get("ddl_commands")
         examples = kwargs.get("examples")
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
@@ -34,7 +34,7 @@ class SqliteQueryRepo:
             yield response
 
     def general_raw_query(self, query: str, *args, **kwargs) -> list[dict[str, Any]]:
-        connection_string: str = kwargs.get("connectionString")
+        connection_string: str = kwargs.get("connection_string")
         engine = create_engine(connection_string)
         SQLModel.metadata.create_all(engine)
         with Session(engine) as session:

@@ -12,11 +12,11 @@ interface DbSettings {
 
 interface Configuration {
   db_type?: string;
-  projectName?: string;
+  project_name?: string;
   username?: string;
   description?: string;
-  connectionString?: string;
-  ddlCommands?: string[];
+  connection_string?: string;
+  ddl_commands?: string[];
   examples?: { query: string; sqlQuery: string }[];
 }
 
@@ -64,9 +64,9 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
         examples[index] = { ...examples[index], [field]: value };
         return { ...prev, examples };
       } else if (index !== undefined) {
-        const ddlCommands = [...(prev.ddlCommands || [])];
-        ddlCommands[index] = value;
-        return { ...prev, ddlCommands };
+        const ddl_commands = [...(prev.ddl_commands || [])];
+        ddl_commands[index] = value;
+        return { ...prev, ddl_commands };
       } else {
         return { ...prev, [name]: value };
       }
@@ -125,7 +125,7 @@ export default function ConnectionSettings({ dbType }: DbSettings) {
                                   value={item}
                                   onChange={(e) => handleChange(e, idx)}
                                   className="block w-full mt-2 rounded-md py-1.5 border-2 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 placeholder:px-2 p-2 resize-none no-scrollbar"
-                                  rows={key === 'ddlCommands' ? 4 : 3}
+                                  rows={key === 'ddl_commands' ? 4 : 3}
                                   placeholder={
                                     key === 'examples'
                                       ? idx % 2 === 0

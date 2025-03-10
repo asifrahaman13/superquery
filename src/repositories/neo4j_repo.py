@@ -33,7 +33,7 @@ class Neo4jQueryRepo:
     async def query_database(
         self, user_query: str, *args, **kwargs
     ) -> AsyncGenerator[Optional[QueryResponse], None]:
-        ddl_commands = kwargs.get("ddlCommands")
+        ddl_commands = kwargs.get("ddl_commands")
         examples = kwargs.get("examples")
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)

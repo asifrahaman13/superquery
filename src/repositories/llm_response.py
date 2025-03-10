@@ -1,11 +1,13 @@
 from typing import Awaitable
 from src.constants.prompts.prompts import PromptTemplates
 from src.helper import Utils
+import instructor
+from src.model import AIResponse
 
 
 class LlmResponse:
     def __init__(self, anthropic_client, model: str) -> None:
-        self.client = anthropic_client
+        self.client = instructor.from_anthropic(anthropic_client)
         self.max_tokens = 5000
         self.model = model
 
@@ -59,6 +61,10 @@ class LlmResponse:
                 },
                 {"role": "user", "content": query},
             ],
+            response_model=AIResponse,
         )
-        response = completion.content[0].text.strip("```sql\n").strip("```")
-        return response
+
+        assert isinstance(completion, AIResponse)
+        raw_response = completion.raw_response
+        sql_query = completion.sql_query.strip("```sql\n").strip("```")
+        return (raw_response, sql_query)

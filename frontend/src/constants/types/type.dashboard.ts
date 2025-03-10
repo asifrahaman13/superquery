@@ -42,7 +42,8 @@ export interface HistoryItem {
     | 'pie_chart'
     | 'plain_answer'
     | 'table_response'
-    | 'sql_query';
+    | 'sql_query'
+    | 'plain';
 }
 
 export interface RenderConversationProps {

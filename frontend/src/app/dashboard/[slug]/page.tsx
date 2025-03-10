@@ -92,7 +92,7 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
         db
       );
       if (response?.code === 200) {
-        console.log('The response', response);
+        console.log('The response is as follows', response);
         if (response.data.response_type === 'table') {
           setTableData(response.data.response);
           setResultType('table');

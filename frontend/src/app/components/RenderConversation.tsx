@@ -21,6 +21,7 @@ import {
   ICONS,
   RenderConversationProps,
 } from '@/constants/types/type.dashboard';
+import PlainAnswerView from './PlainAnswerView';
 
 const IconComponents: React.FC<IconComponentsProps> = ({ props }) => {
   const IconComponent = ICONS[props.slug];
@@ -128,7 +129,7 @@ const RenderConversation: React.FC<RenderConversationProps> = ({
         <div className="overflow-y-scroll no-scrollbar items-center flex flex-col flex-grow gap-4 text-justify bg-white">
           {conversationSlice.history.length > 0 ? (
             <div className="w-full">
-              {conversationSlice.history.map((item: HistoryItem, index) => (
+              {conversationSlice?.history.map((item: HistoryItem, index) => (
                 <div key={index} className="flex flex-col gap-6">
                   {item?.messageFrom === 'chatbot' && (
                     <div className="flex flex-col gap-8">
@@ -140,7 +141,12 @@ const RenderConversation: React.FC<RenderConversationProps> = ({
                       {item.answer_type === 'table_response' && (
                         <TableView tableData={JSON.parse(item?.message)} />
                       )}
-                      {item?.message && (
+
+                      {item?.answer_type === 'plain' && (
+                        <PlainAnswerView text={item.message} />
+                      )}
+
+                      {item?.message && item.answer_type !== 'plain' && (
                         <div>
                           <PlotSelector
                             index={index}

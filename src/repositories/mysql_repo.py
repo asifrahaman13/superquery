@@ -22,11 +22,14 @@ class MySqlQueryRepo:
         yield QueryResponse(message="Thinking of the answer", status=True)
         await asyncio.sleep(0)
 
-        llm_generated_query = await self.anthropic_client.bulk_llm_response(
+        raw_response, sql_query = await self.anthropic_client.bulk_llm_response(
             user_query, ddl_commands, examples, "mysql"
         )
+        await asyncio.sleep(0)
+        yield QueryResponse(message=raw_response, status=False, answer_type="plain")
+
         async for response in self.handle_answer_type.handle_mysql_query(
-            llm_generated_query, connection_string
+            sql_query, connection_string
         ):
             yield response
 

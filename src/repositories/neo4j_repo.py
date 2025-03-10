@@ -45,11 +45,15 @@ class Neo4jQueryRepo:
         examples = kwargs.get("examples")
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
-        llm_generated_query = await self.anthropic_client.bulk_llm_response(
+        raw_response, sql_query = await self.anthropic_client.bulk_llm_response(
             user_query, ddl_commands, examples, "neo4j"
         )
+
+        await asyncio.sleep(0)
+        yield QueryResponse(message=raw_response, status=False, answer_type="plain")
+
         async for response in self.handle_answer_type.handle_neo4j_query(
-            llm_generated_query, **kwargs
+            sql_query, **kwargs
         ):
             await asyncio.sleep(0)
             yield response

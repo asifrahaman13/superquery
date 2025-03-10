@@ -1,6 +1,5 @@
-from typing import dict
 from fastapi import Depends, HTTPException, Header
-from exports.index import get_auth_service
+from exports import get_auth_service
 from src.use_cases.auth_service import AuthService
 
 

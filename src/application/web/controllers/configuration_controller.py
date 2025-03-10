@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
 from fastapi.responses import JSONResponse
-from src.exports.index import get_auth_service, get_configuration_service
+from src.exports import get_auth_service, get_configuration_service
 from src.model.router_models import ConfigurationBase, UpdateConfig
-from src.use_cases.auth_service import AuthService
-from src.use_cases.configurations_service import ConfigurationService
+from src.use_cases import ConfigurationService, AuthService
 
 configuration_controller = APIRouter()
 

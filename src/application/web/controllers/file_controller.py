@@ -3,9 +3,8 @@ from fastapi import File, UploadFile
 from botocore.exceptions import NoCredentialsError
 from fastapi import Depends, HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from src.exports.index import get_auth_service, get_aws_service
-from src.use_cases.file_service import FileService
-from src.use_cases.auth_service import AuthService
+from src.exports import get_auth_service, get_aws_service
+from src.use_cases import FileService, AuthService
 from fastapi.responses import JSONResponse
 
 security = HTTPBearer()

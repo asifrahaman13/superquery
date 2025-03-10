@@ -1,9 +1,9 @@
 import logging
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
-from src.use_cases.auth_service import AuthService
+from src.use_cases import AuthService
 from starlette.middleware.base import BaseHTTPMiddleware
-from src.exports.index import get_auth_service
+from src.exports import get_auth_service
 
 
 logging.basicConfig(

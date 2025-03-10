@@ -2,29 +2,27 @@ import logging
 import os
 from contextlib import asynccontextmanager
 from math import ceil
-
 import redis.asyncio as redis
 import uvicorn
-from fastapi import Depends, FastAPI, HTTPException, Request, Response, status
 from fastapi.responses import JSONResponse
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 from starlette.middleware.cors import CORSMiddleware
-
-from src.application.web.controllers.auth_controller import auth_controller
-from src.application.web.controllers.configuration_controller import (
+from src.middleware.logging_middleware import PrefixMiddleware
+from fastapi import Depends, FastAPI, HTTPException, Request, Response, status
+from src.application.web.controllers import (
+    auth_controller,
+    query_controller,
+    raw_query_controller,
+    upload_controller,
     configuration_controller,
 )
-from src.application.web.controllers.file_controller import upload_controller
-from src.application.web.controllers.query_controller import query_controller
-from src.application.web.controllers.raw_query import raw_query_controller
-from src.middleware.logging_middleware import PrefixMiddleware
-from src.repositories.semantic_repo import (
+from src.repositories import (
     SemanticEmbeddingService,
     SemanticQdrantService,
     SemanticSearchRepo,
 )
-from src.exports.index import config
+from src.exports import config
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -46,8 +44,6 @@ async def custom_callback(request: Request, response: Response, pexpire: int):
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    # Initialize Qdrant
-
     semantic_embedding_service = SemanticEmbeddingService()
     semantic_qdrant_service = SemanticQdrantService(
         url=config.qdrant_api_endpoint, api_key=config.qdrant_api_key

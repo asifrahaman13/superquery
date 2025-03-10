@@ -33,6 +33,7 @@ class SecurityConfig(BaseModel):
     algorithm: str
     access_token_expire_minutes: int
 
+
 class VectorizerConfig(BaseModel):
     embedding_model: str
 
@@ -103,7 +104,7 @@ class ConfigManager:
         self.MONGO_DB_URI = os.getenv("MONGO_DB_URI")
         assert self.MONGO_DB_URI, "Mongo URI is not set"
 
-        self.REDIS_URL = os.getenv("REDIS_URL") 
+        self.REDIS_URL = os.getenv("REDIS_URL")
         assert self.REDIS_URL, "Redis URL is not set."
 
         self.REDIS_PORT = os.getenv("REDIS_PORT")

@@ -1,9 +1,8 @@
 import asyncio
 from fastapi import APIRouter, Depends, Response, WebSocket, WebSocketDisconnect
 from src.model.router_models import TrainData
-from src.use_cases.auth_service import AuthService
-from src.use_cases.query_service import QueryService
-from src.exports.index import (
+from src.use_cases import QueryService, AuthService
+from src.exports import (
     get_auth_service,
     get_mysql_query_database_service,
     get_neo4j_query_database_service,

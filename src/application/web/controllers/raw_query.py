@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
 from fastapi.responses import JSONResponse
 from src.constants.databases.database_service_mapping import QueryServiceMapping
-from src.exports.index import (
+from src.exports import (
     get_auth_service,
     get_mysql_query_database_service,
     get_neo4j_query_database_service,
@@ -9,8 +9,7 @@ from src.exports.index import (
     get_sqlite_query_database_service,
 )
 from src.model.router_models import QueryBase
-from src.use_cases.auth_service import AuthService
-from src.use_cases.query_service import QueryService
+from src.use_cases import QueryService, AuthService
 
 raw_query_controller = APIRouter()
 

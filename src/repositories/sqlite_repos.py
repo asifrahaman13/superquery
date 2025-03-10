@@ -32,12 +32,13 @@ class SqliteQueryRepo:
 
         await asyncio.sleep(0)
         yield QueryResponse(message=raw_response, status=False, answer_type="plain")
-
-        async for response in self.handle_answer_type.handle_sqlite_query(
-            sql_query, connection_string
-        ):
-            await asyncio.sleep(0)
-            yield response
+        
+        if sql_query is not None:
+            async for response in self.handle_answer_type.handle_sqlite_query(
+                sql_query, connection_string
+            ):
+                await asyncio.sleep(0)
+                yield response
 
     def general_raw_query(self, query: str, *args, **kwargs) -> list[dict[str, Any]]:
         connection_string: str = kwargs.get("connection_string")

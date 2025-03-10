@@ -52,11 +52,12 @@ class Neo4jQueryRepo:
         await asyncio.sleep(0)
         yield QueryResponse(message=raw_response, status=False, answer_type="plain")
 
-        async for response in self.handle_answer_type.handle_neo4j_query(
-            sql_query, **kwargs
-        ):
-            await asyncio.sleep(0)
-            yield response
+        if sql_query is not None:
+            async for response in self.handle_answer_type.handle_neo4j_query(
+                sql_query, **kwargs
+            ):
+                await asyncio.sleep(0)
+                yield response
 
     def general_raw_query(
         self, user_query: str, *args, **kwargs

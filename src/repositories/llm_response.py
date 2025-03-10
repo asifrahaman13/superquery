@@ -66,5 +66,8 @@ class LlmResponse:
 
         assert isinstance(completion, AIResponse)
         raw_response = completion.raw_response
-        sql_query = completion.sql_query.strip("```sql\n").strip("```")
+        
+        sql_query = None
+        if completion.sql_query is not None:
+            sql_query = completion.sql_query.strip("```sql\n").strip("```")
         return (raw_response, sql_query)

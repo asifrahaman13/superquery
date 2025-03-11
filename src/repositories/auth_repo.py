@@ -56,9 +56,5 @@ class AuthRepo:
             raise ValueError("Invalid refresh token")
 
     def get_current_user(self, token) -> str:
-        try:
-            payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])
-            return payload
-
-        except JWTError:
-            return None
+        payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])
+        return payload

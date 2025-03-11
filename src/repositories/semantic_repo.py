@@ -2,7 +2,7 @@ import logging
 from collections import OrderedDict
 
 from qdrant_client import QdrantClient, models
-from qdrant_client.models import PointStruct
+from qdrant_client.models import PointStruct, Filter, FieldCondition, MatchValue
 from qdrant_client.http.models import VectorParams, Distance
 import ollama
 
@@ -54,16 +54,19 @@ class SemanticQdrantService:
         self.client.upsert(collection_name=collection_name, points=points)
 
     def search(
-        self, query_embedding: list[float], id: str, limit: int = 5
+        self, query_embedding: list[float], user: str, database: str, limit: int = 5
     ) -> list[PointStruct]:
-        # filter_condition = Filter(
-        #     must=[FieldCondition(key="id", match=MatchValue(value=id))]
-        # )
+        filter_condition = Filter(
+            must=[
+                FieldCondition(key="user", match=MatchValue(value=user)),
+                FieldCondition(key="database", match=MatchValue(value=database)),
+            ]
+        )
         return self.client.search(
             collection_name="superquery",
             query_vector=query_embedding,
             limit=limit,
-            # query_filter=filter_condition,
+            query_filter=filter_condition,
         )
 
 
@@ -102,24 +105,28 @@ class SemanticSearchRepo:
                 ),
             )
 
-    def initialize_qdrant(self, texts: list[str], metadata: list[dict]):
+    def initialize_qdrant(
+        self, texts: list[str], metadata: list[dict[str, str]]
+    ) -> bool:
         points = self.prepare_points(texts, metadata)
-        self.qdrant_service.upsert_points("superquery", points)
+        result = self.qdrant_service.upsert_points("superquery", points)
+        print(result)
         return True
 
-    def query_text(self, query_text: str, id: str):
+    def query_text(self, query_text: str, user: str, database: str) -> list[dict]:
         try:
             query_embedding = self.embedding_service.get_embeddings(query_text)
-            response = self.qdrant_service.search(query_embedding, id)
+            response = self.qdrant_service.search(query_embedding, user, database)
             logging.info(f"Query: {query_text}")
             result = []
+
+            logging.info(f"Response: {response}")
             for data in response:
                 if data.score > 0.5:
                     result.append(
                         {
                             "score": data.score,
                             "text": data.payload["text"],
-                            "source": data.payload["source"],
                             "metadata": data.payload,
                         }
                     )

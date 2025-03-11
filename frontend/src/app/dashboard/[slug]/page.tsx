@@ -12,8 +12,20 @@ import { useDispatch } from 'react-redux';
 import { setHistory } from '@/lib/conversation/conversationSlice';
 import { TitleKeys, TITLE } from '@/constants/types/type.dashboard';
 import axios from 'axios';
+import { usePathname } from 'next/navigation';
+
+type TrainValue = {
+  database: 'postgres' | 'mysql' | 'sqlite' | 'neo4j' | '';
+};
+
+type Metadata = {
+  user_query: string;
+  sql_query: string;
+  metadata: TrainValue[];
+};
 
 export default function Page({ params }: { params: { slug: TitleKeys } }) {
+  const pathName = usePathname();
   const db = params.slug;
   const websocketRef = useRef<WebSocket | null>(null);
   const [status, setStatus] = useState<Status>({
@@ -25,11 +37,35 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
   const [tableData, setTableData] = useState([]);
   const [resultType, setResultType] = useState<string>('');
   const [rawQueryResponse, setRawQueryResponse] = useState<any>();
-  const [trainValue, setTrainValue] = useState({
+  const [trainValue, setTrainValue] = useState<Metadata>({
     user_query: '',
     sql_query: '',
-    source: 'source1',
+    metadata: [
+      {
+        database: '',
+      },
+    ],
   });
+
+  useEffect(() => {
+    const database = pathName.split('/').at(-1) || '';
+
+    if (
+      database === 'postgres' ||
+      database === 'mysql' ||
+      database === 'sqlite' ||
+      database === 'neo4j'
+    ) {
+      setTrainValue((prev) => ({
+        ...prev,
+        metadata: [
+          {
+            database: database,
+          },
+        ],
+      }));
+    }
+  }, [pathName]);
 
   useEffect(() => {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SOCKET || '';
@@ -118,7 +154,13 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/query/data`,
-        trainValue
+        trainValue,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        }
       );
       if (response.status === 200) {
         console.log('The response is :', response.data);

@@ -35,7 +35,7 @@ class QueryService:
         yield QueryResponse(message="Thinking...", status=True)
         if available_client and db_key in available_client:
             configurations = available_client[db_key]
-            examples = self.semantic_search_repository.query_text(query, user)
+            examples = self.semantic_search_repository.query_text(query, user, db)
 
             logging.info(f"Querying database with configurations: {configurations}")
             configurations["examples"] = examples
@@ -59,14 +59,12 @@ class QueryService:
         return None
 
     async def add_data_to_vector_db(
-        self, user_query: str, sql_query: str, source: list[dict[str, Any]]
+        self, user_query: str, sql_query: str, metadata: list[dict[str, Any]]
     ):
         data = [
             {
                 "text": f"User prompt: {user_query}\n Sql query: {sql_query}",
-                "source": source,
             }
         ]
-        texts = [item["text"] for item in data]
-        metadata = [{k: v for k, v in item.items() if k != "text"} for item in data]
+        texts = [d["text"] for d in data]
         return self.semantic_search_repository.initialize_qdrant(texts, metadata)

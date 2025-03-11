@@ -45,4 +45,4 @@ class Files(BaseModel):
 class TrainData(BaseModel):
     user_query: Annotated[str, "Training data of user query"]
     sql_query: Annotated[str, "Training data of sql query"]
-    source: Annotated[str, "metadata"]
+    metadata: list[dict[str, str]]

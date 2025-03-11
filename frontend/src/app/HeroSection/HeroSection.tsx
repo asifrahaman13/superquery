@@ -11,16 +11,35 @@ import {
   navigation,
 } from '@/constants/static/HeroSection/HeroSectionStatic';
 import Link from 'next/link';
+import axios from 'axios';
 
 export default function HeroSection() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
-    const access_token = localStorage.getItem('accessToken');
-    if (access_token) {
-      setIsSignedIn(true);
+    async function isSignedIn() {
+      try {
+        const access_token = localStorage.getItem('accessToken');
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setIsSignedIn(true);
+        }
+      } catch {
+        setIsSignedIn(false);
+      }
     }
+
+    isSignedIn();
   }, []);
 
   return (

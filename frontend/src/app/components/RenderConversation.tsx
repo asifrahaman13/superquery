@@ -179,8 +179,7 @@ const RenderConversation: React.FC<RenderConversationProps> = ({
           {status.status && <Skeleton />}
         </div>
         <div className="flex gap-2">
-          <input
-            type="text"
+          <textarea
             name="query"
             id="query"
             className="block w-full rounded-md py-1.5 border-gray-200 outline-none focus:border-gray-200 text-gray-900 placeholder:text-gray-400 px-2"

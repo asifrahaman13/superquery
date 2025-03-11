@@ -144,9 +144,11 @@ export default function HeroSection() {
           <div className="inline-flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-90">
             <Link href="/about">About</Link>
           </div>
-          <div className="inline-flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-90">
-            <Link href="/dashboard/mysql">Dashboard</Link>
-          </div>
+          {isSignedIn === true && (
+            <div className="inline-flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-90">
+              <Link href="/dashboard/mysql">Dashboard</Link>
+            </div>
+          )}
           <Link
             className="bg-black rounded-md font-semibold text-sm gap-2 text-white py-2 px-4 flex items-center"
             href="https://github.com/asifrahaman13/superquery.git"

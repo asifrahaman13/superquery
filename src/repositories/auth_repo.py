@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from jose import ExpiredSignatureError, JWTError, jwt
+from jose import jwt
 from datetime import UTC
 
 
@@ -23,37 +23,25 @@ class AuthRepo:
         return encoded_jwt
 
     def is_access_token_expired(self, token: str) -> bool:
-        try:
-            decoded_token = jwt.decode(token, self.secret_key, algorithms=["HS256"])
-            expiry_time = decoded_token.get("exp")
-            if expiry_time:
-                current_time = datetime.now(timezone.utc).timestamp()
-                return current_time > expiry_time
-            else:
-                return True
-        except jwt.ExpiredSignatureError:
-            return True
-        except jwt.InvalidTokenError:
+        decoded_token = jwt.decode(token, self.secret_key, algorithms=["HS256"])
+        expiry_time = decoded_token.get("exp")
+        if expiry_time:
+            current_time = datetime.now(timezone.utc).timestamp()
+            return current_time > expiry_time
+        else:
             return True
 
     def generate_access_token_from_refresh_token(self, refresh_token: str) -> str:
-        try:
-            decoded_token = jwt.decode(
-                refresh_token, self.secret_key, algorithms=["HS256"]
+        decoded_token = jwt.decode(refresh_token, self.secret_key, algorithms=["HS256"])
+        user_id = decoded_token.get("sub")
+        if user_id:
+            access_token_expires = timedelta(hours=6)
+            access_token = self.create_access_token(
+                {"sub": user_id}, access_token_expires
             )
-            user_id = decoded_token.get("sub")
-            if user_id:
-                access_token_expires = timedelta(hours=6)
-                access_token = self.create_access_token(
-                    {"sub": user_id}, access_token_expires
-                )
-                return access_token
-            else:
-                raise ValueError("Refresh token is missing user ID")
-        except ExpiredSignatureError:
-            raise ValueError("Refresh token has expired")
-        except JWTError:
-            raise ValueError("Invalid refresh token")
+            return access_token
+        else:
+            raise ValueError("Refresh token is missing user ID")
 
     def get_current_user(self, token) -> str:
         payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])

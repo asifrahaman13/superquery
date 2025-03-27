@@ -51,4 +51,4 @@ async def raw_query(
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+        return HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")

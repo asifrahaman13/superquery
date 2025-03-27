@@ -128,12 +128,12 @@ const RenderConversation: React.FC<RenderConversationProps> = ({
       <div className="w-1/2 flex flex-col gap-4 py-20 justify-between p-8 bg-white rounded-2xl">
         <div className="overflow-y-scroll no-scrollbar items-center flex flex-col flex-grow gap-4 text-justify bg-white">
           {conversationSlice.history.length > 0 ? (
-            <div className="w-full">
+            <div className="w-full flex flex-col gap-4">
               {conversationSlice?.history.map((item: HistoryItem, index) => (
-                <div key={index} className="flex flex-col gap-6">
+                <div key={index} className="flex flex-col gap-2">
                   {item?.messageFrom === 'chatbot' && (
-                    <div className="flex flex-col gap-8">
-                      <div className="mt-6">
+                    <div className="flex flex-col gap-2">
+                      <div >
                         {item?.answer_type === 'sql_query' && (
                           <SqlRender sqlQuery={item?.sql_query} />
                         )}

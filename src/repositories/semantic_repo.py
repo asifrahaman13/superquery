@@ -23,7 +23,7 @@ class SemanticEmbeddingService:
         else:
             response = ollama.embed(model="mxbai-embed-large", input=text)
             self.embeddings_cache[text] = response.embeddings[0]
-            logging.info(f"Embedding for {text} is {str(response.embeddings[0])}")
+            logging.info(f"Embedding for {text} is done")
             if len(self.embeddings_cache) > self.cache_size:
                 self.embeddings_cache.popitem(last=False)
 

@@ -61,11 +61,15 @@ async def query_postgres(
         await websocket.close()
     await manager.connect(websocket, client_id)
     try:
+        messages: list[dict[str, str]] = []
         while True:
             user_input = await websocket.receive_json()
             query = user_input["query"]
+
+            messages.append({"content": query, "role": "user"})
+
             async for response in query_service.query_db(
-                user["sub"], query, Databases.POSTGRES.value
+                user["sub"], messages, Databases.POSTGRES.value
             ):
                 await asyncio.sleep(0)
                 await manager.send_personal_message(response.model_dump(), websocket)

@@ -8,7 +8,7 @@ class PromptTemplates:
 
     The final respoonse should be in the following format:
 
-    - raw_response: "The raw response from the AI model. This is natural language response. It can be a question or a statement."
+    - raw_response: "The raw response from the AI model. This is natural language response. It can be a question or a statement, basically interaction with the user."\n
     - sql_query: "The SQL query that was executed to generate the response."
     """
 
@@ -19,11 +19,10 @@ class PromptTemplates:
     {examples_str}\n
     Give only the sql command. Do not give any other text or information. Remember to take care of all the details of the user query. Each small information of the user query matters. Depending upon that generate accurate sql query for postgres.\n
     
-    The final respoonse should be in the following format:
+    The final respoonse should be in the following format:\n
 
-    - raw_response: "The raw response from the AI model. This is natural language response. It can be a question or a statement."
-    - sql_query: "The SQL query that was executed to generate the response."
-    """
+    - raw_response: "The raw response from the AI model. This is natural language response. It can be a question or a statement, basically interaction with the user."\n
+    - sql_query: "The SQL query that was executed to generate the response."""
 
     SQLITE = """You are a master in sqlite query. You are going to help me with generating sqlite query from the natural language. I will provide you the natural language query and you will convert it into sqlite query. Take care of all the details of the user query. Each small information of the user query matters. Depending upon that generate accurate sql query for sqlite.\n
     We have three tables. They are created with the following SQL commands:\n
@@ -34,7 +33,7 @@ class PromptTemplates:
 
     The final respoonse should be in the following format:
 
-    - raw_response: "The raw response from the AI model. This is natural language response. It can be a question or a statement."
+    - raw_response: "The raw response from the AI model. This is natural language response. It can be a question or a statement, basically interaction with the user."\n 
     - sql_query: "The SQL query that was executed to generate the response."
     """
 
@@ -47,6 +46,6 @@ class PromptTemplates:
 
     The final respoonse should be in the following format:
 
-    - raw_response: "The raw response from the AI model. This is natural language response. It can be a question or a statement."
+    - raw_response: "The raw response from the AI model. This is natural language response. It can be a question or a statement, basically interaction with the user."\n
     - sql_query: "The Cypher query that was executed to generate the response."
     """

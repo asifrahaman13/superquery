@@ -13,7 +13,7 @@ class MySqlQueryRepo:
         self.anthropic_client = llm_response
 
     async def query_database(
-        self, user_query: str, *args, **kwargs
+        self, messages: list[dict[str, str]], *args, **kwargs
     ) -> AsyncGenerator[Optional[QueryResponse], None]:
         connection_string: str = kwargs.get("connection_string")
         ddl_commands = kwargs.get("ddl_commands")
@@ -23,7 +23,7 @@ class MySqlQueryRepo:
         await asyncio.sleep(0)
 
         raw_response, sql_query = await self.anthropic_client.bulk_llm_response(
-            user_query, ddl_commands, examples, Databases.MYSQL.value
+            messages, ddl_commands, examples, Databases.MYSQL.value
         )
         await asyncio.sleep(0)
         yield QueryResponse(message=raw_response, status=False, answer_type="plain")

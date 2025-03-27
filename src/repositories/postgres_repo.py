@@ -13,7 +13,7 @@ class PostgresQueryRepo:
         self.anthropic_client = llm_response
 
     async def query_database(
-        self, user_query: str, *args, **kwargs
+        self, messages: list[dict[str, str]], *args, **kwargs
     ) -> AsyncGenerator[Optional[QueryResponse], None]:
         connection_string: str = kwargs.get("connection_string")
         ddl_commands = kwargs.get("ddl_commands")
@@ -21,7 +21,7 @@ class PostgresQueryRepo:
         await asyncio.sleep(0)
         yield QueryResponse(message="Thinking of the answer", status=True)
         raw_response, sql_query = await self.anthropic_client.bulk_llm_response(
-            user_query, ddl_commands, examples, Databases.POSTGRES.value
+            messages, ddl_commands, examples, Databases.POSTGRES.value
         )
 
         await asyncio.sleep(0)

@@ -15,33 +15,33 @@ class LlmResponse:
 
     async def bulk_llm_response(
         self,
-        query: str,
+        messages: list[dict[str, str]],
         ddl_commands: list[str],
         examples: list[dict[str, str]],
         db_type: str,
     ) -> Awaitable[str]:
         if db_type == Databases.MYSQL.value:
             return await self._generate_response(
-                query, ddl_commands, examples, PromptTemplates.MYSQL
+                messages, ddl_commands, examples, PromptTemplates.MYSQL
             )
         elif db_type == Databases.POSTGRES.value:
             return await self._generate_response(
-                query, ddl_commands, examples, PromptTemplates.POSTGRES
+                messages, ddl_commands, examples, PromptTemplates.POSTGRES
             )
         elif db_type == Databases.SQLITE.value:
             return await self._generate_response(
-                query, ddl_commands, examples, PromptTemplates.SQLITE
+                messages, ddl_commands, examples, PromptTemplates.SQLITE
             )
         elif db_type == Databases.NEO4J.value:
             return await self._generate_response(
-                query, ddl_commands, examples, PromptTemplates.NEO4J
+                messages, ddl_commands, examples, PromptTemplates.NEO4J
             )
         else:
             return "No response"
 
     async def _generate_response(
         self,
-        query: str,
+        messages: list[dict[str, str]],
         ddl_commands: list[str],
         examples: list[dict[str, str]],
         template: str,
@@ -53,23 +53,35 @@ class LlmResponse:
             ddl_commands_str=ddl_commands_str, examples_str=examples_str
         )
 
+        updated_messages = messages.copy()
+
+        updated_messages.append(
+            {
+                "role": "assistant",
+                "content": system_message,
+            }
+        )
+
         completion = await self.client.messages.create(
             model=self.model,
             max_tokens=self.max_tokens,
-            messages=[
-                {
-                    "role": "assistant",
-                    "content": system_message,
-                },
-                {"role": "user", "content": query},
-            ],
+            messages=updated_messages,
             response_model=AIResponse,
         )
 
-        assert isinstance(completion, AIResponse)
+        if isinstance(completion, AIResponse) is False:
+            return ("Sorry, I could not generate a response. Please try again.", None)
+
         raw_response = completion.raw_response
 
         sql_query = None
         if completion.sql_query is not None:
             sql_query = completion.sql_query.strip("```sql\n").strip("```")
+
+        messages.append(
+            {
+                "role": "assistant",
+                "content": f"{str(raw_response) + str (sql_query)}",
+            }
+        )
         return (raw_response, sql_query)

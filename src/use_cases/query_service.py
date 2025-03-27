@@ -20,13 +20,17 @@ class QueryService:
         self.semantic_search_repository = semantic_search_repository
 
     async def query_db(
-        self, user: str, query: str, db: str
+        self, user: str, messages: list[dict[str, str]], db: str
     ) -> AsyncGenerator[dict[str, Any], None]:
         db_key = self.__db_keys.get(db)
         if not db_key:
             return
 
-        logging.info(f"Querying database with user: {user}, query: {query}, db: {db}")
+        user_query = messages[-1]["content"]
+
+        logging.info(
+            f"Querying database with user: {user}, query: {user_query}, db: {db}"
+        )
 
         available_client = await self.database.find_single_entity_by_field_name(
             "configurations", "username", user
@@ -35,12 +39,12 @@ class QueryService:
         yield QueryResponse(message="Thinking...", status=True)
         if available_client and db_key in available_client:
             configurations = available_client[db_key]
-            examples = self.semantic_search_repository.query_text(query, user, db)
+            examples = self.semantic_search_repository.query_text(user_query, user, db)
 
             logging.info(f"Querying database with configurations: {configurations}")
             configurations["examples"] = examples
             async for response in self.query_database.query_database(
-                query, **configurations
+                messages, **configurations
             ):
                 await asyncio.sleep(0)
                 yield response

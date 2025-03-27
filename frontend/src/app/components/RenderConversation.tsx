@@ -133,7 +133,7 @@ const RenderConversation: React.FC<RenderConversationProps> = ({
                 <div key={index} className="flex flex-col gap-2">
                   {item?.messageFrom === 'chatbot' && (
                     <div className="flex flex-col gap-2">
-                      <div >
+                      <div>
                         {item?.answer_type === 'sql_query' && (
                           <SqlRender sqlQuery={item?.sql_query} />
                         )}

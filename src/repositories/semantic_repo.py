@@ -137,5 +137,5 @@ class SemanticSearchRepo:
                     )
             return result
         except Exception as e:
-            logging.error(f"Failed to search: {e}")            
+            logging.error(f"Failed to search: {e}")
             return []

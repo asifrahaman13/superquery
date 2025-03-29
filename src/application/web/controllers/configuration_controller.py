@@ -9,7 +9,7 @@ configuration_controller = APIRouter()
 
 
 @configuration_controller.post("/configurations", response_model=dict)
-async def get_mysql_configurations(
+async def get_project_configurations(
     db_type: ConfigurationBase,
     token: str = Header(..., alias="Authorization"),
     auth_service: AuthService = Depends(get_auth_service),
@@ -32,7 +32,7 @@ async def get_mysql_configurations(
 
 
 @configuration_controller.put("/configurations", response_model=dict)
-async def update_mysql_configurations(
+async def update_project_configurations(
     db_type: UpdateConfig,
     token: str = Header(..., alias="Authorization"),
     auth_service: AuthService = Depends(get_auth_service),
@@ -42,6 +42,7 @@ async def update_mysql_configurations(
     try:
         token = token.split(" ")[1]
         user = auth_service.user_info(token)
+        print(db_type)
         if user is None:
             return JSONResponse(content={"error": "Not authenticated"}, status_code=401)
         response = await configuration_service.update_project_configurations(

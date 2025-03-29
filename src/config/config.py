@@ -61,6 +61,7 @@ class ConfigData:
     access_token_expire_minutes: int
     anthropic_api_key: str
     mongo_db_uri: str
+    mongodb_database_name: str
     redis_url: str
     redis_port: str
     redis_host: str
@@ -104,6 +105,9 @@ class ConfigManager:
         self.MONGO_DB_URI = os.getenv("MONGO_DB_URI")
         assert self.MONGO_DB_URI, "Mongo URI is not set"
 
+        self.MONGODB_DATABASE_NAME = os.getenv("MONGODB_DATABASE_NAME")
+        assert self.MONGODB_DATABASE_NAME, "MongoDB database name is not set"
+
         self.REDIS_URL = os.getenv("REDIS_URL")
         assert self.REDIS_URL, "Redis URL is not set."
 
@@ -145,6 +149,7 @@ class ConfigManager:
             access_token_expire_minutes=self.ACCESS_TOKEN_EXPIRE_MINUTES,
             anthropic_api_key=self.ANTHROPIC_API_KEY,
             mongo_db_uri=self.MONGO_DB_URI,
+            mongodb_database_name=self.MONGODB_DATABASE_NAME,
             redis_url=self.REDIS_URL,
             redis_port=self.REDIS_PORT,
             redis_host=self.REDIS_HOST,

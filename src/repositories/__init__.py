@@ -11,6 +11,7 @@ from .semantic_repo import (
 )
 from .sqlite_repos import SqliteQueryRepo
 from .llm_response import LlmResponse
+from .ddl_repo import DDLRepo
 
 __all__ = [
     "AuthRepo",
@@ -24,4 +25,5 @@ __all__ = [
     "SemanticSearchRepo",
     "SqliteQueryRepo",
     "LlmResponse",
+    "DDLRepo",
 ]

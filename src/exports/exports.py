@@ -14,6 +14,7 @@ from src.repositories import (
     SemanticSearchRepo,
     SqliteQueryRepo,
     LlmResponse,
+    DDLRepo,
 )
 from src.use_cases import AuthService, ConfigurationService, FileService, QueryService
 from src.config.config import config
@@ -38,11 +39,15 @@ class DIContainer:
     def get_database_repo(self):
         if "database_repo" not in self.__instances:
             mongodb_client = AsyncIOMotorClient(config.mongo_db_uri)
-            mongodb_database = "superquery"
             self.__instances["database_repo"] = MongodbRepo(
-                mongodb_client, mongodb_database
+                mongodb_client, config.mongodb_database_name
             )
         return self.__instances["database_repo"]
+
+    def get_ddl_repo(self):
+        if "ddl_repo" not in self.__instances:
+            self.__instances["ddl_repo"] = DDLRepo()
+        return self.__instances["ddl_repo"]
 
     def get_vector_db_repo(self):
         if "vectordb_repoitory" not in self.__instances:
@@ -156,7 +161,7 @@ class DIContainer:
     def get_configuration_service(self):
         if "configuration_service" not in self.__instances:
             self.__instances["configuration_service"] = ConfigurationService(
-                self.get_database_repo()
+                self.get_database_repo(), self.get_ddl_repo()
             )
         return self.__instances["configuration_service"]
 

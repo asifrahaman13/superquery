@@ -1,6 +1,9 @@
 import sqlite3
 import mysql
+from neo4j import GraphDatabase
 import psycopg2
+
+from ..model.products import Databases
 
 
 class DDLRepo:
@@ -9,14 +12,14 @@ class DDLRepo:
 
     @classmethod
     def get_ddl_commands(cls, db_type: str, connecting_string: str) -> str:
-        print("sdfasdfasdfasdfsda")
-        print(db_type)
-        print(connecting_string)
-        if db_type == "postgres":
-            print("Postgres on the way")
+        if db_type == Databases.POSTGRES.value:
             return DDLRepo.psql_ddl(connecting_string)
-        elif db_type == "sqlite":
+        if db_type == Databases.MYSQL.value:
+            return DDLRepo.mysql_ddl(connecting_string)
+        elif db_type == Databases.SQLITE.value:
             return DDLRepo.sqlite_ddl(connecting_string)
+        elif db_type == Databases.NEO4J.value:
+            return DDLRepo.neo4j_ddl(connecting_string)
         else:
             raise ValueError(f"Unsupported database type: {db_type}")
 
@@ -126,4 +129,39 @@ class DDLRepo:
         cur.close()
         conn.close()
 
+        return results
+
+    @classmethod
+    def neo4j_ddl(cls, connecting_string: str) -> list[str]:
+        # Extract credentials from the connection string manually
+        uri = "neo4j+s://8cbcaf0e.databases.neo4j.io"
+        username = "neo4j"
+        password = "gn1pvhJFWsYNV79ZUK1rzyIQbd-P0gmuk0xVMcVjT1U"
+
+        # Create Neo4j driver with authentication
+        driver = GraphDatabase.driver(uri, auth=(username, password))
+
+        results: list[str] = []
+
+        with driver.session() as session:
+            # Get all labels (similar to tables in RDBMS)
+            result = session.run("CALL db.labels()")
+            labels = [record[0] for record in result]
+
+            for label in labels:
+                print(f"Schema for label: {label}")
+
+                # Fetch schema constraints and indexes
+                schema_result = session.run(
+                    f"CALL db.schema.nodeTypeProperties() YIELD nodeType, propertyName, propertyTypes WHERE nodeType = '{label}'"
+                )
+
+                schema = [
+                    f"{record['propertyName']} {record['propertyTypes']}"
+                    for record in schema_result
+                ]
+                ddl_statement = f"CREATE (: {label} {{{', '.join(schema)}}});"
+                results.append(ddl_statement)
+
+        driver.close()
         return results

@@ -9,15 +9,15 @@ repos:
         always_run: true
 
       - id: linting
-        name: lint-frontend
-        entry: bash -c 'cd frontend && bun run lint'
+        name: lint-web
+        entry: bash -c 'cd web && bun run lint'
         language: system
         types: [javascript, ts]
         always_run: true
 
-      - id: formatting-frontend
-        name: format-frontend
-        entry: bash -c 'cd frontend && bun run format'
+      - id: formatting-web
+        name: format-web
+        entry: bash -c 'cd web && bun run format'
         language: system
         types: [javascript, ts, tsx]
         always_run: true

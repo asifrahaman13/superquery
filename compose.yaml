@@ -27,9 +27,9 @@ services:
       - super-query
 
 
-  frontend:
+  web:
     build:
-      context: ./frontend
+      context: ./web
       dockerfile: Dockerfile
     ports:
       - "3000:3000"

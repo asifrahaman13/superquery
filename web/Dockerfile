@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json bun.lockb ./
 
 
-# Copy the rest of the frontend code
+# Copy the rest of the web code
 COPY . .
 
 # Install dependencies using Bun

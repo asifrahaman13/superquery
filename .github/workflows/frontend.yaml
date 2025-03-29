@@ -29,15 +29,15 @@ jobs:
 
       - name: Install dependencies
         run: | 
-          cd frontend
+          cd web
           bun install
 
       - name: Lint the codebase
         run: |
-          cd frontend
+          cd web
           bun lint
 
       - name: Build
         run: |
-          cd frontend
+          cd web
           bun run build

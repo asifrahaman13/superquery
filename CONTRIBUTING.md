@@ -28,7 +28,7 @@ You need to run the application using the following script: `poetry run uvicorn 
 
 Next, go to the front-end folder 
 
-`cd frontend/`
+`cd web/`
 
 Now, install the dependencies.
 

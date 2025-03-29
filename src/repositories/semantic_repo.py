@@ -1,6 +1,7 @@
 import logging
 from collections import OrderedDict
 
+import uuid
 from qdrant_client import QdrantClient, models
 from qdrant_client.models import PointStruct, Filter, FieldCondition, MatchValue
 from qdrant_client.http.models import VectorParams, Distance
@@ -16,12 +17,14 @@ class SemanticEmbeddingService:
         self.embeddings_cache: OrderedDict[str, list[float]] = OrderedDict()
         self.cache_size = cache_size
 
-    def get_embeddings(self, text: str) -> list[float]:
+    def get_embeddings(
+        self, text: str, embeddin_model: str = "mxbai-embed-large"
+    ) -> list[float]:
         if text in self.embeddings_cache:
             self.embeddings_cache.move_to_end(text)
             return self.embeddings_cache[text]
         else:
-            response = ollama.embed(model="mxbai-embed-large", input=text)
+            response = ollama.embed(model=embeddin_model, input=text)
             self.embeddings_cache[text] = response.embeddings[0]
             logging.info(f"Embedding for {text} is done")
             if len(self.embeddings_cache) > self.cache_size:
@@ -34,12 +37,12 @@ class SemanticQdrantService:
     def __init__(self, url: str, api_key: str) -> None:
         self.client = QdrantClient(url=url, api_key=api_key)
 
-    def collection_exists(self, collection_name):
+    def collection_exists(self, collection_name: str) -> bool:
         try:
             response = self.client.get_collection(collection_name)
             return response is not None
         except Exception:
-            raise
+            return False
 
     def create_collection(self, collection_name: str) -> None:
         if self.collection_exists:
@@ -82,8 +85,6 @@ class SemanticSearchRepo:
     def prepare_points(
         self, texts: list[str], metadata: list[dict]
     ) -> list[PointStruct]:
-        import uuid
-
         return [
             PointStruct(
                 id=str(uuid.uuid4()),
@@ -93,7 +94,9 @@ class SemanticSearchRepo:
             for _, (text, meta) in enumerate(zip(texts, metadata))
         ]
 
-    async def create_collection(self, collection_name: str):
+    async def create_collection(
+        self, collection_name: str, embedding_dim: int = 1024
+    ) -> None:
         collection_exists = self.qdrant_service.client.collection_exists(
             collection_name=collection_name
         )
@@ -101,7 +104,7 @@ class SemanticSearchRepo:
             self.qdrant_service.client.create_collection(
                 collection_name,
                 vectors_config=models.VectorParams(
-                    size=1024, distance=models.Distance.COSINE
+                    size=embedding_dim, distance=models.Distance.COSINE
                 ),
             )
 
@@ -113,7 +116,9 @@ class SemanticSearchRepo:
         print(result)
         return True
 
-    def query_text(self, query_text: str, user: str, database: str) -> list[dict]:
+    def query_text(
+        self, query_text: str, user: str, database: str, threshold: float = 0.5
+    ) -> list[dict]:
         try:
             query_embedding = self.embedding_service.get_embeddings(query_text)
             response = self.qdrant_service.search(query_embedding, user, database)
@@ -122,7 +127,7 @@ class SemanticSearchRepo:
 
             logging.info(f"Response: {response}")
             for data in response:
-                if data.score > 0.5:
+                if data.score > threshold:
                     result.append(
                         {
                             "score": data.score,
@@ -132,5 +137,5 @@ class SemanticSearchRepo:
                     )
             return result
         except Exception as e:
-            logging.error(f"Failed to search: {e}")
+            logging.error(f"Failed to search: {e}")            
             return []

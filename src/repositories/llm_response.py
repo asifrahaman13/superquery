@@ -10,7 +10,7 @@ from src.model import AIResponse, Databases
 class LlmResponse:
     def __init__(self, anthropic_client, model: str) -> None:
         self.client = instructor.from_anthropic(anthropic_client)
-        self.max_tokens = 5000
+        self.max_tokens = 100000
         self.model = model
 
     async def bulk_llm_response(

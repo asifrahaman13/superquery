@@ -23,8 +23,8 @@ class RawQueryRepository {
       if (response.status === 200) {
         return new SuccessEntity(200, response.data);
       }
-    } catch (e) {
-      throw new Error("Couldn't get raw query");
+    } catch {
+      console.log("Couldn't get raw query");
     }
   }
 }

@@ -21,8 +21,8 @@ class ConfigurationRepository {
       if (response.status === 200) {
         return new SuccessEntity(200, response.data);
       }
-    } catch (e) {
-      throw new Error("Couldn't get configurations");
+    } catch {
+      console.log("Couldn't get configurations");
     }
   }
 
@@ -42,8 +42,8 @@ class ConfigurationRepository {
       if (response.status === 200) {
         return new SuccessEntity(200, response.data);
       }
-    } catch (e) {
-      throw new Error("Couldn't update configurations");
+    } catch {
+      console.log("Couldn't update configurations");
     }
   }
 }

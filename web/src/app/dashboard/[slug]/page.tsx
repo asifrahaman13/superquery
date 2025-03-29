@@ -137,8 +137,8 @@ export default function Page({ params }: { params: { slug: TitleKeys } }) {
           setResultType('json');
         }
       }
-    } catch (e) {
-      throw new Error("Couldn't get raw query");
+    } catch {
+      console.log("Couldn't get raw query");
     }
   }
 

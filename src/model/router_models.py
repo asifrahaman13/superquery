@@ -34,7 +34,7 @@ class QueryBase(BaseModel):
 
 
 class UpdateConfig(BaseModel):
-    class Config:
+    class ConfigDict:
         extra = "allow"
 
 

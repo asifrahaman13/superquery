@@ -1,13 +1,11 @@
-## 🎉 Contribution guidelines  👨🏻‍🚀
+## 🎉 Contribution guidelines 👨🏻‍🚀
 
 👈🏻 Thanks for visiting this page and your interest in contributing to this repository.
 
-- First, fork the repository. 
+- First, fork the repository.
 
 - Next, pull the forked repository. `git clone https://github.com/<your_username>/superquery.git`
-  
 - Upstream with the original repo `git remote add upstream https://github.com/asifrahaman13/superquery.git`
-
 
 ## Backend
 
@@ -19,14 +17,15 @@ Now activate virtual environment `source .venv/bin/activate`
 
 Now install the dependencies. `uv sync`
 
-Now rename the .env.example. `mv .env.example .env`.  Give the proper configuration by giving the API keys. For example set the open ai key etc. Also set the configuration data in the config.yaml file.
+Now rename the .env.example. `mv .env.example .env`. Give the proper configuration by giving the API keys. For example set the open ai key etc. Also set the configuration data in the config.yaml file.
 
 # Run the server 🚀
+
 You need to run the application using the following script: `poetry run uvicorn src.main:app --reload`
 
 ## Frontend
 
-Next, go to the front-end folder 
+Next, go to the front-end folder
 
 `cd web/`
 
@@ -42,13 +41,11 @@ Next, you can run the front-end application.
 
 `bun run dev`
 
-
 ## Run with docker
 
 The best way to utilize the docker is through the docker compose file.
 
 `docker compose up`
-
 
 ## Formatting
 
@@ -82,3 +79,11 @@ bun run format
 
 - Backend: `8000`
 - Frontend: `3000`
+
+# Tests
+
+Run the following scripts to test the application using automated test scripts
+
+```bash
+uv run -m pytest
+```

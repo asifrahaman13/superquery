@@ -7,14 +7,18 @@ from src.use_cases.auth_service import AuthService
 async def test_signup_user_already_exists():
     mock_auth_repo = MagicMock()
     mock_database_repo = AsyncMock()
-    mock_database_repo.find_single_entity_by_field_name.return_value = {"username": "test_user"}
+    mock_database_repo.find_single_entity_by_field_name.return_value = {
+        "username": "test_user"
+    }
 
     auth_service = AuthService(mock_auth_repo, mock_database_repo)
 
     result = await auth_service.signup("test_user", "test@example.com", "password123")
 
     assert result is None
-    mock_database_repo.find_single_entity_by_field_name.assert_called_once_with("users", "username", "test_user")
+    mock_database_repo.find_single_entity_by_field_name.assert_called_once_with(
+        "users", "username", "test_user"
+    )
 
 
 @pytest.mark.asyncio
@@ -58,7 +62,9 @@ async def test_login_invalid_credentials():
     result = await auth_service.login("test_user", "wrong_password")
 
     assert result is None
-    mock_database_repo.find_single_entity_by_field_name.assert_called_once_with("users", "username", "test_user")
+    mock_database_repo.find_single_entity_by_field_name.assert_called_once_with(
+        "users", "username", "test_user"
+    )
 
 
 @pytest.mark.asyncio
@@ -66,7 +72,10 @@ async def test_login_success():
     mock_auth_repo = MagicMock()
     mock_auth_repo.create_access_token.return_value = "mock_token"
     mock_database_repo = AsyncMock()
-    mock_database_repo.find_single_entity_by_field_name.return_value = {"username": "test_user", "password": "password123"}
+    mock_database_repo.find_single_entity_by_field_name.return_value = {
+        "username": "test_user",
+        "password": "password123",
+    }
 
     auth_service = AuthService(mock_auth_repo, mock_database_repo)
 

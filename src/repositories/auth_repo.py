@@ -23,7 +23,9 @@ class AuthRepo:
         return encoded_jwt
 
     def is_access_token_expired(self, token: str) -> bool:
-        decoded_token = jwt.decode(token, self.secret_key, algorithms=["HS256"])
+        decoded_token = jwt.decode(
+            token, self.secret_key, algorithms=["HS256"], options={"verify_exp": False}
+        )
         expiry_time = decoded_token.get("exp")
         if expiry_time:
             current_time = datetime.now(timezone.utc).timestamp()
@@ -35,10 +37,10 @@ class AuthRepo:
         decoded_token = jwt.decode(refresh_token, self.secret_key, algorithms=["HS256"])
         user_id = decoded_token.get("sub")
         if user_id:
-            access_token_expires = timedelta(hours=6)
-            access_token = self.create_access_token(
-                {"sub": user_id}, access_token_expires
-            )
+            previous_expires_delta = self.expires_delta
+            self.expires_delta = timedelta(hours=6)
+            access_token = self.create_access_token({"sub": user_id})
+            self.expires_delta = previous_expires_delta
             return access_token
         else:
             raise ValueError("Refresh token is missing user ID")

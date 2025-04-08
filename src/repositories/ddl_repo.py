@@ -43,7 +43,7 @@ class DDLRepo:
 
             # Construct DDL statement
             cur.execute(
-                f"""
+                """
                     SELECT 'CREATE TABLE ' || quote_ident(schemaname) || '.' || quote_ident(tablename) || ' (' ||
                     array_to_string(
                         ARRAY(

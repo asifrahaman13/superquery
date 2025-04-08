@@ -142,3 +142,5 @@ db
 
 
 qdrant_storage/
+
+logs/

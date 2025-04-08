@@ -49,7 +49,6 @@ async def test_bulk_llm_response_unknown_db(mock_from_anthropic, mock_format):
 @patch("src.repositories.llm_response.Utils.format_ddl_and_examples")
 @patch("src.repositories.llm_response.instructor.from_anthropic")
 async def test_bulk_llm_response_mysql(mock_from_anthropic, mock_format):
-    # Arrange
     mock_messages = MagicMock()
     mock_response = AIResponse(
         sql_query="```sql\nSELECT * FROM users;```", raw_response="Raw LLM Response"

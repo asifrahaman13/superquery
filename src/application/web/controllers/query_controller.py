@@ -119,7 +119,6 @@ async def query_neo4j(
             async for response in query_service.query_db(
                 user["sub"], query, Databases.NEO4J.value
             ):
-                print("Response:", response)
                 await asyncio.sleep(0)
                 await manager.send_personal_message(response.model_dump(), websocket)
     except WebSocketDisconnect:

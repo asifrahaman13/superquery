@@ -1,4 +1,4 @@
-from typing import Awaitable
+from typing import Awaitable, Any
 
 import instructor
 
@@ -19,7 +19,7 @@ class LlmResponse:
         ddl_commands: list[str],
         examples: list[dict[str, str]],
         db_type: str,
-    ) -> Awaitable[str]:
+    ) -> tuple[str, Any]:
         if db_type == Databases.MYSQL.value:
             return await self._generate_response(
                 messages, ddl_commands, examples, PromptTemplates.MYSQL
@@ -37,7 +37,7 @@ class LlmResponse:
                 messages, ddl_commands, examples, PromptTemplates.NEO4J
             )
         else:
-            return "No response"
+            return ("No response", None)
 
     async def _generate_response(
         self,
@@ -45,23 +45,20 @@ class LlmResponse:
         ddl_commands: list[str],
         examples: list[dict[str, str]],
         template: str,
-    ) -> Awaitable[str]:
+    ) -> tuple[str, Any]:
         ddl_commands_str, examples_str = Utils.format_ddl_and_examples(
             ddl_commands, examples
         )
         system_message = template.format(
             ddl_commands_str=ddl_commands_str, examples_str=examples_str
         )
-
         updated_messages = messages.copy()
-
         updated_messages.append(
             {
                 "role": "assistant",
                 "content": system_message,
             }
         )
-
         completion = await self.client.messages.create(
             model=self.model,
             max_tokens=self.max_tokens,
